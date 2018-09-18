@@ -9,14 +9,15 @@ import {
 import Header from './components/Header/Header';
 import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
-import UserPage from './components/UserPage/UserPage';
-import InfoPage from './components/InfoPage/InfoPage';
+import Discover from './components/Discover/Discover';
+import Bookcase from './components/Bookcase/Bookcase';
+import Requests from './components/Requests/Requests';
 
 import './styles/main.css';
 
 const App = () => (
   <div>
-    <Header title="Project Base" />
+    <Header title="inCase" />
     <Router>
       <Switch>
         <Redirect exact from="/" to="/home" />
@@ -29,12 +30,16 @@ const App = () => (
           component={RegisterPage}
         />
         <Route
-          path="/user"
-          component={UserPage}
+          path="/discover"
+          component={Discover}
         />
         <Route
-          path="/info"
-          component={InfoPage}
+          path="/bookcase"
+          component={Bookcase}
+        />
+        <Route
+          path="/requests"
+          component={Requests}
         />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404</h1>} />
