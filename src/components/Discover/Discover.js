@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 import Nav from '../Nav/Nav';
+import GridList from '../GridList/GridList';
 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
@@ -57,6 +58,10 @@ class UserPage extends Component {
             Welcome, { this.props.user.userName }!
           </h1>
           <p>Your ID is: {this.props.user.id}</p>
+          {this.state.bookcases.map((bookcase, index)=> {
+            return <GridList bookcase={bookcase} />
+          })}
+        
           {JSON.stringify(this.state.bookcases)}
         </div>
       );
