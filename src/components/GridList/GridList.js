@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
@@ -27,46 +27,48 @@ const styles = theme => ({
 
 
 
- const tileData = [
-   {
-      img: 'image',
-     title: 'Image',
-     author: 'author',
-   },
-   {
+const tileData = [
+    {
         img: 'image',
-      title: 'Image',
-     author: 'author',
-  },
- ];
+        title: 'Image',
+        author: 'author',
+    },
+    {
+        img: 'image',
+        title: 'Image',
+        author: 'author',
+    },
+];
 
 
-function TitlebarGridList(props) {
-    const { classes } = props;
+class TitlebarGridList extends Component {
+    render() {
+        const { classes } = this.props;
 
-    return (
-        <div className={classes.root}>
-            <GridList cellHeight={180} className={classes.gridList}>
-                <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-                    <ListSubheader component="div">December</ListSubheader>
-                </GridListTile>
-                {tileData.map(tile => (
-                    <GridListTile key={tile.img}>
-                        <img src={tile.img} alt={tile.title} />
-                        <GridListTileBar
-                            title={tile.title}
-                            subtitle={<span>by: {tile.author}</span>}
-                            actionIcon={
-                                <IconButton className={classes.icon}>
-                                    <InfoIcon />
-                                </IconButton>
-                            }
-                        />
+        return (
+            <div className={classes.root}>
+                <GridList cellHeight={180} className={classes.gridList}>
+                    <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
+                        <ListSubheader component="div">{this.props.bookcase.username}</ListSubheader>
                     </GridListTile>
-                ))}
-            </GridList>
-        </div>
-    );
+                    {tileData.map(tile => (
+                        <GridListTile key={tile.img}>
+                            <img src={tile.img} alt={tile.title} />
+                            <GridListTileBar
+                                title={tile.title}
+                                subtitle={<span>by: {tile.author}</span>}
+                                actionIcon={
+                                    <IconButton className={classes.icon}>
+                                        <InfoIcon />
+                                    </IconButton>
+                                }
+                            />
+                        </GridListTile>
+                    ))}
+                </GridList>
+            </div>
+        );
+    }
 }
 
 TitlebarGridList.propTypes = {

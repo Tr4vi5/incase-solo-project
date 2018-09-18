@@ -23,6 +23,17 @@ const userName = (state = null, action) => {
   }
 };
 
+const profileImage = (state = null, action) => {
+  switch (action.type) {
+    case USER_ACTIONS.SET_USER:
+      return action.user.profile_img_src || state;
+    case USER_ACTIONS.UNSET_USER:
+      return null;
+    default:
+      return state;
+  }
+};
+
 const isLoading = (state = false, action) => {
   switch (action.type) {
     case USER_ACTIONS.REQUEST_START:
@@ -38,4 +49,5 @@ export default combineReducers({
   id,
   userName,
   isLoading,
+  profileImage,
 });

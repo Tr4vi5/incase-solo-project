@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Nav from '../Nav/Nav';
+import BookCard from './BookCard/BookCard';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 import axios from 'axios';
@@ -49,6 +50,8 @@ class Bookcase extends Component {
     })
   };
 
+ 
+
   render() {
     let content = null;
 
@@ -56,18 +59,26 @@ class Bookcase extends Component {
       content = (
         <div>
           <div>
-            <img src={this.props.user.profile_img_src} alt="User"/>
+            
             <form>
               <input type="text" placeholder="Image URL" value={this.state.imgToUpdate} onChange={this.handleImgChange}/>
               <input type="submit" value="Update Image"/>
+              <img src={this.props.user.profile_img_src} alt="User" />
             </form>
           </div>
+          <form>
+            <input type="text" placeholder="Title" />
+            <input type="text" placeholder="Author" />
+            <input type="text" placeholder="Release Year" />
+            <input type="text" placeholder="Genre" />
+            <input type="text" placeholder="Cover Image URL" />
+            <input type="text" placeholder="ISBN (13)" />
+            <input type="text" placeholder="Synopsis" />
+            <input type="Submit" value="Add Book" />
+          </form>
           {this.state.userBooks.map((book, index)=>{
             return (
-              <div key={index}>
-                <img src={book.cover_src} alt="book cover"/>
-                <p>{book.title}</p>
-              </div>
+              <BookCard key={index} book={book}/>
             )
           })}
         </div>
