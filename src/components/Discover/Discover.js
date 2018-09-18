@@ -59,7 +59,7 @@ class UserPage extends Component {
           </h1>
           <p>Your ID is: {this.props.user.id}</p>
           {this.state.bookcases.map((bookcase, index)=> {
-            return <GridList bookcase={bookcase} />
+            return <GridList key={index} bookcase={bookcase} />
           })}
         
           {JSON.stringify(this.state.bookcases)}

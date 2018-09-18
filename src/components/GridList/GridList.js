@@ -41,9 +41,6 @@ const styles = theme => ({
  ];
 
 
-
-
-
 function TitlebarGridList(props) {
     const { classes } = props;
 
