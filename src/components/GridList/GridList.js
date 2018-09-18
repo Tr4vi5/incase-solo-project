@@ -7,6 +7,7 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
+import axios from 'axios';
 
 const styles = theme => ({
     root: {
@@ -41,7 +42,33 @@ const tileData = [
 ];
 
 
+
+
 class TitlebarGridList extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            theseBooks: []
+        }
+    }
+
+    componentDidMount(){
+        this.getTheseBooks();
+    }
+
+    getTheseBooks = () => {
+        axios({
+            method:'GET',
+            url: `/api/books/user/${this.props.bookcase.id}`
+        }).then((response)=>{
+            this.setState({
+                theseBooks: response.data
+            })
+        }).catch((error)=>{
+            console.log('Error getting these books', error);
+        })
+    }
+
     render() {
         const { classes } = this.props;
 
@@ -51,14 +78,14 @@ class TitlebarGridList extends Component {
                     <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
                         <ListSubheader component="div">{this.props.bookcase.username}</ListSubheader>
                     </GridListTile>
-                    {tileData.map(tile => (
-                        <GridListTile key={tile.img}>
-                            <img src={tile.img} alt={tile.title} />
+                    {this.state.theseBooks.map((book, index) => (
+                        <GridListTile key={index}>
+                            <img src={book.cover_src} alt={book.title} />
                             <GridListTileBar
-                                title={tile.title}
-                                subtitle={<span>by: {tile.author}</span>}
+                                title={book.title}
+                                subtitle={<span>by: {book.author}</span>}
                                 actionIcon={
-                                    <IconButton className={classes.icon}>
+                                    <IconButton className={classes.icon} onClick={this.getTheseBooks}>
                                         <InfoIcon />
                                     </IconButton>
                                 }

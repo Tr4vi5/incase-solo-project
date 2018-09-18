@@ -35,7 +35,6 @@ class UserPage extends Component {
       method: 'GET',
       url: '/api/bookcases/all'
     }).then((response)=>{
-      console.log(response);
       this.setState({
         bookcases: response.data
       })
