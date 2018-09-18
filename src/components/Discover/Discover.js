@@ -1,19 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 import Nav from '../Nav/Nav';
 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import { triggerLogout } from '../../redux/actions/loginActions';
-
 
 const mapStateToProps = state => ({
   user: state.user,
 });
 
 class UserPage extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      bookcases: [] // array of all bookcases from the database 
+    }
+  }
+
   componentDidMount() {
     this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
+    this.getBookcases();
   }
 
   componentDidUpdate() {
@@ -22,9 +29,21 @@ class UserPage extends Component {
     }
   }
 
-  logout = () => {
-    this.props.dispatch(triggerLogout());
+  getBookcases = () => {
+    axios({
+      method: 'GET',
+      url: '/api/bookcases/all'
+    }).then((response)=>{
+      console.log(response);
+      this.setState({
+        bookcases: response.data
+      })
+    }).catch((error)=>{
+      console.log(error);
+    })
   }
+
+
 
   render() {
     let content = null;
@@ -38,11 +57,7 @@ class UserPage extends Component {
             Welcome, { this.props.user.userName }!
           </h1>
           <p>Your ID is: {this.props.user.id}</p>
-          <button
-            onClick={this.logout}
-          >
-            Log Out
-          </button>
+          {JSON.stringify(this.state.bookcases)}
         </div>
       );
     }
