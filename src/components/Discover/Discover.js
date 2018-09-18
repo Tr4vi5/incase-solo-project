@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import Grid from '@material-ui/core/Grid';
 
 import Nav from '../Nav/Nav';
 import GridList from '../GridList/GridList';
@@ -12,7 +13,7 @@ const mapStateToProps = state => ({
 });
 
 class UserPage extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       bookcases: [] // array of all bookcases from the database 
@@ -34,11 +35,11 @@ class UserPage extends Component {
     axios({
       method: 'GET',
       url: '/api/bookcases/all'
-    }).then((response)=>{
+    }).then((response) => {
       this.setState({
         bookcases: response.data
       })
-    }).catch((error)=>{
+    }).catch((error) => {
       console.log(error);
     })
   }
@@ -54,13 +55,14 @@ class UserPage extends Component {
           <h1
             id="welcome"
           >
-            Welcome, { this.props.user.userName }!
+            Welcome, {this.props.user.userName}!
           </h1>
           <p>Your ID is: {this.props.user.id}</p>
-          {this.state.bookcases.map((bookcase, index)=> {
-            return <GridList key={index} bookcase={bookcase} />
-          })}
-        
+          <Grid>
+            {this.state.bookcases.map((bookcase, index) => {
+              return <GridList key={index} bookcase={bookcase} />
+            })}
+          </Grid>
           {JSON.stringify(this.state.bookcases)}
         </div>
       );
@@ -69,7 +71,7 @@ class UserPage extends Component {
     return (
       <div>
         <Nav />
-        { content }
+        {content}
       </div>
     );
   }

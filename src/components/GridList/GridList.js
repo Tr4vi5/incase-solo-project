@@ -7,6 +7,7 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
+import Dialog from '@material-ui/core/Dialog';
 import axios from 'axios';
 
 const styles = theme => ({
@@ -26,73 +27,94 @@ const styles = theme => ({
     },
 });
 
-
-
-const tileData = [
-    {
-        img: 'image',
-        title: 'Image',
-        author: 'author',
-    },
-    {
-        img: 'image',
-        title: 'Image',
-        author: 'author',
-    },
-];
-
-
-
-
 class TitlebarGridList extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
-            theseBooks: []
+        this.state = {
+            theseBooks: [],
+            open: false,
+            currentBook: '',
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getTheseBooks();
     }
 
     getTheseBooks = () => {
         axios({
-            method:'GET',
+            method: 'GET',
             url: `/api/books/user/${this.props.bookcase.id}`
-        }).then((response)=>{
+        }).then((response) => {
             this.setState({
                 theseBooks: response.data
             })
-        }).catch((error)=>{
+        }).catch((error) => {
             console.log('Error getting these books', error);
         })
     }
 
+    handleOpen = (book) => {
+        this.setState({
+            open: true,
+            currentBook: book
+        })
+    }
+
+    handleClose = () => {
+        this.setState({
+            open: false,
+        })
+    }
+
     render() {
+        let bookListContent;
         const { classes } = this.props;
 
-        return (
-            <div className={classes.root}>
-                <GridList cellHeight={180} className={classes.gridList}>
-                    <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-                        <ListSubheader component="div">{this.props.bookcase.username}</ListSubheader>
-                    </GridListTile>
-                    {this.state.theseBooks.map((book, index) => (
-                        <GridListTile key={index}>
-                            <img src={book.cover_src} alt={book.title} />
-                            <GridListTileBar
-                                title={book.title}
-                                subtitle={<span>by: {book.author}</span>}
-                                actionIcon={
-                                    <IconButton className={classes.icon} onClick={this.getTheseBooks}>
-                                        <InfoIcon />
-                                    </IconButton>
-                                }
-                            />
+        if (this.props.bookcase) {
+            bookListContent = (
+                <div className={classes.root}>
+                    <GridList cellHeight={180} className={classes.gridList}>
+                        <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
+                            <ListSubheader component="div">{this.props.bookcase.username}</ListSubheader>
                         </GridListTile>
-                    ))}
-                </GridList>
+                        {this.state.theseBooks.map((book, index) => (
+                            <GridListTile key={index}>
+                                <img src={book.cover_src} alt={book.title} />
+                                <GridListTileBar
+                                    title={book.title}
+                                    subtitle={<span>by: {book.author}</span>}
+                                    actionIcon={
+                                        <IconButton className={classes.icon} onClick={() => this.handleOpen(book)}>
+                                            <InfoIcon />
+                                        </IconButton>
+                                    }
+                                />
+                            </GridListTile>
+                        ))}
+                    </GridList>
+                </div>
+            )
+        } else {
+            bookListContent = null;
+        }
+
+        const actions = [
+            <IconButton label="close" primary={true} onClick={this.handleClose} />
+        ]
+
+        return (
+            <div>
+                {bookListContent}
+                <Dialog
+                    actions={actions}
+                    modal={false}
+                    open={this.state.open}
+                    onRequestClose={this.handleClose}
+                >
+                    <p>{JSON.stringify(this.state.currentBook)}</p>
+                    <button onClick={this.handleClose}>Close</button>
+                </Dialog>
             </div>
         );
     }
