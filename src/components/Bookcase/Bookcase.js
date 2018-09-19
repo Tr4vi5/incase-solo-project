@@ -17,7 +17,15 @@ class Bookcase extends Component {
     super(props);
     this.state = {
       imgToUpdate: '',
-      bookToAdd: {},
+      bookToAdd: {
+        title: '',
+        author: '',
+        release_year: '',
+        genre: '',
+        cover_src: '',
+        isbn: '',
+        synopsis: '',
+      },
       userBooks: [],
     }
   }
@@ -47,7 +55,8 @@ class Bookcase extends Component {
   }
 
   // Update current user's profile image
-  updateImageFormSubmit = () => {
+  updateImageFormSubmit = (e) => {
+    e.preventDefault();
     axios({
       method: 'PUT',
       url: '/api/user/register',
@@ -76,7 +85,8 @@ class Bookcase extends Component {
   };
 
   // Post new book to current user's bookcase
-  addBookToBookcase = () => {
+  addBookToBookcase = (e) => {
+    e.preventDefault();
     axios({
       method: 'POST',
       url: '/api/books',
@@ -108,7 +118,7 @@ class Bookcase extends Component {
               </div>
             </Grid>
             <Grid item xs={4}>
-              <form>
+              <form onSubmit={this.addBookToBookcase}>
                 <input type="text" name="title" placeholder="Title" value={this.state.bookToAdd.title} onChange={this.handleBookToAddChange} />
                 <input type="text" name="author" placeholder="Author" value={this.state.bookToAdd.author} onChange={this.handleBookToAddChange} />
                 <input type="text" name="release_year" placeholder="Release Year" value={this.state.bookToAdd.release_year} onChange={this.handleBookToAddChange} />
