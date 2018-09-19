@@ -17,7 +17,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 // is that the password gets encrypted before being inserted
 router.post('/register', (req, res, next) => {
   console.log('req: ', req.body);
-  
+
   const username = req.body.username;
   const password = encryptLib.encryptPassword(req.body.password);
 
@@ -41,5 +41,21 @@ router.get('/logout', (req, res) => {
   req.logout();
   res.sendStatus(200);
 });
+
+//update current user's profile image
+router.put('/register', (req, res) => {
+  console.log(req.body);
+  
+  if (req.isAuthenticated()) {
+    let queryText = `UPDATE "users" SET "profile_img_src"= $1 WHERE "id" = $2;`;
+    pool.query(queryText, [req.body.imgToUpdate, req.user.id]).then((results)=>{
+      res.send(results.rows);
+    }).catch((error)=>{
+      res.sendStatus(500);
+    })
+  } else {
+    res.sendStatus(403);
+  }
+})
 
 module.exports = router;

@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import Dialog from '@material-ui/core/Dialog';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
 const styles = theme => ({
     root: {
@@ -25,6 +26,10 @@ const styles = theme => ({
     icon: {
         color: 'rgba(255, 255, 255, 0.54)',
     },
+});
+
+const mapStateToProps = state => ({
+    user: state.user,
 });
 
 class TitlebarGridList extends Component {
@@ -65,6 +70,11 @@ class TitlebarGridList extends Component {
         this.setState({
             open: false,
         })
+    }
+
+    handleMessageRequest = () => {
+        console.log(this.state.currentBook)
+        alert(`Are you sure that you want to request ${this.state.currentBook.title}?`);
     }
 
     render() {
@@ -108,11 +118,15 @@ class TitlebarGridList extends Component {
                 {bookListContent}
                 <Dialog
                     actions={actions}
-                    modal={false}
                     open={this.state.open}
-                    onRequestClose={this.handleClose}
                 >
-                    <p>{JSON.stringify(this.state.currentBook)}</p>
+                    <img src={this.state.currentBook.cover_src} alt='Cover' style={{height: '200px', width: '150px'}}/>
+                    <h2>{this.state.currentBook.title}</h2>
+                    <h4>{this.state.currentBook.author}</h4>
+                    <p>Published: {this.state.currentBook.release_year}</p>
+                    <p>{this.state.currentBook.synopsis}</p>
+                    <p>ISBN-13: {this.state.currentBook.isbn}</p>
+                    <button onClick={this.handleMessageRequest}>Request Book</button>
                     <button onClick={this.handleClose}>Close</button>
                 </Dialog>
             </div>
@@ -124,4 +138,6 @@ TitlebarGridList.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(TitlebarGridList);
+const BookcaseGridList = withStyles(styles)(TitlebarGridList)
+
+export default connect(mapStateToProps)(BookcaseGridList);

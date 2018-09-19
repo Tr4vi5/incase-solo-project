@@ -3,8 +3,6 @@ import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typo
 
 class BookCard extends Component {
   render() {
-    console.log(this.props.book);
-    
     return (
       <Card>
         <CardActionArea>
