@@ -32,49 +32,63 @@ class Bookcase extends Component {
     }
   }
 
-  //set this.state.imgToUpdate to the new image URL
+  // set this.state.imgToUpdate to the new image URL
   handleImgChange = (e) => {
     this.setState({
       imgToUpdate: e.target.value,
     })
   }
 
+  // set this.state.bookToAdd values from inputs on the DOM
   handleBookToAddChange = (e) => {
     this.setState({
-      bookToAdd: {...this.state.bookToAdd, [e.target.name]: e.target.value}
+      bookToAdd: { ...this.state.bookToAdd, [e.target.name]: e.target.value }
     })
   }
 
+  // Update current user's profile image
   updateImageFormSubmit = () => {
-    console.log(this.state.imgToUpdate)
-    
     axios({
       method: 'PUT',
       url: '/api/user/register',
-      data: {imgToUpdate: this.state.imgToUpdate}
-    }).then((response)=>{
-      console.log(response.data);
-      this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
-    }).catch((error)=>{
+      data: { imgToUpdate: this.state.imgToUpdate }
+    }).then((response) => {
+      this.props.dispatch({ type: USER_ACTIONS.FETCH_USER }); // grab the new user information from redux
+    }).catch((error) => {
       console.log('Error updating profile picture', error);
       alert('Could not update profile picture, please try again later.');
     });
   }
 
+  // Get all books for the currently logged in user
   getUserBooks = () => {
     axios({
       method: 'GET',
       url: '/api/bookcases/user'
     }).then((response) => {
-      console.log(response.data);
       this.setState({
         userBooks: response.data,
       })
     }).catch((error) => {
       console.log('Error getting bookcase of current user', error);
+      alert('Could not get your books, please try again later.');
     })
   };
 
+  // Post new book to current user's bookcase
+  addBookToBookcase = () => {
+    axios({
+      method: 'POST',
+      url: '/api/books',
+      data: this.state.bookToAdd
+    }).then((response)=>{
+      console.log('Back from POST', response.data);
+      this.getUserBooks(); // Get user books after new book was added
+    }).catch((error)=>{
+      console.log('Error in new book POST', error);
+      alert('Could not add book, please try again later');
+    })
+  }
 
 
   render() {
@@ -86,7 +100,7 @@ class Bookcase extends Component {
           <Grid container >
             <Grid item xs={4}>
               <div>
-                <img src={this.props.user.profileImage} alt="User" style={{height: '150px', width:'150px'}}/>
+                <img src={this.props.user.profileImage} alt="User" style={{ height: '150px', width: '150px' }} />
                 <form onSubmit={this.updateImageFormSubmit}>
                   <input type="text" placeholder="Image URL" value={this.state.imgToUpdate} onChange={this.handleImgChange} />
                   <input type="submit" value="Update Image" />
@@ -107,7 +121,7 @@ class Bookcase extends Component {
             </Grid>
             <Grid item xs={4}>
               <form>
-                <input type="text" placeholder="Latitude"/>
+                <input type="text" placeholder="Latitude" />
                 <input type="text" placeholder="Longitude" />
                 <input type="Submit" />
               </form>
@@ -127,7 +141,6 @@ class Bookcase extends Component {
     return (
       <div>
         <Nav />
-        {JSON.stringify(this.state.bookToAdd)}
         {content}
       </div>
     );

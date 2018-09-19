@@ -20,7 +20,7 @@ router.get('/all', (req, res) => {
     }
 });// end get all bookcases
 
-//get current user bookcase
+//get current user bookcase and books
 router.get('/user', (req, res) => {
     if (req.isAuthenticated()) {
         queryText = 'SELECT * FROM "bookcases" JOIN "books" ON "bookcases"."id" = "books"."bookcases_id" WHERE "users_id" = $1;';
