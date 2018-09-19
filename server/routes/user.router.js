@@ -44,8 +44,6 @@ router.get('/logout', (req, res) => {
 
 //update current user's profile image
 router.put('/register', (req, res) => {
-  console.log(req.body);
-  
   if (req.isAuthenticated()) {
     let queryText = `UPDATE "users" SET "profile_img_src"= $1 WHERE "id" = $2;`;
     pool.query(queryText, [req.body.imgToUpdate, req.user.id]).then((results)=>{

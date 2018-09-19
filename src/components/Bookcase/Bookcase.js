@@ -17,6 +17,7 @@ class Bookcase extends Component {
     super(props);
     this.state = {
       imgToUpdate: '',
+      bookToAdd: {},
       userBooks: [],
     }
   }
@@ -35,6 +36,12 @@ class Bookcase extends Component {
   handleImgChange = (e) => {
     this.setState({
       imgToUpdate: e.target.value,
+    })
+  }
+
+  handleBookToAddChange = (e) => {
+    this.setState({
+      bookToAdd: {...this.state.bookToAdd, [e.target.name]: e.target.value}
     })
   }
 
@@ -88,13 +95,13 @@ class Bookcase extends Component {
             </Grid>
             <Grid item xs={4}>
               <form>
-                <input type="text" placeholder="Title" />
-                <input type="text" placeholder="Author" />
-                <input type="text" placeholder="Release Year" />
-                <input type="text" placeholder="Genre" />
-                <input type="text" placeholder="Cover Image URL" />
-                <input type="text" placeholder="ISBN (13)" />
-                <textarea cols="40" rows="6" placeholder="Synopsis" />
+                <input type="text" name="title" placeholder="Title" value={this.state.bookToAdd.title} onChange={this.handleBookToAddChange} />
+                <input type="text" name="author" placeholder="Author" value={this.state.bookToAdd.author} onChange={this.handleBookToAddChange} />
+                <input type="text" name="release_year" placeholder="Release Year" value={this.state.bookToAdd.release_year} onChange={this.handleBookToAddChange} />
+                <input type="text" name="genre" placeholder="Genre" value={this.state.bookToAdd.genre} onChange={this.handleBookToAddChange} />
+                <input type="text" name="cover_src" placeholder="Cover Image URL" value={this.state.bookToAdd.cover_src} onChange={this.handleBookToAddChange} />
+                <input type="text" name="isbn" placeholder="ISBN (13)" value={this.state.bookToAdd.isbn} onChange={this.handleBookToAddChange} />
+                <textarea cols="40" rows="6" name="synopsis" placeholder="Synopsis" value={this.state.bookToAdd.synopsis} onChange={this.handleBookToAddChange} />
                 <input type="Submit" />
               </form>
             </Grid>
@@ -120,6 +127,7 @@ class Bookcase extends Component {
     return (
       <div>
         <Nav />
+        {JSON.stringify(this.state.bookToAdd)}
         {content}
       </div>
     );
