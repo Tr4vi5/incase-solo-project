@@ -26,10 +26,10 @@ router.post('/', (req, res) => {
                             VALUES ($1, $2, $3, $4, $5, $6, $7, $8);`;
         pool.query(queryTextOne, [req.user.id]).then((results) => { // Get bookcase ID of currently logged in user
             // using the bookcase ID result of the currently logged in user, post new book to database
-            pool.query(queryTextTwo, [req.body.title, req.body.author, req.body.release_year, req.body.genre, req.body.cover_src, req.body.isbn, req.body.synopsis, results.rows[0].id]) 
+            pool.query(queryTextTwo, [req.body.title, req.body.author, req.body.release_year, req.body.genre, req.body.cover_src, req.body.isbn, req.body.synopsis, results.rows[0].id])
                 .then((results) => {
                     res.sendStatus(201);
-                }).catch((error)=>{
+                }).catch((error) => {
                     console.log('Error in new book post INSERT', error);
                     res.sendStatus(500);
                 });

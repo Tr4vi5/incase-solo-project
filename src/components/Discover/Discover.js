@@ -60,7 +60,10 @@ class UserPage extends Component {
           <p>Your ID is: {this.props.user.id}</p>
           <Grid>
             {this.state.bookcases.map((bookcase, index) => {
-              return <GridList key={index} bookcase={bookcase} />
+              return (
+                <Grid item xs={6}>
+                  <GridList key={index} bookcase={bookcase} />
+                </Grid>)
             })}
           </Grid>
           {JSON.stringify(this.state.bookcases)}
@@ -77,6 +80,5 @@ class UserPage extends Component {
   }
 }
 
-// this allows us to use <App /> in index.js
 export default connect(mapStateToProps)(UserPage);
 

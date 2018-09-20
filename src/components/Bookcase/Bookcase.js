@@ -26,12 +26,17 @@ class Bookcase extends Component {
         isbn: '',
         synopsis: '',
       },
+      bookcaseLocation: {
+        latitude: '',
+        longitude: '',
+      },
       userBooks: [],
     }
   }
   componentDidMount() {
     this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
     this.getUserBooks();
+    this.getBookcaseLocation();
   }
 
   componentDidUpdate() {
@@ -40,7 +45,7 @@ class Bookcase extends Component {
     }
   }
 
-  // set this.state.imgToUpdate to the new image URL
+  // set this.state.imgToUpdate to the new image URL from the input on the DOM
   handleImgChange = (e) => {
     this.setState({
       imgToUpdate: e.target.value,
@@ -51,6 +56,13 @@ class Bookcase extends Component {
   handleBookToAddChange = (e) => {
     this.setState({
       bookToAdd: { ...this.state.bookToAdd, [e.target.name]: e.target.value }
+    })
+  }
+
+  // set this.state.newBookcaseLocation values from inputs on the DOM
+  handleLocationChange = (e) => {
+    this.setState({
+      bookcaseLocation: { ...this.state.bookcaseLocation, [e.target.name]: e.target.value }
     })
   }
 
@@ -77,11 +89,11 @@ class Bookcase extends Component {
     }).then((response) => {
       this.setState({
         userBooks: response.data,
-      })
+      });
     }).catch((error) => {
       console.log('Error getting bookcase of current user', error);
       alert('Could not get your books, please try again later.');
-    })
+    });
   };
 
   // Post new book to current user's bookcase
@@ -91,14 +103,51 @@ class Bookcase extends Component {
       method: 'POST',
       url: '/api/books',
       data: this.state.bookToAdd
-    }).then((response)=>{
+    }).then((response) => {
       console.log('Back from POST', response.data);
       this.getUserBooks(); // Get user books after new book was added
-    }).catch((error)=>{
+    }).catch((error) => {
       console.log('Error in new book POST', error);
-      alert('Could not add book, please try again later');
-    })
+      alert('Sorry, could not add book, please try again later');
+    });
   }
+
+  // get currently logged in 
+  getBookcaseLocation = () => {
+    axios({
+      method: 'GET',
+      url: '/api/bookcases/user/location'
+    }).then((response) => {
+      console.log(response.data);
+      this.setState({
+        bookcaseLocation: {
+          latitude: response.data[0].latitude,
+          longitude: response.data[0].longitude,
+        }
+      })
+    }).catch((error) => {
+      console.log('Error getting bookcase location from server', error);
+      alert('Sorry, could not get bookcase location data, please try again later');
+    });
+  }
+
+  // Update location for current user's bookcase
+  updateBookcaseLocation = (e) => {
+    e.preventDefault();
+    axios({
+      method: 'PUT',
+      url: '/api/bookcases',
+      data: this.state.bookcaseLocation
+    }).then((response) => {
+      console.log('Back from PUT', response);
+      
+    }).catch((error) => {
+      console.log('Error updating bookcase location', error);
+      alert('Could not update bookcase location, please try again later');
+    });
+  }
+
+
 
 
   render() {
@@ -131,8 +180,8 @@ class Bookcase extends Component {
             </Grid>
             <Grid item xs={4}>
               <form>
-                <input type="text" placeholder="Latitude" />
-                <input type="text" placeholder="Longitude" />
+                <input type="text" name="latitude" placeholder="Latitude" value={this.state.bookcaseLocation.latitude} onChange={this.handleLocationChange} />
+                <input type="text" name="longitude" placeholder="Longitude" value={this.state.bookcaseLocation.longitude} onChange={this.handleLocationChange} />
                 <input type="Submit" />
               </form>
             </Grid>
@@ -157,5 +206,4 @@ class Bookcase extends Component {
   }
 }
 
-// this allows us to use <App /> in index.js
 export default connect(mapStateToProps)(Bookcase);
