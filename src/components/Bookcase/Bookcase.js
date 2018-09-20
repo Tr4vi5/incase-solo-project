@@ -136,11 +136,11 @@ class Bookcase extends Component {
     e.preventDefault();
     axios({
       method: 'PUT',
-      url: '/api/bookcases',
+      url: '/api/bookcases/user/location',
       data: this.state.bookcaseLocation
     }).then((response) => {
       console.log('Back from PUT', response);
-      
+
     }).catch((error) => {
       console.log('Error updating bookcase location', error);
       alert('Could not update bookcase location, please try again later');
@@ -179,7 +179,7 @@ class Bookcase extends Component {
               </form>
             </Grid>
             <Grid item xs={4}>
-              <form>
+              <form onSubmit={this.updateBookcaseLocation}>
                 <input type="text" name="latitude" placeholder="Latitude" value={this.state.bookcaseLocation.latitude} onChange={this.handleLocationChange} />
                 <input type="text" name="longitude" placeholder="Longitude" value={this.state.bookcaseLocation.longitude} onChange={this.handleLocationChange} />
                 <input type="Submit" />
@@ -200,6 +200,7 @@ class Bookcase extends Component {
     return (
       <div>
         <Nav />
+        {JSON.stringify(this.state.bookcaseLocation)}
         {content}
       </div>
     );

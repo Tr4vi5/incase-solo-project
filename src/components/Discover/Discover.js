@@ -61,8 +61,8 @@ class UserPage extends Component {
           <Grid>
             {this.state.bookcases.map((bookcase, index) => {
               return (
-                <Grid item xs={6}>
-                  <GridList key={index} bookcase={bookcase} />
+                <Grid item xs={6} key={index}>
+                  <GridList bookcase={bookcase} />
                 </Grid>)
             })}
           </Grid>

@@ -51,6 +51,28 @@ router.get('/user', (req, res) => {
     }
 });// end get current user bookcase
 
+// update currently logged in user's bookcase location
+router.put('/user/location', (req, res) => {
+    if (req.isAuthenticated()) {
+        let queryTextOne = `SELECT "bookcases"."id" FROM "users" JOIN "bookcases" ON "users"."id" = "bookcases"."users_id" WHERE "users"."id" = $1;`;
+        let queryTextTwo = `UPDATE "bookcases" SET "latitude" = $1, "longitude" = $2 WHERE "id" = $3;`;
+        pool.query(queryTextOne, [req.user.id]).then((results) => {
+            pool.query(queryTextTwo, [req.body.latitude, req.body.longitude, results.rows[0].id])
+                .then((results)=>{
+                    res.send(results.rows)
+                }).catch((error)=>{
+                    console.log('Error updating bookcase location', error);
+                    res.sendStatus(500);
+                });
+        }).catch((error)=>{
+            console.log('Error getting bookcase ID in PUT route', error);
+            res.sendStatus(500);
+        });
+    } else {
+        res.sendStatus(403);
+    }
+}); // end update currently logged in user's bookcase location
+
 /**
  * POST route template
  */
