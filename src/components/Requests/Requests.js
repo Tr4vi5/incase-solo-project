@@ -5,7 +5,7 @@ import List from '@material-ui/core/List';
 import axios from 'axios';
 
 import Nav from '../Nav/Nav';
-import RequestsListItem from './RequestsList/RequestsList';
+import RequestsListItem from './RequestsListItem/RequestsListItem';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 const mapStateToProps = state => ({
@@ -16,13 +16,15 @@ class Requests extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            requests: [],
+            incomingRequests: [],
+            outgoingRequests: [],
             currentRequest: {},
             currentMessages: [],
         }
     }
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
+        this.getIncomingRequests();
     }
 
     componentDidUpdate() {
@@ -32,12 +34,15 @@ class Requests extends Component {
     }
 
     // get current user's requests from the database
-    getRequests = () => {
+    getIncomingRequests = () => {
         axios({
             method: 'GET',
             url: '/api/requests'
         }).then((response) => {
-            console.log(response);
+            console.log(response.data);
+            this.setState({
+                incomingRequests: response.data
+            });
         }).catch((error) => {
             console.log('Error getting requests from server', error);
             alert('Could not get requests from server, please try again later');
@@ -49,17 +54,31 @@ class Requests extends Component {
 
         if (this.props.user.userName) {
             content = (
-                <div>
+                <div style={{ minHeight: '90vh' }}>
                     <Grid container>
                         <Grid item xs={6}>
-                            <div>Requests
+                            <div style={{ height: '45vh', overflow: 'auto' }}>
+                                <h3>Incoming Requests</h3>
+                                <List>
+                                    {JSON.stringify(this.state.incomingRequests)}
+                                    {this.state.incomingRequests.map((request, i) => {
+                                        return (
+                                            <RequestsListItem key={i} request={request} />
+                                        )
+                                    })}
+                                </List>
+                            </div>
+                            <div style={{ height: '45vh', overflow: 'auto' }}>
+                                <h3>Outgoing Requests</h3>
                                 <List>
                                     <RequestsListItem />
                                 </List>
                             </div>
                         </Grid>
                         <Grid item xs={6}>
-                            <div>Messages</div>
+                            <div style={{ borderLeft: '2px solid black', height: '90vh' }}>
+                                <h3>Messages</h3>
+                            </div>
                         </Grid>
                     </Grid>
                 </div>

@@ -19,7 +19,7 @@ class RequestsListItem extends Component {
                     primary="Username"
                     secondary="Is requesting book title"
                 />
-                <button>Approve Request</button>
+                <button>Confirm Delivery</button>
                 <button>Message User</button>
                 <button>Deny Request</button>
             </ListItem>

@@ -2,9 +2,19 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
+
+// get all incoming requests for logged in user
 router.get('/', (req, res) => {
     if (req.isAuthenticated()) {
-        let queryText = ``;
+        let queryText = `SELECT "requests".*, "books".*, "users"."username" FROM "requests" JOIN "books" ON "requests"."books_id" = "books"."id" JOIN "users" ON "users"."id" = "requests"."from_users_id" WHERE "to_users_id" = $1;`;
+        pool.query(queryText, [req.user.id]).then((results)=>{
+            res.send(results.rows);
+        }).catch((error)=>{
+            console.log('Error getting requests from database', error);
+            res.sendStatus(500);
+        });
+    } else {
+        res.sendStatus(403);
     }
 });
 
