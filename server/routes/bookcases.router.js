@@ -5,8 +5,8 @@ const router = express.Router();
 // get all bookcases route for Discover view
 router.get('/all', (req, res) => {
     if (req.isAuthenticated()) {
-        let queryText = 'SELECT * FROM "bookcases" JOIN "users" ON "bookcases"."users_id" = "users"."id";';
-        pool.query(queryText).then((results) => {
+        let queryText = 'SELECT * FROM "bookcases" JOIN "users" ON "bookcases"."users_id" = "users"."id" AND "users"."id" != $1;';
+        pool.query(queryText, [req.user.id]).then((results) => {
             res.send(results.rows);
         }).catch((error) => {
             res.sendStatus(500);

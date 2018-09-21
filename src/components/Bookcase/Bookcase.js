@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
+import Avatar from '@material-ui/core/Avatar';
 
 import Nav from '../Nav/Nav';
 import BookCard from './BookCard/BookCard';
@@ -162,7 +163,7 @@ class Bookcase extends Component {
           <Grid container >
             <Grid item xs={4}>
               <div>
-                <img src={this.props.user.profileImage} alt="User" style={{ height: '150px', width: '150px' }} />
+                <Avatar src={this.props.user.profileImage} alt="User" style={{ height: '150px', width: '150px' }} />
                 <form onSubmit={this.updateImageFormSubmit}>
                   <input type="text" placeholder="Image URL" value={this.state.imgToUpdate} onChange={this.handleImgChange} />
                   <input type="submit" value="Update Image" />

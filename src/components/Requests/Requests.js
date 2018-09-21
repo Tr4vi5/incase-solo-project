@@ -25,6 +25,7 @@ class Requests extends Component {
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
         this.getIncomingRequests();
+        this.getOutgoingRequests();
     }
 
     componentDidUpdate() {
@@ -33,15 +34,31 @@ class Requests extends Component {
         }
     }
 
-    // get current user's requests from the database
+    // get current user's incoming requests from the database
     getIncomingRequests = () => {
         axios({
             method: 'GET',
-            url: '/api/requests'
+            url: '/api/requests/user/incoming'
         }).then((response) => {
             console.log(response.data);
             this.setState({
                 incomingRequests: response.data
+            });
+        }).catch((error) => {
+            console.log('Error getting requests from server', error);
+            alert('Could not get requests from server, please try again later');
+        });
+    }
+
+    // get current user's outgoing request from the database
+    getOutgoingRequests = () => {
+        axios({
+            method: 'GET',
+            url: '/api/requests/user/outgoing'
+        }).then((response) => {
+            console.log(response.data);
+            this.setState({
+                outgoingRequests: response.data
             });
         }).catch((error) => {
             console.log('Error getting requests from server', error);
@@ -60,7 +77,6 @@ class Requests extends Component {
                             <div style={{ height: '45vh', overflow: 'auto' }}>
                                 <h3>Incoming Requests</h3>
                                 <List>
-                                    {JSON.stringify(this.state.incomingRequests)}
                                     {this.state.incomingRequests.map((request, i) => {
                                         return (
                                             <RequestsListItem key={i} request={request} />
@@ -71,7 +87,10 @@ class Requests extends Component {
                             <div style={{ height: '45vh', overflow: 'auto' }}>
                                 <h3>Outgoing Requests</h3>
                                 <List>
-                                    <RequestsListItem />
+                                    {this.state.outgoingRequests.map((request, i) => {
+                                        return (<RequestsListItem key={i} request={request} />)
+                                    })
+                                    }
                                 </List>
                             </div>
                         </Grid>
