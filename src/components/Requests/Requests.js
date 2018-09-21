@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Grid from '@material-ui/core/Grid';
 
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
@@ -25,9 +26,14 @@ class Requests extends Component {
         if (this.props.user.userName) {
             content = (
                 <div>
-                    <p>
-                        Requests
-                    </p>
+                    <Grid container>
+                        <Grid item xs={6}>
+                            <div>Requests</div>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <div>Messages</div>
+                        </Grid>
+                    </Grid>
                 </div>
             );
         }
@@ -41,5 +47,4 @@ class Requests extends Component {
     }
 }
 
-// this allows us to use <App /> in index.js
 export default connect(mapStateToProps)(Requests);

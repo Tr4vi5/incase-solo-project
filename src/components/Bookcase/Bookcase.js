@@ -45,6 +45,7 @@ class Bookcase extends Component {
     }
   }
 
+  // begin handleChange functions
   // set this.state.imgToUpdate to the new image URL from the input on the DOM
   handleImgChange = (e) => {
     this.setState({
@@ -66,6 +67,9 @@ class Bookcase extends Component {
     })
   }
 
+  //end handleChange functions
+
+  // begin http requests
   // Update current user's profile image
   updateImageFormSubmit = (e) => {
     e.preventDefault();
@@ -118,7 +122,6 @@ class Bookcase extends Component {
       method: 'GET',
       url: '/api/bookcases/user/location'
     }).then((response) => {
-      console.log(response.data);
       this.setState({
         bookcaseLocation: {
           latitude: response.data[0].latitude,
@@ -147,7 +150,7 @@ class Bookcase extends Component {
     });
   }
 
-
+  //end http requests
 
 
   render() {
@@ -167,23 +170,27 @@ class Bookcase extends Component {
               </div>
             </Grid>
             <Grid item xs={4}>
-              <form onSubmit={this.addBookToBookcase}>
-                <input type="text" name="title" placeholder="Title" value={this.state.bookToAdd.title} onChange={this.handleBookToAddChange} />
-                <input type="text" name="author" placeholder="Author" value={this.state.bookToAdd.author} onChange={this.handleBookToAddChange} />
-                <input type="text" name="release_year" placeholder="Release Year" value={this.state.bookToAdd.release_year} onChange={this.handleBookToAddChange} />
-                <input type="text" name="genre" placeholder="Genre" value={this.state.bookToAdd.genre} onChange={this.handleBookToAddChange} />
-                <input type="text" name="cover_src" placeholder="Cover Image URL" value={this.state.bookToAdd.cover_src} onChange={this.handleBookToAddChange} />
-                <input type="text" name="isbn" placeholder="ISBN (13)" value={this.state.bookToAdd.isbn} onChange={this.handleBookToAddChange} />
-                <textarea cols="40" rows="6" name="synopsis" placeholder="Synopsis" value={this.state.bookToAdd.synopsis} onChange={this.handleBookToAddChange} />
-                <input type="Submit" />
-              </form>
+              <div>
+                <form onSubmit={this.addBookToBookcase}>
+                  <input type="text" name="title" placeholder="Title" value={this.state.bookToAdd.title} onChange={this.handleBookToAddChange} />
+                  <input type="text" name="author" placeholder="Author" value={this.state.bookToAdd.author} onChange={this.handleBookToAddChange} />
+                  <input type="text" name="release_year" placeholder="Release Year" value={this.state.bookToAdd.release_year} onChange={this.handleBookToAddChange} />
+                  <input type="text" name="genre" placeholder="Genre" value={this.state.bookToAdd.genre} onChange={this.handleBookToAddChange} />
+                  <input type="text" name="cover_src" placeholder="Cover Image URL" value={this.state.bookToAdd.cover_src} onChange={this.handleBookToAddChange} />
+                  <input type="text" name="isbn" placeholder="ISBN (13)" value={this.state.bookToAdd.isbn} onChange={this.handleBookToAddChange} />
+                  <textarea cols="40" rows="6" name="synopsis" placeholder="Synopsis" value={this.state.bookToAdd.synopsis} onChange={this.handleBookToAddChange} />
+                  <input type="Submit" />
+                </form>
+              </div>
             </Grid>
             <Grid item xs={4}>
-              <form onSubmit={this.updateBookcaseLocation}>
-                <input type="text" name="latitude" placeholder="Latitude" value={this.state.bookcaseLocation.latitude} onChange={this.handleLocationChange} />
-                <input type="text" name="longitude" placeholder="Longitude" value={this.state.bookcaseLocation.longitude} onChange={this.handleLocationChange} />
-                <input type="Submit" />
-              </form>
+              <div>
+                <form onSubmit={this.updateBookcaseLocation}>
+                  <input type="text" name="latitude" placeholder="Latitude" value={this.state.bookcaseLocation.latitude} onChange={this.handleLocationChange} />
+                  <input type="text" name="longitude" placeholder="Longitude" value={this.state.bookcaseLocation.longitude} onChange={this.handleLocationChange} />
+                  <input type="Submit" />
+                </form>
+              </div>
             </Grid>
           </Grid>
           <Grid container spacing={24} justify="center">
@@ -200,7 +207,6 @@ class Bookcase extends Component {
     return (
       <div>
         <Nav />
-        {JSON.stringify(this.state.bookcaseLocation)}
         {content}
       </div>
     );

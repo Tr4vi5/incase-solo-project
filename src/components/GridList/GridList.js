@@ -46,19 +46,6 @@ class TitlebarGridList extends Component {
         this.getTheseBooks();
     }
 
-    getTheseBooks = () => {
-        axios({
-            method: 'GET',
-            url: `/api/books/user/${this.props.bookcase.id}`
-        }).then((response) => {
-            this.setState({
-                theseBooks: response.data
-            })
-        }).catch((error) => {
-            console.log('Error getting these books', error);
-        })
-    }
-
     handleOpen = (book) => {
         this.setState({
             open: true,
@@ -75,7 +62,33 @@ class TitlebarGridList extends Component {
     handleMessageRequest = () => {
         console.log(this.state.currentBook)
         alert(`Are you sure that you want to request ${this.state.currentBook.title}?`);
+        axios({
+            method: 'POST',
+            url: '/api/requests',
+            data: this.state.currentBook
+        }).then((response) => {
+            console.log('Back from new request POST', response.data);
+
+        }).catch((error) => {
+            console.log('Unable to post new request', error);
+            alert('Sorry, could not post new request, please try again later');
+        });
     }
+
+    getTheseBooks = () => {
+        axios({
+            method: 'GET',
+            url: `/api/books/user/${this.props.bookcase.id}`
+        }).then((response) => {
+            this.setState({
+                theseBooks: response.data
+            })
+        }).catch((error) => {
+            console.log('Error getting these books', error);
+        })
+    }
+
+
 
     render() {
         let bookListContent;
@@ -109,18 +122,18 @@ class TitlebarGridList extends Component {
             bookListContent = null;
         }
 
-        const actions = [
-            <IconButton label="close" primary={true} onClick={this.handleClose} />
-        ]
+        // const actions = [
+        //     <IconButton label="close" primary={true} onClick={this.handleClose} />
+        // ]
 
         return (
             <div>
                 {bookListContent}
                 <Dialog
-                    actions={actions}
+                    // actions={actions}
                     open={this.state.open}
                 >
-                    <img src={this.state.currentBook.cover_src} alt='Cover' style={{height: '200px', width: '150px'}}/>
+                    <img src={this.state.currentBook.cover_src} alt='Cover' style={{ height: '200px', width: '150px' }} />
                     <h2>{this.state.currentBook.title}</h2>
                     <h4>{this.state.currentBook.author}</h4>
                     <p>Published: {this.state.currentBook.release_year}</p>

@@ -58,7 +58,7 @@ class UserPage extends Component {
             Welcome, {this.props.user.userName}!
           </h1>
           <p>Your ID is: {this.props.user.id}</p>
-          <Grid>
+          <Grid container>
             {this.state.bookcases.map((bookcase, index) => {
               return (
                 <Grid item xs={6} key={index}>

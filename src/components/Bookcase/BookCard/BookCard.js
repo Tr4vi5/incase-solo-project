@@ -16,16 +16,16 @@ class BookCard extends Component {
               {this.props.book.title}
           </Typography>
             <Typography component="p">
-              Author:
+              Author: {this.props.book.author}
           </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button size="small" color="primary">
-            Share
+          <Button size="small">
+            Edit
         </Button>
-          <Button size="small" color="primary">
-            Learn More
+          <Button size="small">
+            Delete
         </Button>
         </CardActions>
       </Card>
