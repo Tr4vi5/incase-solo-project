@@ -37,7 +37,13 @@ router.get('/user/outgoing', (req, res) => {
 router.get('/messages/:id', (req, res) => {
     if (req.isAuthenticated()) {
         console.log(req.params.id);
-        res.sendStatus(201);
+        let queryText = `SELECT * FROM "messages" WHERE "requests_id" = $1;`;
+        pool.query(queryText, [req.params.id]).then((results)=>{
+            res.send(results.rows);
+        }).catch((error)=>{
+            console.log('Error getting messages from db', error);
+            res.sendStatus(500); 
+        });
     } else {
         res.sendStatus(403);
     }
