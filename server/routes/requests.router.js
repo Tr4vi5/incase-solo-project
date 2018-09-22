@@ -31,6 +31,16 @@ router.get('/user/outgoing', (req, res) => {
     } else {
         res.sendStatus(403);
     }
+});
+
+// get all messages for current request
+router.get('/messages/:id', (req, res) => {
+    if (req.isAuthenticated()) {
+        console.log(req.params.id);
+        res.sendStatus(201);
+    } else {
+        res.sendStatus(403);
+    }
 })
 
 // post new request from discover view
@@ -50,6 +60,34 @@ router.post('/', (req, res) => {
             console.log('Error selecting user id in request post', error);
             res.sendStatus(500);
         });
+    } else {
+        res.sendStatus(403);
+    }
+});
+
+// post new message to request
+router.post('/messages', (req, res) => {
+    console.log('Success', req.body);
+    if (req.isAuthenticated()) {
+        if (req.user.id === req.body.request.to_users_id) {
+            let queryText = `INSERT INTO "messages" ("to_users_id", "from_users_id", "requests_id", "body") VALUES ($1, $2, $3, $4);`;
+            pool.query(queryText, [req.body.request.from_users_id, req.user.id, req.body.request.id, req.body.message]).then((results) => {
+                console.log('Succes in posting new message', results.rows);
+                res.sendStatus(201);
+            }).catch((error) => {
+                console.log('Error in posting new message', error);
+                res.sendStatus(500);
+            });
+        } else if (req.user.id === req.body.request.from_users_id) {
+            let queryText = `INSERT INTO "messages" ("to_users_id", "from_users_id", "requests_id", "body") VALUES ($1, $2, $3, $4);`;
+            pool.query(queryText, [req.body.request.to_users_id, req.user.id, req.body.request.id, req.body.message]).then((results) => {
+                console.log('Succes in posting new message', results.rows);
+                res.sendStatus(201);
+            }).catch((error) => {
+                console.log('Error in posting new message', error);
+                res.sendStatus(500);
+            });
+        }
     } else {
         res.sendStatus(403);
     }
@@ -96,34 +134,6 @@ router.put('/confirm', (req, res) => {
             console.log('Error updating request in deny', error);
             res.sendStatus(500);
         });
-    } else {
-        res.sendStatus(403);
-    }
-});
-
-// post new message to request
-router.post('/messages', (req, res) => {
-    console.log('Success', req.body);
-    if (req.isAuthenticated()) {
-        if (req.user.id === req.body.request.to_users_id) {
-            let queryText = `INSERT INTO "messages" ("to_users_id", "from_users_id", "requests_id", "body") VALUES ($1, $2, $3, $4);`;
-            pool.query(queryText, [req.body.request.from_users_id, req.user.id, req.body.request.id, req.body.message]).then((results) => {
-                console.log('Succes in posting new message', results.rows);
-                res.sendStatus(201);
-            }).catch((error) => {
-                console.log('Error in posting new message', error);
-                res.sendStatus(500);
-            });
-        } else if (req.user.id === req.body.request.from_users_id) {
-            let queryText = `INSERT INTO "messages" ("to_users_id", "from_users_id", "requests_id", "body") VALUES ($1, $2, $3, $4);`;
-            pool.query(queryText, [req.body.request.to_users_id, req.user.id, req.body.request.id, req.body.message]).then((results) => { 
-                console.log('Succes in posting new message', results.rows);
-                res.sendStatus(201);
-            }).catch((error) => {
-                console.log('Error in posting new message', error);
-                res.sendStatus(500);
-            });
-        }
     } else {
         res.sendStatus(403);
     }

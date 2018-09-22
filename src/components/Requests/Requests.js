@@ -114,10 +114,21 @@ class Requests extends Component {
         this.setState({
             currentRequest: request
         });
+        axios({
+            method: 'GET',
+            url: `/api/requests/messages/${request.id}`
+        }).then((response) => {
+            this.setState({
+                currentMessages: response.data
+            });
+        }).catch((error)=>{
+            console.log('Error getting current messages', error);
+            alert('Sorry, could not get messages for that request, please try again later.');
+        });
     }
 
     // post message for current request
-    newMessageSubmit = (e) =>{
+    newMessageSubmit = (e) => {
         e.preventDefault();
         console.log(this.state.newMessage, this.state.currentRequest);
         let messageToPost = {
@@ -125,15 +136,18 @@ class Requests extends Component {
             request: this.state.currentRequest
         }
         axios({
-            method:'POST',
+            method: 'POST',
             url: 'api/requests/messages',
             data: messageToPost
-        }).then((response)=>{
+        }).then((response) => {
             console.log('Success posting new message', response.data);
-        }).catch((error)=>{
+            this.setState({
+                newMessage: ''
+            });
+        }).catch((error) => {
             console.log('Error in newMessageSubmit', error);
             alert('Sorry, could not post new message, please try again later');
-        }); 
+        });
     }
 
 
@@ -145,7 +159,7 @@ class Requests extends Component {
             messagesContent = (
                 <div>
                     <h3>Messages:</h3>
-                    {JSON.stringify(this.state.currentRequest)}
+                    {JSON.stringify(this.state.currentMessages)}
                     <form onSubmit={this.newMessageSubmit}>
                         <input type="text" placeholder="Message" value={this.state.newMessage} onChange={this.handleNewMessageChange} />
                         <input type="submit" />
@@ -157,8 +171,8 @@ class Requests extends Component {
                 <div>
                     <h3>Messages:</h3>
                     <form>
-                        <input type="text" placeholder="Message" value={this.state.newMessage} onChange={this.handleNewMessageChange}/>
-                        <input type="submit" disabled/>
+                        <input type="text" placeholder="Message" value={this.state.newMessage} onChange={this.handleNewMessageChange} />
+                        <input type="submit" disabled />
                     </form>
                 </div>
             )
