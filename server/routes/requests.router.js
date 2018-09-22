@@ -99,6 +99,34 @@ router.put('/confirm', (req, res) => {
     } else {
         res.sendStatus(403);
     }
-})
+});
+
+// post new message to request
+router.post('/messages', (req, res) => {
+    console.log('Success', req.body);
+    if (req.isAuthenticated()) {
+        if (req.user.id === req.body.request.to_users_id) {
+            let queryText = `INSERT INTO "messages" ("to_users_id", "from_users_id", "requests_id", "body") VALUES ($1, $2, $3, $4);`;
+            pool.query(queryText, [req.body.request.from_users_id, req.user.id, req.body.request.id, req.body.message]).then((results) => {
+                console.log('Succes in posting new message', results.rows);
+                res.sendStatus(201);
+            }).catch((error) => {
+                console.log('Error in posting new message', error);
+                res.sendStatus(500);
+            });
+        } else if (req.user.id === req.body.request.from_users_id) {
+            let queryText = `INSERT INTO "messages" ("to_users_id", "from_users_id", "requests_id", "body") VALUES ($1, $2, $3, $4);`;
+            pool.query(queryText, [req.body.request.to_users_id, req.user.id, req.body.request.id, req.body.message]).then((results) => { 
+                console.log('Succes in posting new message', results.rows);
+                res.sendStatus(201);
+            }).catch((error) => {
+                console.log('Error in posting new message', error);
+                res.sendStatus(500);
+            });
+        }
+    } else {
+        res.sendStatus(403);
+    }
+});
 
 module.exports = router;

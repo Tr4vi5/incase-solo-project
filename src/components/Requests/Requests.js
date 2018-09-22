@@ -18,7 +18,8 @@ class Requests extends Component {
         this.state = {
             incomingRequests: [],
             outgoingRequests: [],
-            currentRequest: {},
+            currentRequest: null,
+            newMessage: '',
             currentMessages: [],
         }
     }
@@ -34,6 +35,14 @@ class Requests extends Component {
         }
     }
 
+    //handleChange functions
+    handleNewMessageChange = (e) => {
+        this.setState({
+            newMessage: e.target.value
+        })
+    }
+
+    // http requests
     // get current user's incoming requests from the database
     getIncomingRequests = () => {
         axios({
@@ -99,6 +108,7 @@ class Requests extends Component {
         });
     }
 
+    // get messages for current request
     getCurrentMessages = (request) => {
         console.log(request);
         this.setState({
@@ -106,18 +116,51 @@ class Requests extends Component {
         });
     }
 
+    // post message for current request
+    newMessageSubmit = (e) =>{
+        e.preventDefault();
+        console.log(this.state.newMessage, this.state.currentRequest);
+        let messageToPost = {
+            message: this.state.newMessage,
+            request: this.state.currentRequest
+        }
+        axios({
+            method:'POST',
+            url: 'api/requests/messages',
+            data: messageToPost
+        }).then((response)=>{
+            console.log('Success posting new message', response.data);
+        }).catch((error)=>{
+            console.log('Error in newMessageSubmit', error);
+            alert('Sorry, could not post new message, please try again later');
+        }); 
+    }
+
 
     render() {
         let content = null;
         let messagesContent = null;
 
-        if (this.state.currentRequest){
+        if (this.state.currentRequest) {
             messagesContent = (
-
+                <div>
+                    <h3>Messages:</h3>
+                    {JSON.stringify(this.state.currentRequest)}
+                    <form onSubmit={this.newMessageSubmit}>
+                        <input type="text" placeholder="Message" value={this.state.newMessage} onChange={this.handleNewMessageChange} />
+                        <input type="submit" />
+                    </form>
+                </div>
             )
         } else {
             messagesContent = (
-                
+                <div>
+                    <h3>Messages:</h3>
+                    <form>
+                        <input type="text" placeholder="Message" value={this.state.newMessage} onChange={this.handleNewMessageChange}/>
+                        <input type="submit" disabled/>
+                    </form>
+                </div>
             )
         }
 

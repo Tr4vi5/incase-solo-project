@@ -19,7 +19,7 @@ body {
     color: #ece7e7;
 }
 
-form {
+.login form {
     background-color: #dbd5d5;
     width: 30%;
     height: 250px;
@@ -28,12 +28,12 @@ form {
     border-radius: 2px;
 }
 
-input {
+.login input {
     margin: 5px;
     margin-bottom: 10px;
 }
 
-input[type="submit"] {
+.login input[type="submit"] {
     margin: 10px;
 }
 
