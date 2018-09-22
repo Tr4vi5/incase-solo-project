@@ -54,7 +54,7 @@ class RequestsListItem extends Component {
 
 
         return (
-            <ListItem style={{ width: '100%' }}>
+            <ListItem style={{ width: '100%', backgroundColor: '#ccc'}}>
                 <ListItemAvatar>
                     <Avatar src={this.props.request.profile_img_src} alt="User" />
                 </ListItemAvatar>

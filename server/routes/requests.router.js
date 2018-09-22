@@ -37,7 +37,7 @@ router.get('/user/outgoing', (req, res) => {
 router.get('/messages/:id', (req, res) => {
     if (req.isAuthenticated()) {
         console.log(req.params.id);
-        let queryText = `SELECT * FROM "messages" WHERE "requests_id" = $1;`;
+        let queryText = `SELECT "messages".*, "users"."username" FROM "messages" JOIN "users" ON "messages"."from_users_id" = "users"."id" WHERE "requests_id" = $1;`;
         pool.query(queryText, [req.params.id]).then((results)=>{
             res.send(results.rows);
         }).catch((error)=>{

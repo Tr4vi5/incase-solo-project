@@ -114,6 +114,7 @@ class Requests extends Component {
         this.setState({
             currentRequest: request
         });
+
         axios({
             method: 'GET',
             url: `/api/requests/messages/${request.id}`
@@ -121,7 +122,21 @@ class Requests extends Component {
             this.setState({
                 currentMessages: response.data
             });
-        }).catch((error)=>{
+        }).catch((error) => {
+            console.log('Error getting current messages', error);
+            alert('Sorry, could not get messages for that request, please try again later.');
+        });
+    }
+
+    updateCurrentMessages = () => {
+        axios({
+            method: 'GET',
+            url: `/api/requests/messages/${this.state.currentRequest.id}`
+        }).then((response) => {
+            this.setState({
+                currentMessages: response.data
+            });
+        }).catch((error) => {
             console.log('Error getting current messages', error);
             alert('Sorry, could not get messages for that request, please try again later.');
         });
@@ -144,6 +159,7 @@ class Requests extends Component {
             this.setState({
                 newMessage: ''
             });
+            this.updateCurrentMessages();
         }).catch((error) => {
             console.log('Error in newMessageSubmit', error);
             alert('Sorry, could not post new message, please try again later');
@@ -159,7 +175,13 @@ class Requests extends Component {
             messagesContent = (
                 <div>
                     <h3>Messages:</h3>
-                    {JSON.stringify(this.state.currentMessages)}
+                    <ul>
+                        {this.state.currentMessages.map((message, i)=>{
+                            return (
+                                <li key={i} message={message}>{message.username}: {message.body}</li>
+                            )
+                        })}
+                    </ul>
                     <form onSubmit={this.newMessageSubmit}>
                         <input type="text" placeholder="Message" value={this.state.newMessage} onChange={this.handleNewMessageChange} />
                         <input type="submit" />
