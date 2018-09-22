@@ -85,6 +85,9 @@ class Requests extends Component {
             console.log('Back from database with:', response.data);
             this.getIncomingRequests();
             this.getOutgoingRequests();
+            this.setState({
+                currentRequest: null
+            })
         }).catch((error) => {
             console.log('Error denying request', error);
             alert('Sorry, could not deny request, please try again later');

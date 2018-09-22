@@ -68,7 +68,7 @@ class TitlebarGridList extends Component {
             data: this.state.currentBook
         }).then((response) => {
             console.log('Back from new request POST', response.data);
-
+            this.props.history.push('requests');
         }).catch((error) => {
             console.log('Unable to post new request', error);
             alert('Sorry, could not post new request, please try again later');

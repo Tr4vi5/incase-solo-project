@@ -4,6 +4,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -13,6 +14,11 @@ class RequestsListItem extends Component {
 
     handleDenyClick = () => {
         alert('Are you sure you want to deny this request?');
+        this.props.denyRequest(this.props.request);
+    }
+
+    handleCancelClick = () => {
+        alert('Are you sure you want to cancel this request?');
         this.props.denyRequest(this.props.request);
     }
 
@@ -33,16 +39,16 @@ class RequestsListItem extends Component {
         if (this.props.user.id === this.props.request.from_users_id) { // outgoing request list item return
             listItemUsername = <ListItemText
                 primary="You"
-                secondary={`Requested ${this.props.request.title} on ${this.props.request.date}`}
+                secondary={`Requested ${this.props.request.title} ${moment(this.props.request.date).calendar().toLowerCase()}`}
             />;
             listItemInteractions = <div>
                 <button onClick={this.handleMessageClick}>Message User</button>
-                <button onClick={this.handleDenyClick}>Cancel Request</button>
+                <button onClick={this.handleCancelClick}>Cancel Request</button>
             </div>;
         } else { // incoming request list item return
             listItemUsername = <ListItemText
                 primary={this.props.request.username}
-                secondary={`Requested ${this.props.request.title} on ${this.props.request.date}`}
+                secondary={`Requested ${this.props.request.title} ${moment(this.props.request.date).calendar().toLowerCase()}`}
             />;
             listItemInteractions = <div>
                 <button onClick={this.handleConfirmClick}>Confirm Delivery</button>
