@@ -69,11 +69,18 @@ class Requests extends Component {
     // deny request
     denyRequest = (request) => {
         console.log(request);
-        // axios({
-        //     method: 'PUT',
-        //     url: '/api/requests/cancel',
-        //     data: request
-        // })
+        axios({
+            method: 'PUT',
+            url: '/api/requests/deny',
+            data: request
+        }).then((response)=>{
+            console.log('Back from database with:', response.data);
+            this.getIncomingRequests();
+            this.getOutgoingRequests();
+        }).catch((error)=>{
+            console.log('Error denying request', error);
+            alert('Sorry, could not deny request, please try again later');
+        });
     }
 
 

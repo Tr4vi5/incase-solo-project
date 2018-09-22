@@ -6,7 +6,7 @@ const router = express.Router();
 // get all incoming requests for logged in user
 router.get('/user/incoming', (req, res) => {
     if (req.isAuthenticated()) {
-        let queryText = `SELECT "requests".*, "books"."title", "books"."bookcases_id", "users"."username", "users"."profile_img_src" FROM "requests" JOIN "books" ON "requests"."books_id" = "books"."id" JOIN "users" ON "users"."id" = "requests"."from_users_id" WHERE "to_users_id" = $1;`;
+        let queryText = `SELECT "requests".*, "books"."title", "books"."bookcases_id", "users"."username", "users"."profile_img_src" FROM "requests" JOIN "books" ON "requests"."books_id" = "books"."id" JOIN "users" ON "users"."id" = "requests"."from_users_id" WHERE "to_users_id" = $1 AND "active" = TRUE;`;
         pool.query(queryText, [req.user.id]).then((results) => {
             res.send(results.rows);
         }).catch((error) => {
@@ -52,6 +52,21 @@ router.post('/', (req, res) => {
         });
     } else {
         res.sendStatus(403);
+    }
+});
+
+// deny book transfer request
+router.put('/deny', (req,res) =>{
+    console.log(req.body, req.user);
+    res.sendStatus(200);
+    if (req.isAuthenticated()){
+        let queryText = `UPDATE "requests" SET "active" = FALSE WHERE "requests"."id" = $1;`;
+        pool.query(queryText, [req.body.id]).then((results)=>{
+            res.sendStatus(200);
+        }).catch((error)=>{
+            console.log('Error updating request in deny', error);
+            res.sendStatus(500);
+        });
     }
 });
 
