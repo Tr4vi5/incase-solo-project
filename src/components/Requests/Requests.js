@@ -68,25 +68,60 @@ class Requests extends Component {
 
     // deny request
     denyRequest = (request) => {
-        console.log(request);
         axios({
             method: 'PUT',
             url: '/api/requests/deny',
             data: request
-        }).then((response)=>{
+        }).then((response) => {
             console.log('Back from database with:', response.data);
             this.getIncomingRequests();
             this.getOutgoingRequests();
-        }).catch((error)=>{
+        }).catch((error) => {
             console.log('Error denying request', error);
             alert('Sorry, could not deny request, please try again later');
         });
     }
 
+    // confirm request
+    confirmRequest = (request) => {
+        console.log(request);
+        axios({
+            method: 'PUT',
+            url: '/api/requests/confirm',
+            data: request
+        }).then((response) => {
+            console.log('Back from database with:', response.data);
+            this.getIncomingRequests();
+            this.getOutgoingRequests();
+        }).catch((error) => {
+            console.log('Error denying request', error);
+            alert('Sorry, could not deny request, please try again later');
+        });
+    }
+
+    getCurrentMessages = (request) => {
+        console.log(request);
+        this.setState({
+            currentRequest: request
+        });
+    }
 
 
     render() {
         let content = null;
+        let messagesContent = null;
+
+        if (this.state.currentRequest){
+            messagesContent = (
+
+            )
+        } else {
+            messagesContent = (
+                
+            )
+        }
+
+
 
         if (this.props.user.userName) {
             content = (
@@ -98,7 +133,13 @@ class Requests extends Component {
                                 <List>
                                     {this.state.incomingRequests.map((request, i) => {
                                         return (
-                                            <RequestsListItem key={i} request={request} denyRequest={this.denyRequest} />
+                                            <RequestsListItem
+                                                key={i}
+                                                request={request}
+                                                denyRequest={this.denyRequest}
+                                                confirmRequest={this.confirmRequest}
+                                                getCurrentMessages={this.getCurrentMessages}
+                                            />
                                         )
                                     })}
                                 </List>
@@ -107,15 +148,21 @@ class Requests extends Component {
                                 <h3>Outgoing Requests</h3>
                                 <List>
                                     {this.state.outgoingRequests.map((request, i) => {
-                                        return (<RequestsListItem key={i} request={request} denyRequest={this.denyRequest}/>)
-                                    })
-                                    }
+                                        return (
+                                            <RequestsListItem
+                                                key={i}
+                                                request={request}
+                                                denyRequest={this.denyRequest}
+                                                getCurrentMessages={this.getCurrentMessages}
+                                            />
+                                        )
+                                    })}
                                 </List>
                             </div>
                         </Grid>
                         <Grid item xs={6}>
                             <div style={{ borderLeft: '2px solid black', height: '90vh' }}>
-                                <h3>Messages</h3>
+                                {messagesContent}
                             </div>
                         </Grid>
                     </Grid>
