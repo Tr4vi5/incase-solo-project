@@ -10,7 +10,7 @@ import Header from './components/Header/Header';
 import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
 import Discover from './components/Discover/Discover';
-import Bookcase from './components/Bookcase/Bookcase';
+import ManageBookcase from './components/ManageBookcase/ManageBookcase';
 import Requests from './components/Requests/Requests';
 
 import './styles/main.css';
@@ -35,7 +35,7 @@ const App = () => (
         />
         <Route
           path="/bookcase"
-          component={Bookcase}
+          component={ManageBookcase}
         />
         <Route
           path="/requests"

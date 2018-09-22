@@ -117,6 +117,19 @@ class Bookcase extends Component {
     });
   }
 
+  // Delete book from database
+  deleteBook = (book) => {
+    axios({
+      method: 'DELETE',
+      url: '/api/books',
+    }).then((response)=>{
+      this.getUserBooks();
+    }).catch((error)=>{
+      console.log('Error in delete book', error);
+      alert('Could not delete book, please try again later.');
+    })
+  }
+
   // get currently logged in 
   getBookcaseLocation = () => {
     axios({

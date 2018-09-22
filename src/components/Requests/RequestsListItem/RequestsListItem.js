@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
+import IconButton from '@material-ui/core/IconButton';
+import CommentIcon from '@material-ui/icons/Comment';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Avatar from '@material-ui/core/Avatar';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -43,7 +46,13 @@ class RequestsListItem extends Component {
             />;
             listItemInteractions = <div>
                 <button onClick={this.handleMessageClick}>Message User</button>
+                <IconButton aria-label="Comments">
+                    <CommentIcon onClick={this.handleMessageClick}/>
+                </IconButton>
                 <button onClick={this.handleCancelClick}>Cancel Request</button>
+                <IconButton aria-label="Delete">
+                    <DeleteIcon onClick={this.handleCancelClick}/>
+                </IconButton>
             </div>;
         } else { // incoming request list item return
             listItemUsername = <ListItemText

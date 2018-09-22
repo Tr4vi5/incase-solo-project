@@ -4,7 +4,7 @@ import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 
 import Nav from '../Nav/Nav';
-import GridList from '../GridList/GridList';
+import BookcaseGridList from '../BookcaseGridList/BookcaseGridList';
 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
@@ -62,7 +62,7 @@ class UserPage extends Component {
             {this.state.bookcases.map((bookcase, index) => {
               return (
                 <Grid item xs={6} key={index}>
-                  <GridList bookcase={bookcase} />
+                  <BookcaseGridList bookcase={bookcase} />
                 </Grid>)
             })}
           </Grid>
