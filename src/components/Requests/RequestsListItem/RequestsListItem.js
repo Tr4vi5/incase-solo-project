@@ -12,23 +12,35 @@ const mapStateToProps = state => ({
 class RequestsListItem extends Component {
 
     handleDenyClick = () => {
+        alert('Are you sure you want to deny this request?');
         this.props.denyRequest(this.props.request);
     }
 
     render() {
         console.log(this.props);
-        let listUsername = null;
+        let listItemUsername = null;
+        let listItemInteractions = null;
+
 
         if (this.props.user.id === this.props.request.from_users_id){
-            listUsername = <ListItemText
+            listItemUsername = <ListItemText
                 primary="You"
                 secondary={`Requested ${this.props.request.title} on ${this.props.request.date}`}
             />;
+            listItemInteractions = <div>
+                <button>Message User</button>
+                <button>Cancel Request</button>
+            </div>
         } else {
-            listUsername = <ListItemText
+            listItemUsername = <ListItemText
                 primary={this.props.request.username}
                 secondary={`Requested ${this.props.request.title} on ${this.props.request.date}`}
             />;
+            listItemInteractions = <div>
+                <button>Confirm Delivery</button>
+                <button>Message User</button>
+                <button onClick={this.handleDenyClick}>Deny Request</button>
+            </div>
             
         } 
         
@@ -38,11 +50,8 @@ class RequestsListItem extends Component {
                 <ListItemAvatar>
                     <Avatar src={this.props.request.profile_img_src} alt="User" />
                 </ListItemAvatar>
-               {listUsername}
-                
-                <button>Confirm Delivery</button>
-                <button>Message User</button>
-                <button onClick={this.handleDenyClick}>Deny Request</button>
+                {listItemUsername}
+                {listItemInteractions}
             </ListItem>
         )
     }
