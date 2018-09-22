@@ -66,7 +66,17 @@ class Requests extends Component {
         });
     }
 
-    
+    // deny request
+    denyRequest = (request) => {
+        console.log(request);
+        // axios({
+        //     method: 'PUT',
+        //     url: '/api/requests/cancel',
+        //     data: request
+        // })
+    }
+
+
 
     render() {
         let content = null;
@@ -81,7 +91,7 @@ class Requests extends Component {
                                 <List>
                                     {this.state.incomingRequests.map((request, i) => {
                                         return (
-                                            <RequestsListItem key={i} request={request} />
+                                            <RequestsListItem key={i} request={request} denyRequest={this.denyRequest} />
                                         )
                                     })}
                                 </List>
@@ -90,7 +100,7 @@ class Requests extends Component {
                                 <h3>Outgoing Requests</h3>
                                 <List>
                                     {this.state.outgoingRequests.map((request, i) => {
-                                        return (<RequestsListItem key={i} request={request} />)
+                                        return (<RequestsListItem key={i} request={request} denyRequest={this.denyRequest}/>)
                                     })
                                     }
                                 </List>

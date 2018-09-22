@@ -10,7 +10,10 @@ const mapStateToProps = state => ({
 });
 
 class RequestsListItem extends Component {
-    
+
+    handleDenyClick = () => {
+        this.props.denyRequest(this.props.request);
+    }
 
     render() {
         console.log(this.props);
@@ -39,7 +42,7 @@ class RequestsListItem extends Component {
                 
                 <button>Confirm Delivery</button>
                 <button>Message User</button>
-                <button>Deny Request</button>
+                <button onClick={this.handleDenyClick}>Deny Request</button>
             </ListItem>
         )
     }
