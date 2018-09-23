@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 
 import Nav from '../Nav/Nav';
 import BookcaseGridList from '../BookcaseGridList/BookcaseGridList';
+import MapContainer from './MapContainer/MapContainer';
 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
@@ -44,30 +45,25 @@ class UserPage extends Component {
     })
   }
 
-
-
   render() {
     let content = null;
 
     if (this.props.user.userName) {
       content = (
         <div>
-          <h1
-            id="welcome"
-          >
-            Welcome, {this.props.user.userName}!
-          </h1>
-          <p>Your ID is: {this.props.user.id}</p>
           <Grid container>
-            {this.state.bookcases.map((bookcase, index) => {
-              return (
-                <Grid item xs={6} key={index}>
-                  <BookcaseGridList bookcase={bookcase} />
-                </Grid>)
-            })}
-          </Grid>
-          {JSON.stringify(this.state.bookcases)}
-        </div>
+            <Grid item xs={3} >
+              <div style={{height: '90vh', wordWrap: 'break-word'}}>Sidebar
+                {JSON.stringify(this.state.bookcases)}
+              </div>
+            </Grid>
+            <Grid item xs={9} >
+              <div style={{ backgroundColor: '#f4f4f4', height: '90vh', width: '100%', position: 'relative', right: 0, bottom: 0}}>
+                <MapContainer />
+              </div>
+            </Grid>
+          </Grid >
+        </div >
       );
     }
 
@@ -82,3 +78,11 @@ class UserPage extends Component {
 
 export default connect(mapStateToProps)(UserPage);
 
+// <Grid container >
+//   {this.state.bookcases.map((bookcase, index) => {
+//     return (
+//       <Grid item xs={6} key={index}>
+//         <BookcaseGridList bookcase={bookcase} />
+//       </Grid>)
+//   })}
+// </Grid>
