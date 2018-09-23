@@ -8,6 +8,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import Dialog from '@material-ui/core/Dialog';
+import Avatar from '@material-ui/core/Avatar';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
@@ -17,7 +18,7 @@ const styles = theme => ({
         flexWrap: 'wrap',
         justifyContent: 'space-around',
         overflow: 'hidden',
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: '#555',
     },
     gridList: {
         width: 500,
@@ -98,8 +99,8 @@ class TitlebarGridList extends Component {
             bookListContent = (
                 <div className={classes.root}>
                     <GridList cellHeight={250} className={classes.gridList}>
-                        <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-                            <ListSubheader component="div">{this.props.bookcase.username}</ListSubheader>
+                        <GridListTile key="Subheader" cols={2} style={{ height: 'auto', backgroundColor: '#333', display: 'inline'}}>
+                            <ListSubheader component="div" style={{ color: 'white' }}> <Avatar src={this.props.bookcase.profile_img_src} /> {this.props.bookcase.username}</ListSubheader>
                         </GridListTile>
                         {this.state.theseBooks.map((book, index) => (
                             <GridListTile key={index}>

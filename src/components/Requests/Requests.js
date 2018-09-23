@@ -7,6 +7,7 @@ import axios from 'axios';
 import Nav from '../Nav/Nav';
 import RequestsListItem from './RequestsListItem/RequestsListItem';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
+import TextField from '@material-ui/core/TextField';
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -186,7 +187,15 @@ class Requests extends Component {
                         })}
                     </ul>
                     <form onSubmit={this.newMessageSubmit}>
-                        <input type="text" placeholder="Message" value={this.state.newMessage} onChange={this.handleNewMessageChange} />
+                        <TextField
+                            id="outlined-with-placeholder"
+                            label="Message"
+                            placeholder="Message"
+                            margin="normal"
+                            variant="outlined"
+                            value={this.state.newMessage}
+                            onChange={this.handleNewMessageChange} 
+                        />
                         <input type="submit" />
                     </form>
                 </div>
@@ -196,7 +205,15 @@ class Requests extends Component {
                 <div>
                     <h3>Messages:</h3>
                     <form>
-                        <input type="text" placeholder="Message" value={this.state.newMessage} onChange={this.handleNewMessageChange} />
+                        <TextField
+                            id="outlined-with-placeholder"
+                            label="Message"
+                            placeholder="Message"
+                            margin="normal"
+                            variant="filled"
+                            value={this.state.newMessage}
+                            onChange={this.handleNewMessageChange}
+                        />
                         <input type="submit" disabled />
                     </form>
                 </div>

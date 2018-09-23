@@ -3,6 +3,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+import ShareIcon from '@material-ui/icons/Share';
 import CommentIcon from '@material-ui/icons/Comment';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Avatar from '@material-ui/core/Avatar';
@@ -45,14 +47,13 @@ class RequestsListItem extends Component {
                 secondary={`Requested ${this.props.request.title} ${moment(this.props.request.date).calendar().toLowerCase()}`}
             />;
             listItemInteractions = <div>
-                <button onClick={this.handleMessageClick}>Message User</button>
-                <IconButton aria-label="Comments">
-                    <CommentIcon onClick={this.handleMessageClick}/>
-                </IconButton>
-                <button onClick={this.handleCancelClick}>Cancel Request</button>
-                <IconButton aria-label="Delete">
-                    <DeleteIcon onClick={this.handleCancelClick}/>
-                </IconButton>
+                
+                <Button aria-label="Messages" onClick={this.handleMessageClick}>
+                    <CommentIcon />
+                </Button>
+                <Button aria-label="Delete" onClick={this.handleCancelClick}>
+                    <DeleteIcon />
+                </Button>
             </div>;
         } else { // incoming request list item return
             listItemUsername = <ListItemText
@@ -60,16 +61,22 @@ class RequestsListItem extends Component {
                 secondary={`Requested ${this.props.request.title} ${moment(this.props.request.date).calendar().toLowerCase()}`}
             />;
             listItemInteractions = <div>
-                <button onClick={this.handleConfirmClick}>Confirm Delivery</button>
-                <button onClick={this.handleMessageClick}>Message User</button>
-                <button onClick={this.handleDenyClick}>Deny Request</button>
+                <Button>
+                    <ShareIcon aria-label="Transfer" onClick={this.handleConfirmClick}/>
+                </Button>
+                <Button aria-label="Messages" onClick={this.handleMessageClick}>
+                    <CommentIcon />
+                </Button>
+                <Button aria-label="Delete" onClick={this.handleDenyClick}>
+                    <DeleteIcon />
+                </Button>
             </div>;
 
         }
 
 
         return (
-            <ListItem style={{ width: '100%', backgroundColor: '#ccc'}}>
+            <ListItem style={{ width: '100%', backgroundColor: '#f4f4f4'}}>
                 <ListItemAvatar>
                     <Avatar src={this.props.request.profile_img_src} alt="User" />
                 </ListItemAvatar>
