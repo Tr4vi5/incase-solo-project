@@ -52,16 +52,10 @@ class UserPage extends Component {
     if (this.props.user.userName) {
       content = (
         <div>
-          <h1
-            id="welcome"
-          >
-            Welcome, {this.props.user.userName}!
-          </h1>
-          <p>Your ID is: {this.props.user.id}</p>
           <Grid container>
             {this.state.bookcases.map((bookcase, index) => {
               return (
-                <Grid item xs={6} key={index}>
+                <Grid item xs={6} key={index} justifyContent="center">
                   <BookcaseGridList bookcase={bookcase} />
                 </Grid>)
             })}

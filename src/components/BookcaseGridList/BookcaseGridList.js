@@ -19,10 +19,11 @@ const styles = theme => ({
         justifyContent: 'space-around',
         overflow: 'hidden',
         backgroundColor: '#555',
+        margin: '10px'
     },
     gridList: {
         width: 500,
-        height: 450,
+        height: 600,
     },
     icon: {
         color: 'rgba(255, 255, 255, 0.54)',
@@ -69,7 +70,6 @@ class TitlebarGridList extends Component {
             data: this.state.currentBook
         }).then((response) => {
             console.log('Back from new request POST', response.data);
-            this.props.history.push('requests');
         }).catch((error) => {
             console.log('Unable to post new request', error);
             alert('Sorry, could not post new request, please try again later');
@@ -99,7 +99,7 @@ class TitlebarGridList extends Component {
             bookListContent = (
                 <div className={classes.root}>
                     <GridList cellHeight={250} className={classes.gridList}>
-                        <GridListTile key="Subheader" cols={2} style={{ height: 'auto', backgroundColor: '#333', display: 'inline'}}>
+                        <GridListTile key="Subheader" cols={2} style={{ height: 'auto', backgroundColor: '#111', display: 'inline'}}>
                             <ListSubheader component="div" style={{ color: 'white' }}> <Avatar src={this.props.bookcase.profile_img_src} /> {this.props.bookcase.username}</ListSubheader>
                         </GridListTile>
                         {this.state.theseBooks.map((book, index) => (
@@ -138,6 +138,7 @@ class TitlebarGridList extends Component {
                     <h2>{this.state.currentBook.title}</h2>
                     <h4>{this.state.currentBook.author}</h4>
                     <p>Published: {this.state.currentBook.release_year}</p>
+                    <p>Genre: {this.state.currentBook.genre}</p>
                     <p>{this.state.currentBook.synopsis}</p>
                     <p>ISBN-13: {this.state.currentBook.isbn}</p>
                     <button onClick={this.handleMessageRequest}>Request Book</button>
