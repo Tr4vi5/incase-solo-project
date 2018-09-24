@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { triggerLogout } from '../../redux/actions/loginActions';
+import Button from '@material-ui/core/Button';
 
 class Nav extends Component {
 
@@ -28,10 +29,10 @@ class Nav extends Component {
               Requests
             </Link>
           </li>
-          <li style={{float: 'right'}}>
-            <button onClick={this.logout}>
+          <li style={{ float: 'right' }}>
+            <Button variant="outlined" color="primary" style={{ color: 'white', margin: '5px'}} onClick={this.logout}>
               Log Out
-            </button>
+            </Button>
           </li>
         </ul>
       </div>

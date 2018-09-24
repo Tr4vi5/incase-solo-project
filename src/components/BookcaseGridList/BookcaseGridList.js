@@ -19,11 +19,12 @@ const styles = theme => ({
         justifyContent: 'space-around',
         overflow: 'hidden',
         backgroundColor: '#555',
-        margin: '10px'
+        margin: '10px',
     },
     gridList: {
         width: 500,
         height: 600,
+        position: 'relative'
     },
     icon: {
         color: 'rgba(255, 255, 255, 0.54)',
@@ -98,10 +99,11 @@ class TitlebarGridList extends Component {
         if (this.props.bookcase) {
             bookListContent = (
                 <div className={classes.root}>
-                    <GridList cellHeight={250} className={classes.gridList}>
-                        <GridListTile key="Subheader" cols={2} style={{ height: 'auto', backgroundColor: '#111', display: 'inline'}}>
-                            <ListSubheader component="div" style={{ color: 'white' }}> <Avatar src={this.props.bookcase.profile_img_src} /> {this.props.bookcase.username}</ListSubheader>
+                    <GridList cellHeight={300} className={classes.gridList}>
+                        <GridListTile key="Subheader" cols={2} style={{ height: 'auto', backgroundColor: '#333', display: 'inline' }}>
+                            <ListSubheader component="div" style={{ color: 'white', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: '5px' }}><Avatar src={this.props.bookcase.profile_img_src} />  {this.props.bookcase.username}</ListSubheader>
                         </GridListTile>
+
                         {this.state.theseBooks.map((book, index) => (
                             <GridListTile key={index}>
                                 <img src={book.cover_src} alt={book.title} />
@@ -123,26 +125,23 @@ class TitlebarGridList extends Component {
             bookListContent = null;
         }
 
-        // const actions = [
-        //     <IconButton label="close" primary={true} onClick={this.handleClose} />
-        // ]
-
         return (
             <div>
                 {bookListContent}
                 <Dialog
-                    // actions={actions}
                     open={this.state.open}
                 >
-                    <img src={this.state.currentBook.cover_src} alt='Cover' style={{ height: '200px', width: '150px' }} />
-                    <h2>{this.state.currentBook.title}</h2>
-                    <h4>{this.state.currentBook.author}</h4>
-                    <p>Published: {this.state.currentBook.release_year}</p>
-                    <p>Genre: {this.state.currentBook.genre}</p>
-                    <p>{this.state.currentBook.synopsis}</p>
-                    <p>ISBN-13: {this.state.currentBook.isbn}</p>
-                    <button onClick={this.handleMessageRequest}>Request Book</button>
-                    <button onClick={this.handleClose}>Close</button>
+                    <div style={{padding: '10px'}}>
+                        <img src={this.state.currentBook.cover_src} alt='Cover' style={{ height: '200px', width: '150px' }} />
+                        <h2>{this.state.currentBook.title}</h2>
+                        <h4>{this.state.currentBook.author}</h4>
+                        <p>Published: {this.state.currentBook.release_year}</p>
+                        <p>Genre: {this.state.currentBook.genre}</p>
+                        <p>{this.state.currentBook.synopsis}</p>
+                        <p>ISBN-13: {this.state.currentBook.isbn}</p>
+                        <button onClick={this.handleMessageRequest}>Request Book</button>
+                        <button onClick={this.handleClose}>Close</button>
+                    </div>
                 </Dialog>
             </div>
         );

@@ -9,6 +9,8 @@ import RequestsListItem from './RequestsListItem/RequestsListItem';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import TextField from '@material-ui/core/TextField';
 
+import Button from '@material-ui/core/Button';
+
 const mapStateToProps = state => ({
     user: state.user,
 });
@@ -177,7 +179,7 @@ class Requests extends Component {
 
         if (this.state.currentRequest) {
             messagesContent = (
-                <div>
+                <div style={{ backgroundColor: 'white', height: '100%', padding: '1em'  }}>
                     <h3>Messages:</h3>
                     <ul>
                         {this.state.currentMessages.map((message, i)=>{
@@ -186,35 +188,37 @@ class Requests extends Component {
                             )
                         })}
                     </ul>
-                    <form onSubmit={this.newMessageSubmit}>
+                    <form onSubmit={this.newMessageSubmit} style={{alignSelf: 'bottom'}}>
                         <TextField
-                            id="outlined-with-placeholder"
+                            id="standard-name"
                             label="Message"
-                            placeholder="Message"
-                            margin="normal"
-                            variant="outlined"
                             value={this.state.newMessage}
-                            onChange={this.handleNewMessageChange} 
+                            onChange={this.handleNewMessageChange}
+                            margin="normal"
+        
                         />
-                        <input type="submit" />
+                        <Button variant="contained" type="submit" color="primary" style={{margin: '1em'}}>
+                            Send
+                        </Button>
                     </form>
                 </div>
             )
         } else {
             messagesContent = (
-                <div>
+                <div style={{ backgroundColor: '#ccc', height: '100%', padding: '1em' }}>
                     <h3>Messages:</h3>
                     <form>
                         <TextField
-                            id="outlined-with-placeholder"
+                            id="standard-name"
                             label="Message"
-                            placeholder="Message"
-                            margin="normal"
-                            variant="filled"
                             value={this.state.newMessage}
                             onChange={this.handleNewMessageChange}
+                            margin="normal"
+                            disabled
                         />
-                        <input type="submit" disabled />
+                        <Button variant="contained" type="submit" color="primary" style={{ margin: '1em' }} disabled>
+                            Send
+                        </Button>
                     </form>
                 </div>
             )
@@ -228,7 +232,7 @@ class Requests extends Component {
                     <Grid container>
                         <Grid item xs={6}>
                             <div style={{ height: '45vh', overflow: 'auto' }}>
-                                <h3>Incoming Requests</h3>
+                                <h3 style={{ padding: '1em', backgroundColor: '#333', color: 'white' }}>Incoming Requests</h3>
                                 <List>
                                     {this.state.incomingRequests.map((request, i) => {
                                         return (
@@ -244,7 +248,7 @@ class Requests extends Component {
                                 </List>
                             </div>
                             <div style={{ height: '45vh', overflow: 'auto' }}>
-                                <h3>Outgoing Requests</h3>
+                                <h3 style={{ padding: '1em', backgroundColor: '#333', color: 'white' }}>Outgoing Requests</h3>
                                 <List>
                                     {this.state.outgoingRequests.map((request, i) => {
                                         return (

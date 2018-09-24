@@ -122,9 +122,9 @@ class Bookcase extends Component {
     axios({
       method: 'DELETE',
       url: '/api/books',
-    }).then((response)=>{
+    }).then((response) => {
       this.getUserBooks();
-    }).catch((error)=>{
+    }).catch((error) => {
       console.log('Error in delete book', error);
       alert('Could not delete book, please try again later.');
     })
@@ -175,7 +175,7 @@ class Bookcase extends Component {
         <div>
           <Grid container >
             <Grid item xs={4}>
-              <div>
+              <div style={{ height: '400px', backgroundColor: '#333', margin: '5px' }}>
                 <Avatar src={this.props.user.profileImage} alt="User" style={{ height: '150px', width: '150px' }} />
                 <form onSubmit={this.updateImageFormSubmit}>
                   <input type="text" placeholder="Image URL" value={this.state.imgToUpdate} onChange={this.handleImgChange} />
@@ -184,7 +184,7 @@ class Bookcase extends Component {
               </div>
             </Grid>
             <Grid item xs={4}>
-              <div>
+              <div style={{ height: '400px', backgroundColor: '#333', margin: '5px' }}>
                 <form onSubmit={this.addBookToBookcase}>
                   <input type="text" name="title" placeholder="Title" value={this.state.bookToAdd.title} onChange={this.handleBookToAddChange} />
                   <input type="text" name="author" placeholder="Author" value={this.state.bookToAdd.author} onChange={this.handleBookToAddChange} />
@@ -198,7 +198,7 @@ class Bookcase extends Component {
               </div>
             </Grid>
             <Grid item xs={4}>
-              <div>
+              <div style={{ height: '400px', backgroundColor: '#333', margin: '5px' }}>
                 <form onSubmit={this.updateBookcaseLocation}>
                   <input type="text" name="latitude" placeholder="Latitude" value={this.state.bookcaseLocation.latitude} onChange={this.handleLocationChange} />
                   <input type="text" name="longitude" placeholder="Longitude" value={this.state.bookcaseLocation.longitude} onChange={this.handleLocationChange} />
@@ -207,13 +207,15 @@ class Bookcase extends Component {
               </div>
             </Grid>
           </Grid>
-          <Grid container spacing={24} justify="center">
-            {this.state.userBooks.map((book, index) => {
-              return (
-                <BookCard key={index} book={book} />
-              )
-            })}
-          </Grid>
+          <div style={{ backgroundColor: '#333', margin: '5px', marginTop: '20px'}}>
+            <Grid container spacing={24} justify="center">
+              {this.state.userBooks.map((book, index) => {
+                return (
+                  <BookCard key={index} book={book} />
+                )
+              })}
+            </Grid>
+          </div>
         </div>
       );
     }
