@@ -123,10 +123,10 @@ router.put('/confirm', (req, res) => {
         // set book's bookcases_id to new value 
         let queryTextTwo = `UPDATE "books" SET "bookcases_id" = $1 WHERE "books"."id" = $2;`;
         // set request active to false
-        let queryTextThree = `UPDATE "requests" SET "active" = FALSE WHERE "requests"."id" = $1;`;
+        let queryTextThree = `UPDATE "requests" SET "active" = FALSE WHERE "requests"."books_id" = $1;`;
         pool.query(queryTextOne, [req.body.from_users_id]).then((results) => {
             pool.query(queryTextTwo, [results.rows[0].id, req.body.books_id]).then((results) => {
-                pool.query(queryTextThree, [req.body.id]).then((results) => {
+                pool.query(queryTextThree, [req.body.books_id]).then((results) => {
                     res.sendStatus(200);
                 }).catch((error) => {
                     console.log('Error updating request in deny', error);

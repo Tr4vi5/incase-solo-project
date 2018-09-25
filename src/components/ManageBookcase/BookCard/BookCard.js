@@ -1,22 +1,21 @@
 import React, { Component } from 'react'
-import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
+import { Card, CardActionArea, CardMedia } from '@material-ui/core';
 
 class BookCard extends Component {
+  handleCardAction = () => {
+    this.props.handleBookOpen(this.props.book);
+  }
+
   render() {
     return (
-      <Card style={{ margin: '2em', width: '225px', height: '300px' }}>
-        <CardActionArea>
+      <Card style={{ margin: '2em', width: '186px', height: '310px' }}>
+        <CardActionArea onClick={this.handleCardAction}>
           <CardMedia
             image={this.props.book.cover_src}
             title={this.props.book.title}
-            style={{ height: '300px', width: '225px' }}
+            style={{ height: '310px', width: '186px' }}
           />
         </CardActionArea>
-        <CardActions style={{align: 'right'}}>
-          <Button size="small">
-            Delete
-          </Button>
-        </CardActions>
       </Card>
     )
   }

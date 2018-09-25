@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 import Dialog from '@material-ui/core/Dialog';
 
 import Nav from '../Nav/Nav';
@@ -38,6 +39,8 @@ class Bookcase extends Component {
       },
       userBooks: [],
       addDialog: false,
+      bookOpen: false,
+      currentBook: {}
     }
   }
   componentDidMount() {
@@ -85,6 +88,19 @@ class Bookcase extends Component {
   handleAddClose = () => {
     this.setState({
       addDialog: false,
+    })
+  }
+
+  handleBookOpen = (book) => {
+    this.setState({
+      bookOpen: true,
+      currentBook: book
+    })
+  }
+
+  handleBookClose = () => {
+    this.setState({
+      bookOpen: false
     })
   }
 
@@ -242,18 +258,20 @@ class Bookcase extends Component {
                     Update Location
                   </Button>
                 </form>
-                <button onClick={this.handleAddOpen}>Add book</button>
               </div>
             </Grid>
 
 
             <Grid item xs={10} justifyContent='center'>
-              <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', height: '100vh', overflow: 'auto', display: 'flex', flexDirection:'row', flexWrap: 'wrap'}}>
+              <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
                 {this.state.userBooks.map((book, index) => {
                   return (
-                    <BookCard key={index} book={book} />
+                    <BookCard key={index} book={book} handleBookOpen={this.handleBookOpen}/>
                   )
                 })}
+                <Button variant="fab" color="primary" aria-label="Add" style={{position: 'fixed', bottom: 20, right: 20}} onClick={this.handleAddOpen}>
+                  <AddIcon />
+                </Button>
               </div>
             </Grid>
           </Grid>
@@ -268,19 +286,109 @@ class Bookcase extends Component {
         <Dialog
           open={this.state.addDialog}
         >
-          <div style={{ padding: '10px', backgroundColor: '#999' }}>
-            <h1>Hello world</h1>
+          <div style={{ padding: '10px', backgroundColor: 'white', border: '10px solid white' }}>
+            <h1>Add book</h1>
             <form onSubmit={this.addBookToBookcase}>
-              <input type="text" name="title" placeholder="Title" value={this.state.bookToAdd.title} onChange={this.handleBookToAddChange} />
-              <input type="text" name="author" placeholder="Author" value={this.state.bookToAdd.author} onChange={this.handleBookToAddChange} />
-              <input type="text" name="release_year" placeholder="Release Year" value={this.state.bookToAdd.release_year} onChange={this.handleBookToAddChange} />
-              <input type="text" name="genre" placeholder="Genre" value={this.state.bookToAdd.genre} onChange={this.handleBookToAddChange} />
-              <input type="text" name="cover_src" placeholder="Cover Image URL" value={this.state.bookToAdd.cover_src} onChange={this.handleBookToAddChange} />
-              <input type="text" name="isbn" placeholder="ISBN (13)" value={this.state.bookToAdd.isbn} onChange={this.handleBookToAddChange} />
-              <textarea cols="40" rows="6" name="synopsis" placeholder="Synopsis" value={this.state.bookToAdd.synopsis} onChange={this.handleBookToAddChange} />
-              <input type="Submit" />
+              <TextField
+                id="standard-name"
+                name="title"
+                label="Title"
+                placeholder="Title"
+                value={this.state.bookToAdd.title}
+                onChange={this.handleBookToAddChange}
+                margin="normal"
+                fullWidth
+              />
+              <TextField
+                id="standard-name"
+                name="author"
+                label="Author"
+                placeholder="Author"
+                value={this.state.bookToAdd.author}
+                onChange={this.handleBookToAddChange}
+                margin="normal"
+                fullWidth
+              />
+              <TextField
+                id="standard-name"
+                name="release_year"
+                label="Publication Date"
+                placeholder="Publication Date"
+                value={this.state.bookToAdd.release_year}
+                onChange={this.handleBookToAddChange}
+                margin="normal"
+                fullWidth
+              />
+              <TextField
+                id="standard-name"
+                name="genre"
+                label="Genre"
+                placeholder="Genre"
+                value={this.state.bookToAdd.genre}
+                onChange={this.handleBookToAddChange}
+                margin="normal"
+                fullWidth
+              />
+              <TextField
+                id="standard-name"
+                name="cover_src"
+                label="Cover Image URL"
+                placeholder="Cover Image URL"
+                value={this.state.bookToAdd.cover_src}
+                onChange={this.handleBookToAddChange}
+                margin="normal"
+                fullWidth
+              />
+              <TextField
+                id="standard-name"
+                name="isbn"
+                label="ISBN(13)"
+                placeholder="ISBN(13)"
+                value={this.state.bookToAdd.isbn}
+                onChange={this.handleBookToAddChange}
+                margin="normal"
+                fullWidth
+              />
+              <TextField
+                id="standard-name"
+                name="synopsis"
+                label="Synopsis"
+                placeholder="Synopsis"
+                value={this.state.bookToAdd.synopsis}
+                onChange={this.handleBookToAddChange}
+                margin="normal"
+                fullWidth
+                multiline
+                rows="4"
+              />
+              <Button type="submit" variant="contained" color="primary">
+                Add Book
+              </Button>
+              <Button variant="contained" color="secondary" onClick={this.handleAddClose}>
+                Cancel
+               </Button>
             </form>
-            <button onClick={this.handleAddClose}>Close</button>
+          </div>
+        </Dialog>
+        <Dialog
+          open={this.state.bookOpen}
+        >
+          <div style={{ padding: '10px', backgroundColor: 'white' }}>
+            <img src={this.state.currentBook.cover_src} alt='Cover' style={{ height: '200px', width: '150px', float: 'right' }} />
+            <h2>{this.state.currentBook.title}</h2>
+            <h4>{this.state.currentBook.author}</h4>
+            <p>Published: {this.state.currentBook.release_year}</p>
+            <p>Genre: {this.state.currentBook.genre}</p>
+            <p>{this.state.currentBook.synopsis}</p>
+            <p>ISBN-13: {this.state.currentBook.isbn}</p>
+            <button onClick={this.handleMessageRequest}>Request Book</button>
+            <button onClick={this.handleClose}>Close</button>
+            <Button type="submit" variant="contained" color="primary">
+              Request Book
+                        </Button>
+            <Button variant="contained" color="secondary" onClick={this.handleBookClose}>
+              Cancel
+                        </Button>
           </div>
         </Dialog>
       </div>
@@ -289,17 +397,3 @@ class Bookcase extends Component {
 }
 
 export default connect(mapStateToProps)(Bookcase);
-
-
-{/* <div style={{ height: '400px', backgroundColor: '#333', margin: '5px' }}>
-  <form onSubmit={this.addBookToBookcase}>
-    <input type="text" name="title" placeholder="Title" value={this.state.bookToAdd.title} onChange={this.handleBookToAddChange} />
-    <input type="text" name="author" placeholder="Author" value={this.state.bookToAdd.author} onChange={this.handleBookToAddChange} />
-    <input type="text" name="release_year" placeholder="Release Year" value={this.state.bookToAdd.release_year} onChange={this.handleBookToAddChange} />
-    <input type="text" name="genre" placeholder="Genre" value={this.state.bookToAdd.genre} onChange={this.handleBookToAddChange} />
-    <input type="text" name="cover_src" placeholder="Cover Image URL" value={this.state.bookToAdd.cover_src} onChange={this.handleBookToAddChange} />
-    <input type="text" name="isbn" placeholder="ISBN (13)" value={this.state.bookToAdd.isbn} onChange={this.handleBookToAddChange} />
-    <textarea cols="40" rows="6" name="synopsis" placeholder="Synopsis" value={this.state.bookToAdd.synopsis} onChange={this.handleBookToAddChange} />
-    <input type="Submit" />
-  </form>
-</div> */}

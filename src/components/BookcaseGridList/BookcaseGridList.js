@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import Dialog from '@material-ui/core/Dialog';
 import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
@@ -134,7 +135,7 @@ class TitlebarGridList extends Component {
                 <Dialog
                     open={this.state.open}
                 >
-                    <div style={{ padding: '10px', backgroundColor: '#999'}}>
+                    <div style={{ padding: '10px', backgroundColor: 'white'}}>
                         <img src={this.state.currentBook.cover_src} alt='Cover' style={{ height: '200px', width: '150px', float: 'right'}} />
                         <h2>{this.state.currentBook.title}</h2>
                         <h4>{this.state.currentBook.author}</h4>
@@ -144,6 +145,12 @@ class TitlebarGridList extends Component {
                         <p>ISBN-13: {this.state.currentBook.isbn}</p>
                         <button onClick={this.handleMessageRequest}>Request Book</button>
                         <button onClick={this.handleClose}>Close</button>
+                        <Button type="submit" variant="contained" color="primary" onClick={this.handleMessageRequest}>
+                            Request Book
+                        </Button>
+                        <Button variant="contained" color="secondary" onClick={this.handleClose}>
+                            Cancel
+                        </Button>
                     </div>
                 </Dialog>
             </div>
