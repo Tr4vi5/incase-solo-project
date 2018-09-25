@@ -237,7 +237,7 @@ class Requests extends Component {
 
         if (this.props.user.userName) {
             content = (
-                <div style={{ minHeight: '90vh' }}>
+                <div style={{ minHeight: '92vh' }}>
                     <Grid container>
                         <Grid item xs={6}>
                             <div style={{ height: '45vh', overflow: 'auto', backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
@@ -256,7 +256,7 @@ class Requests extends Component {
                                     })}
                                 </List>
                             </div>
-                            <div style={{ height: '50vh', overflow: 'auto', backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
+                            <div style={{ height: '48vh', overflow: 'auto', backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
                                 <h3 style={{ padding: '1em', backgroundColor: '#222', color: 'white' }}>Outgoing Requests</h3>
                                 <List style={{ padding: 0 }}>
                                     {this.state.outgoingRequests.map((request, i) => {
@@ -273,7 +273,7 @@ class Requests extends Component {
                             </div>
                         </Grid>
                         <Grid item xs={6}>
-                            <div style={{ borderLeft: '2px solid black', height: '90vh' }}>
+                            <div style={{ borderLeft: '2px solid black', height: '93vh' }}>
                                 {messagesContent}
                             </div>
                         </Grid>
