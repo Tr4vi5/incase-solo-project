@@ -55,7 +55,7 @@ class UserPage extends Component {
           <Grid container>
             {this.state.bookcases.map((bookcase, index) => {
               return (
-                <Grid item xs={6} key={index} justifyContent="center">
+                <Grid item xs={6} key={index}>
                   <BookcaseGridList bookcase={bookcase} />
                 </Grid>)
             })}
