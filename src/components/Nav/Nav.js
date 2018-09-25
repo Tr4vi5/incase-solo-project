@@ -15,7 +15,7 @@ class Nav extends Component {
       <div>
         <ul className={'navbar'}>
           <li>
-            <h1 style={{color: 'white', margin: '7px'}}>inCase</h1>
+            <h1 style={{color: 'white', margin: '7px 21px', marginTop: '10px'}}>inCase</h1>
           </li>
           <li>
             <Link to="/discover">
@@ -33,7 +33,7 @@ class Nav extends Component {
             </Link>
           </li>
           <li style={{ float: 'right' }}>
-            <Button variant="outlined" color="primary" style={{ color: 'white', margin: '5px', border: '2px solid #2903A4'}} onClick={this.logout}>
+            <Button variant="outlined" color="primary" style={{ color: 'white', margin: '7px', border: '2px solid #2903A4'}} onClick={this.logout}>
               Log Out
             </Button>
           </li>

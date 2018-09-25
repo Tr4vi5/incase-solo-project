@@ -1,5 +1,9 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Raleway', sans-serif;
     padding: 0;
     margin: 0;
     background-image: url('/images/bg.jpg');
@@ -7,6 +11,7 @@ body {
     background-color: #ccc;
     display: flex;
     flex-direction: column;
+    letter-spacing: 2px;
 }
 
 .instructions h1 {
@@ -56,7 +61,7 @@ body {
 }
 
 .navbar {
-  background-color: #222;
+  background-color: rgb(5, 0, 32);
   width: 100%;
   border-radius: 0px;
 }
@@ -78,6 +83,7 @@ ul {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    margin-top: 10px;
 
 }
 

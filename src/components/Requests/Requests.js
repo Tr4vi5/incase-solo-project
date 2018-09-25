@@ -241,7 +241,7 @@ class Requests extends Component {
                     <Grid container>
                         <Grid item xs={6}>
                             <div style={{ height: '45vh', overflow: 'auto', backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
-                                <h3 style={{ padding: '1em', backgroundColor: '#333', color: 'white' }}>Incoming Requests</h3>
+                                <h3 style={{ padding: '1em', backgroundColor: '#222', color: 'white' }}>Incoming Requests</h3>
                                 <List style={{padding: 0}}>
                                     {this.state.incomingRequests.map((request, i) => {
                                         return (
@@ -257,7 +257,7 @@ class Requests extends Component {
                                 </List>
                             </div>
                             <div style={{ height: '50vh', overflow: 'auto', backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
-                                <h3 style={{ padding: '1em', backgroundColor: '#333', color: 'white' }}>Outgoing Requests</h3>
+                                <h3 style={{ padding: '1em', backgroundColor: '#222', color: 'white' }}>Outgoing Requests</h3>
                                 <List style={{ padding: 0 }}>
                                     {this.state.outgoingRequests.map((request, i) => {
                                         return (

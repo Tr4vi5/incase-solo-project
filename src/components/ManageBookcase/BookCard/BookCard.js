@@ -4,7 +4,7 @@ import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typo
 class BookCard extends Component {
   render() {
     return (
-      <Card style={{ margin: '2em' }}>
+      <Card style={{ margin: '2em', width: '225px', height: '300px' }}>
         <CardActionArea>
           <CardMedia
             image={this.props.book.cover_src}

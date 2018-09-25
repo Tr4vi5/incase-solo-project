@@ -18,8 +18,8 @@ const styles = theme => ({
         flexWrap: 'wrap',
         justifyContent: 'space-around',
         overflow: 'hidden',
-        backgroundColor: '#555',
-        margin: '10px',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        padding: '50px',
     },
     gridList: {
         width: 500,
@@ -71,6 +71,9 @@ class TitlebarGridList extends Component {
             data: this.state.currentBook
         }).then((response) => {
             console.log('Back from new request POST', response.data);
+            this.setState({
+                open: false
+            })
         }).catch((error) => {
             console.log('Unable to post new request', error);
             alert('Sorry, could not post new request, please try again later');
@@ -100,7 +103,7 @@ class TitlebarGridList extends Component {
             bookListContent = (
                 <div className={classes.root}>
                     <GridList cellHeight={300} className={classes.gridList}>
-                        <GridListTile key="Subheader" cols={2} style={{ height: 'auto', backgroundColor: '#333', display: 'inline' }}>
+                        <GridListTile key="Subheader" cols={2} style={{ height: 'auto', backgroundColor: '#222', display: 'inline' }}>
                             <ListSubheader component="div" style={{ color: 'white', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: '5px' }}><Avatar src={this.props.bookcase.profile_img_src} />  {this.props.bookcase.username}</ListSubheader>
                         </GridListTile>
 
@@ -131,8 +134,8 @@ class TitlebarGridList extends Component {
                 <Dialog
                     open={this.state.open}
                 >
-                    <div style={{padding: '10px'}}>
-                        <img src={this.state.currentBook.cover_src} alt='Cover' style={{ height: '200px', width: '150px' }} />
+                    <div style={{ padding: '10px', backgroundColor: '#999'}}>
+                        <img src={this.state.currentBook.cover_src} alt='Cover' style={{ height: '200px', width: '150px', float: 'right'}} />
                         <h2>{this.state.currentBook.title}</h2>
                         <h4>{this.state.currentBook.author}</h4>
                         <p>Published: {this.state.currentBook.release_year}</p>
