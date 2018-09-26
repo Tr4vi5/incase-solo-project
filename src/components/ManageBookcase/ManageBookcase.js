@@ -31,6 +31,15 @@ class Bookcase extends Component {
         isbn: '',
         synopsis: '',
       },
+      bookToEdit: {
+        title: '',
+        author: '',
+        release_year: '',
+        genre: '',
+        cover_src: '',
+        isbn: '',
+        synopsis: '',
+      },
       bookcaseLocation: {
         latitude: '',
         defaultLat: '',
@@ -40,7 +49,9 @@ class Bookcase extends Component {
       userBooks: [],
       addDialog: false,
       bookOpen: false,
-      currentBook: {}
+      editBook: false,
+      currentBook: {},
+
     }
   }
   componentDidMount() {
@@ -70,6 +81,13 @@ class Bookcase extends Component {
     })
   }
 
+  // set this.state.bookToEdit values from inputs on the DOM
+  handleBookToEditChange = (e) => {
+    this.setState({
+      bookToEdit: { ...this.state.bookToEdit, [e.target.name]: e.target.value }
+    })
+  }
+
   // set this.state.newBookcaseLocation values from inputs on the DOM
   handleLocationChange = (e) => {
     this.setState({
@@ -91,6 +109,7 @@ class Bookcase extends Component {
     })
   }
 
+  // open book dialog
   handleBookOpen = (book) => {
     this.setState({
       bookOpen: true,
@@ -98,11 +117,28 @@ class Bookcase extends Component {
     })
   }
 
+  // close book dialog
   handleBookClose = () => {
     this.setState({
-      bookOpen: false
+      bookOpen: false,
+      currentBook: {}
     })
   }
+  // render edit fields in book dialog
+  handleEditOpen = () => {
+    this.setState({
+      editBook: true,
+      bookToEdit: this.state.currentBook
+    });
+  }
+
+  // render display fields in book dialog
+  handleEditClose = () => {
+    this.setState({
+      editBook: false
+    })
+  }
+
 
   //end handleChange functions
 
@@ -146,24 +182,61 @@ class Bookcase extends Component {
       data: this.state.bookToAdd
     }).then((response) => {
       console.log('Back from POST', response.data);
-      this.getUserBooks(); // Get user books after new book was added
+      this.handleAddClose();
+      this.getUserBooks();
     }).catch((error) => {
       console.log('Error in new book POST', error);
       alert('Sorry, could not add book, please try again later');
     });
   }
 
-  // Delete book from database
-  deleteBook = (book) => {
+  // edit book information
+  editBook = (e) => {
+    e.preventDefault();
+    alert(`Are you sure that you want to edit ${this.state.currentBook.title}?`);
     axios({
-      method: 'DELETE',
-      url: '/api/books',
-    }).then((response) => {
+      method: 'PUT',
+      url: `/api/books/edit`,
+      data: this.state.bookToEdit
+    }).then((response)=>{
+      console.log('Success in edit book', response.data);
       this.getUserBooks();
+      this.handleEditClose();
+      this.handleBookClose();
+    }).catch((error)=>{
+      console.log('Error in edit book', error);
+      alert('Error editing book, please try again later');
+    });
+  }
+
+  // Delete book from database
+  deleteBook = () => {
+    alert(`Are you sure that you want to delete ${this.state.currentBook.title}?`);
+    axios({
+      method: 'GET',
+      url: `/api/requests/${this.state.currentBook.id}`
+    }).then((response) => {
+      if (response.data.length) {
+        alert('Please resolve all requests before deleting this book');
+      } else {
+        axios({
+          method: 'DELETE',
+          url: `/api/books/delete/${this.state.currentBook.id}`,
+        }).then((response) => {
+          this.getUserBooks();
+          this.setState({
+            currentBook: {},
+          })
+          this.handleBookClose();
+        }).catch((error) => {
+          console.log('Error in delete book', error);
+          alert('Could not delete book, please try again later.');
+        });
+      }
     }).catch((error) => {
-      console.log('Error in delete book', error);
+      console.log('Error getting requests', error);
       alert('Could not delete book, please try again later.');
-    })
+    });
   }
 
   // get currently logged in 
@@ -207,6 +280,116 @@ class Bookcase extends Component {
 
   render() {
     let content = null;
+    let bookDialogContent = null;
+
+    if (this.state.editBook === true) {
+      bookDialogContent = (
+        <div style={{ padding: '10px', backgroundColor: 'white', border: '10px solid white' }}>
+          <h1>Edit book</h1>
+          <form onSubmit={this.editBook}>
+            <TextField
+              id="standard-name"
+              name="title"
+              label="Title"
+              placeholder="Title"
+              value={this.state.bookToEdit.title}
+              onChange={this.handleBookToEditChange}
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              id="standard-name"
+              name="author"
+              label="Author"
+              placeholder="Author"
+              value={this.state.bookToEdit.author}
+              onChange={this.handleBookToEditChange}
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              id="standard-name"
+              name="release_year"
+              label="Publication Date"
+              placeholder="Publication Date"
+              value={this.state.bookToEdit.release_year}
+              onChange={this.handleBookToEditChange}
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              id="standard-name"
+              name="genre"
+              label="Genre"
+              placeholder="Genre"
+              value={this.state.bookToEdit.genre}
+              onChange={this.handleBookToEditChange}
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              id="standard-name"
+              name="cover_src"
+              label="Cover Image URL"
+              placeholder="Cover Image URL"
+              value={this.state.bookToEdit.cover_src}
+              onChange={this.handleBookToEditChange}
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              id="standard-name"
+              name="isbn"
+              label="ISBN(13)"
+              placeholder="ISBN(13)"
+              value={this.state.bookToEdit.isbn}
+              onChange={this.handleBookToEditChange}
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              id="standard-name"
+              name="synopsis"
+              label="Synopsis"
+              placeholder="Synopsis"
+              value={this.state.bookToEdit.synopsis}
+              onChange={this.handleBookToEditChange}
+              margin="normal"
+              fullWidth
+              multiline
+              rows="4"
+            />
+            <Button type="submit" variant="contained" color="primary">
+              Confirm Changes
+            </Button>
+            <Button variant="contained" color="secondary" onClick={this.handleEditClose}>
+              Cancel
+            </Button>
+          </form>
+        </div>
+      );
+    } else {
+      bookDialogContent = (
+        <div style={{ padding: '10px', backgroundColor: 'white' }}>
+          <img src={this.state.currentBook.cover_src} alt='Cover' style={{ height: '200px', width: '150px', float: 'right' }} />
+          <h2>{this.state.currentBook.title}</h2>
+          <h4>{this.state.currentBook.author}</h4>
+          <p>Published: {this.state.currentBook.release_year}</p>
+          <p>Genre: {this.state.currentBook.genre}</p>
+          <p>{this.state.currentBook.synopsis}</p>
+          <p>ISBN-13: {this.state.currentBook.isbn}</p>
+          <Button type="submit" variant="contained" color="primary" onClick={this.handleEditOpen}>
+            Edit Book
+          </Button>
+          <Button variant="contained" color="secondary" onClick={this.deleteBook}>
+            Delete Book
+            </Button>
+          <Button variant="contained" onClick={this.handleBookClose}>
+            Cancel
+            </Button>
+        </div>
+      );
+    }
 
     if (this.props.user.userName) {
       content = (
@@ -235,7 +418,6 @@ class Bookcase extends Component {
                   <TextField
                     id="standard-helperText"
                     label="Latitude"
-                    defaultValue={this.state.bookcaseLocation.latitude}
                     helperText={`Current location: ${this.state.bookcaseLocation.defaultLat}`}
                     margin="normal"
                     name="latitude"
@@ -246,7 +428,6 @@ class Bookcase extends Component {
                   <TextField
                     id="standard-helperText"
                     label="Longitude"
-                    defaultValue={this.state.bookcaseLocation.longitude}
                     helperText={`Current location: ${this.state.bookcaseLocation.defaultLong}`}
                     margin="normal"
                     name="longitude"
@@ -262,14 +443,14 @@ class Bookcase extends Component {
             </Grid>
 
 
-            <Grid item xs={10} justifyContent='center'>
+            <Grid item xs={10} >
               <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
                 {this.state.userBooks.map((book, index) => {
                   return (
-                    <BookCard key={index} book={book} handleBookOpen={this.handleBookOpen}/>
+                    <BookCard key={index} book={book} handleBookOpen={this.handleBookOpen} />
                   )
                 })}
-                <Button variant="fab" color="primary" aria-label="Add" style={{position: 'fixed', bottom: 20, right: 20}} onClick={this.handleAddOpen}>
+                <Button variant="fab" color="primary" aria-label="Add" style={{ position: 'fixed', bottom: 20, right: 40 }} onClick={this.handleAddOpen}>
                   <AddIcon />
                 </Button>
               </div>
@@ -373,23 +554,7 @@ class Bookcase extends Component {
         <Dialog
           open={this.state.bookOpen}
         >
-          <div style={{ padding: '10px', backgroundColor: 'white' }}>
-            <img src={this.state.currentBook.cover_src} alt='Cover' style={{ height: '200px', width: '150px', float: 'right' }} />
-            <h2>{this.state.currentBook.title}</h2>
-            <h4>{this.state.currentBook.author}</h4>
-            <p>Published: {this.state.currentBook.release_year}</p>
-            <p>Genre: {this.state.currentBook.genre}</p>
-            <p>{this.state.currentBook.synopsis}</p>
-            <p>ISBN-13: {this.state.currentBook.isbn}</p>
-            <button onClick={this.handleMessageRequest}>Request Book</button>
-            <button onClick={this.handleClose}>Close</button>
-            <Button type="submit" variant="contained" color="primary">
-              Request Book
-                        </Button>
-            <Button variant="contained" color="secondary" onClick={this.handleBookClose}>
-              Cancel
-                        </Button>
-          </div>
+          {bookDialogContent}
         </Dialog>
       </div>
     );

@@ -13,7 +13,7 @@ router.get('/user/:id', (req, res) => {
             res.sendStatus(500)
         });
     } else {
-        res.sendStatus(403);
+        res.sendStatus(401);
     }
 });
 
@@ -38,8 +38,39 @@ router.post('/', (req, res) => {
             res.sendStatus(500);
         });
     } else {
-        res.sendStatus(403);
+        res.sendStatus(401);
     }
 });
+
+// update book in database
+router.put('/edit', (req, res)=> {
+    if (req.isAuthenticated()){
+        let queryText = `UPDATE "books" SET "title" = $1, "author" = $2, "release_year" = $3, "genre" = $4, "cover_src" = $5, "isbn" = $6, "synopsis" = $7 WHERE "id" = $8;`;
+        pool.query(queryText, [req.body.title, req.body.author, req.body.release_year, req.body.genre, req.body.cover_src, req.body.isbn, req.body.synopsis, req.body.id])
+        .then((results)=>{
+            res.sendStatus(200);
+        }).catch((error)=>{
+            console.log('Error in edit book', error);
+            res.sendStatus(500);
+        });
+    } else {
+        res.sendStatus(401);
+    }
+});
+
+// delete book from database
+router.delete('/delete/:id', (req, res) => {
+    if (req.isAuthenticated()) {
+        let queryText = `DELETE FROM "books" WHERE "id" = $1;`;
+        pool.query(queryText, [req.params.id]).then((results) => {
+            res.sendStatus(200);
+        }).catch((error) => {
+            console.log('Error deleting book', error);
+            res.sendStatus(500);
+        });
+    } else {
+        res.sendStatus(401);
+    }
+})
 
 module.exports = router;

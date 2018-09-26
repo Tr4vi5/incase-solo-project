@@ -143,8 +143,6 @@ class TitlebarGridList extends Component {
                         <p>Genre: {this.state.currentBook.genre}</p>
                         <p>{this.state.currentBook.synopsis}</p>
                         <p>ISBN-13: {this.state.currentBook.isbn}</p>
-                        <button onClick={this.handleMessageRequest}>Request Book</button>
-                        <button onClick={this.handleClose}>Close</button>
                         <Button type="submit" variant="contained" color="primary" onClick={this.handleMessageRequest}>
                             Request Book
                         </Button>

@@ -2,6 +2,20 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
+// get all requests for specific book
+router.get('/:id', (req, res) => {
+    if (req.isAuthenticated()) {
+        let queryText = `SELECT * FROM "requests" WHERE "books_id" = $1 AND "active" = TRUE;`;
+        pool.query(queryText, [req.params.id]).then((results) => {
+            res.send(results.rows)
+        }).catch((error) => {
+            console.log('Error getting requests', error);
+            res.sendStatus(500);
+        })
+    } else {
+        res.sendStatus(401);
+    }
+})
 
 // get all incoming requests for logged in user
 router.get('/user/incoming', (req, res) => {
@@ -14,7 +28,7 @@ router.get('/user/incoming', (req, res) => {
             res.sendStatus(500);
         });
     } else {
-        res.sendStatus(403);
+        res.sendStatus(401);
     }
 });
 
@@ -38,11 +52,11 @@ router.get('/messages/:id', (req, res) => {
     if (req.isAuthenticated()) {
         console.log(req.params.id);
         let queryText = `SELECT "messages".*, "users"."username", "users"."profile_img_src" FROM "messages" JOIN "users" ON "messages"."from_users_id" = "users"."id" WHERE "requests_id" = $1;`;
-        pool.query(queryText, [req.params.id]).then((results)=>{
+        pool.query(queryText, [req.params.id]).then((results) => {
             res.send(results.rows);
-        }).catch((error)=>{
+        }).catch((error) => {
             console.log('Error getting messages from db', error);
-            res.sendStatus(500); 
+            res.sendStatus(500);
         });
     } else {
         res.sendStatus(403);
