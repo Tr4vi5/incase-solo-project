@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import Dialog from '@material-ui/core/Dialog';
 import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
@@ -18,11 +19,12 @@ const styles = theme => ({
         flexWrap: 'wrap',
         justifyContent: 'space-around',
         overflow: 'hidden',
-        backgroundColor: '#555',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
     },
     gridList: {
         width: 500,
-        height: 450,
+        height: 600,
+        position: 'relative'
     },
     icon: {
         color: 'rgba(255, 255, 255, 0.54)',
@@ -69,7 +71,9 @@ class TitlebarGridList extends Component {
             data: this.state.currentBook
         }).then((response) => {
             console.log('Back from new request POST', response.data);
-            this.props.history.push('requests');
+            this.setState({
+                open: false
+            })
         }).catch((error) => {
             console.log('Unable to post new request', error);
             alert('Sorry, could not post new request, please try again later');
@@ -98,10 +102,11 @@ class TitlebarGridList extends Component {
         if (this.props.bookcase) {
             bookListContent = (
                 <div className={classes.root}>
-                    <GridList cellHeight={250} className={classes.gridList}>
-                        <GridListTile key="Subheader" cols={2} style={{ height: 'auto', backgroundColor: '#333', display: 'inline'}}>
-                            <ListSubheader component="div" style={{ color: 'white' }}> <Avatar src={this.props.bookcase.profile_img_src} /> {this.props.bookcase.username} <button onClick={this.props.handleBookcaseClose}>Close</button></ListSubheader>
+                    <GridList cellHeight={300} className={classes.gridList}>
+                        <GridListTile key="Subheader" cols={2} style={{ height: 'auto', backgroundColor: 'rgb(5, 0, 32)', display: 'inline' }}>
+                                    <ListSubheader component="div" style={{ color: 'white', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: '5px' }}><Avatar src={this.props.bookcase.profile_img_src} />  {this.props.bookcase.username}<button onClick={this.props.handleBookcaseClose}>Close</button></ListSubheader>
                         </GridListTile>
+
                         {this.state.theseBooks.map((book, index) => (
                             <GridListTile key={index}>
                                 <img src={book.cover_src} alt={book.title} />
@@ -123,25 +128,27 @@ class TitlebarGridList extends Component {
             bookListContent = null;
         }
 
-        // const actions = [
-        //     <IconButton label="close" primary={true} onClick={this.handleClose} />
-        // ]
-
         return (
             <div>
                 {bookListContent}
                 <Dialog
-                    // actions={actions}
                     open={this.state.open}
                 >
-                    <img src={this.state.currentBook.cover_src} alt='Cover' style={{ height: '200px', width: '150px' }} />
-                    <h2>{this.state.currentBook.title}</h2>
-                    <h4>{this.state.currentBook.author}</h4>
-                    <p>Published: {this.state.currentBook.release_year}</p>
-                    <p>{this.state.currentBook.synopsis}</p>
-                    <p>ISBN-13: {this.state.currentBook.isbn}</p>
-                    <button onClick={this.handleMessageRequest}>Request Book</button>
-                    <button onClick={this.handleClose}>Close</button>
+                    <div style={{ backgroundColor: 'white' }}>
+                        <img src={this.state.currentBook.cover_src} alt='Cover' style={{ height: '200px', width: '150px', float: 'right'}} />
+                        <h2>{this.state.currentBook.title}</h2>
+                        <h4>{this.state.currentBook.author}</h4>
+                        <p>Published: {this.state.currentBook.release_year}</p>
+                        <p>Genre: {this.state.currentBook.genre}</p>
+                        <p>{this.state.currentBook.synopsis}</p>
+                        <p>ISBN-13: {this.state.currentBook.isbn}</p>
+                        <Button type="submit" variant="contained" color="primary" onClick={this.handleMessageRequest}>
+                            Request Book
+                        </Button>
+                        <Button variant="contained" color="secondary" onClick={this.handleClose}>
+                            Cancel
+                        </Button>
+                    </div>
                 </Dialog>
             </div>
         );

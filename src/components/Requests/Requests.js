@@ -3,11 +3,18 @@ import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
 import axios from 'axios';
+import moment from 'moment';
 
 import Nav from '../Nav/Nav';
 import RequestsListItem from './RequestsListItem/RequestsListItem';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import TextField from '@material-ui/core/TextField';
+
+import Button from '@material-ui/core/Button';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Avatar from '@material-ui/core/Avatar';
+
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -177,44 +184,50 @@ class Requests extends Component {
 
         if (this.state.currentRequest) {
             messagesContent = (
-                <div>
+                <div style={{ backgroundColor: 'white', height: '100%', padding: '1em'  }}>
                     <h3>Messages:</h3>
-                    <ul>
+                    <ul style={{width: '100%'}}>
                         {this.state.currentMessages.map((message, i)=>{
                             return (
-                                <li key={i} message={message}>{message.username}: {message.body}</li>
+                                <ListItem key={i} style={{align: 'right'}}>
+                                    <Avatar src={message.profile_img_src} />
+                                    <ListItemText secondary={message.username} primary={`${message.username}: ${message.body}`} secondary={`${moment(message.date).calendar()}`} />
+                                </ListItem>
                             )
                         })}
                     </ul>
-                    <form onSubmit={this.newMessageSubmit}>
+                    <form onSubmit={this.newMessageSubmit} style={{width: "100%"}}>
                         <TextField
-                            id="outlined-with-placeholder"
+                            id="standard-name"
                             label="Message"
-                            placeholder="Message"
-                            margin="normal"
-                            variant="outlined"
                             value={this.state.newMessage}
-                            onChange={this.handleNewMessageChange} 
+                            onChange={this.handleNewMessageChange}
+                            margin="normal"
+                            style={{width: '80%'}}
                         />
-                        <input type="submit" />
+                        <Button variant="contained" type="submit" color="primary" style={{margin: '1em'}}>
+                            Send
+                        </Button>
                     </form>
                 </div>
             )
         } else {
             messagesContent = (
-                <div>
+                <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', height: '100%', padding: '1em' }}>
                     <h3>Messages:</h3>
                     <form>
                         <TextField
-                            id="outlined-with-placeholder"
+                            id="standard-name"
                             label="Message"
-                            placeholder="Message"
-                            margin="normal"
-                            variant="filled"
                             value={this.state.newMessage}
                             onChange={this.handleNewMessageChange}
+                            margin="normal"
+                            style={{ width: '80%' }}
+                            disabled
                         />
-                        <input type="submit" disabled />
+                        <Button variant="contained" type="submit" color="primary" style={{ margin: '1em' }} disabled>
+                            Send
+                        </Button>
                     </form>
                 </div>
             )
@@ -224,12 +237,12 @@ class Requests extends Component {
 
         if (this.props.user.userName) {
             content = (
-                <div style={{ minHeight: '90vh' }}>
+                <div style={{ minHeight: '93vh' }}>
                     <Grid container>
                         <Grid item xs={6}>
-                            <div style={{ height: '45vh', overflow: 'auto' }}>
-                                <h3>Incoming Requests</h3>
-                                <List>
+                            <div style={{ height: '45vh', overflow: 'auto', backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
+                                <h3 style={{ padding: '1em', backgroundColor: 'rgb(5, 0, 32)', color: 'white' }}>Incoming Requests</h3>
+                                <List style={{padding: 0}}>
                                     {this.state.incomingRequests.map((request, i) => {
                                         return (
                                             <RequestsListItem
@@ -243,9 +256,9 @@ class Requests extends Component {
                                     })}
                                 </List>
                             </div>
-                            <div style={{ height: '45vh', overflow: 'auto' }}>
-                                <h3>Outgoing Requests</h3>
-                                <List>
+                            <div style={{ height: '48vh', overflow: 'auto', backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
+                                <h3 style={{ padding: '1em', backgroundColor: 'rgb(5, 0, 32)', color: 'white' }}>Outgoing Requests</h3>
+                                <List style={{ padding: 0 }}>
                                     {this.state.outgoingRequests.map((request, i) => {
                                         return (
                                             <RequestsListItem
@@ -260,7 +273,7 @@ class Requests extends Component {
                             </div>
                         </Grid>
                         <Grid item xs={6}>
-                            <div style={{ borderLeft: '2px solid black', height: '90vh' }}>
+                            <div style={{ borderLeft: '2px solid black', height: '93vh' }}>
                                 {messagesContent}
                             </div>
                         </Grid>

@@ -71,13 +71,13 @@ class UserPage extends Component {
       content = (
         <div>
           <Grid container>
-            <Grid item xs={3} >
-              <div style={{height: '90vh', wordWrap: 'break-word'}}>Sidebar
-                {JSON.stringify(this.state.bookcases)}
+            <Grid item xs={2} >
+              <div style={{ height: '93vh', wordWrap: 'break-word', backgroundColor: 'rgba(255, 255, 255, 0.9)'}}>Sidebar
+                
               </div>
             </Grid>
-            <Grid item xs={9} >
-              <div style={{ backgroundColor: '#f4f4f4', height: '90vh', width: '100%', position: 'relative', right: 0, bottom: 0}}>
+            <Grid item xs={10} >
+              <div style={{ backgroundColor: '#f4f4f4', height: '93vh', width: '100%', position: 'relative', right: 0, bottom: 0}}>
                 <MapContainer setCurrentBookcase={this.setCurrentBookcase}/>
               </div>
             </Grid>
@@ -91,7 +91,6 @@ class UserPage extends Component {
         <Nav />
         {content}
         <Dialog
-          // actions={actions}
           open={this.state.bookcaseDialogOpen}
         >
           <BookcaseGridList bookcase={this.state.currentBookcase} handleBookcaseClose={this.handleBookcaseClose}/>
@@ -102,12 +101,3 @@ class UserPage extends Component {
 }
 
 export default connect(mapStateToProps)(UserPage);
-
-// <Grid container >
-//   {this.state.bookcases.map((bookcase, index) => {
-//     return (
-//       <Grid item xs={6} key={index}>
-//         <BookcaseGridList bookcase={bookcase} />
-//       </Grid>)
-//   })}
-// </Grid>
