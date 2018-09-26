@@ -396,7 +396,7 @@ class Bookcase extends Component {
         <div>
           <Grid container >
             <Grid item xs={2}>
-              <div style={{ height: '100vh', backgroundColor: 'rgba(255, 255, 255, 0.9)', padding: '1em' }}>
+              <div style={{ height: '93vh', backgroundColor: 'rgba(255, 255, 255, 0.9)', padding: '1em' }}>
                 <h1>{this.props.user.userName}</h1>
                 <Avatar src={this.props.user.profileImage} alt="User" style={{ height: '150px', width: '150px' }} />
                 <form onSubmit={this.updateImageFormSubmit}>
@@ -444,7 +444,7 @@ class Bookcase extends Component {
 
 
             <Grid item xs={10} >
-              <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+              <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', height: '93vh', overflow: 'auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
                 {this.state.userBooks.map((book, index) => {
                   return (
                     <BookCard key={index} book={book} handleBookOpen={this.handleBookOpen} />

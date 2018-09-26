@@ -20,7 +20,6 @@ const styles = theme => ({
         justifyContent: 'space-around',
         overflow: 'hidden',
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        padding: '50px',
     },
     gridList: {
         width: 500,
@@ -105,7 +104,7 @@ class TitlebarGridList extends Component {
                 <div className={classes.root}>
                     <GridList cellHeight={300} className={classes.gridList}>
                         <GridListTile key="Subheader" cols={2} style={{ height: 'auto', backgroundColor: 'rgb(5, 0, 32)', display: 'inline' }}>
-                            <ListSubheader component="div" style={{ color: 'white', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: '5px' }}><Avatar src={this.props.bookcase.profile_img_src} />  {this.props.bookcase.username}</ListSubheader>
+                                    <ListSubheader component="div" style={{ color: 'white', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: '5px' }}><Avatar src={this.props.bookcase.profile_img_src} />  {this.props.bookcase.username}<button onClick={this.props.handleBookcaseClose}>Close</button></ListSubheader>
                         </GridListTile>
 
                         {this.state.theseBooks.map((book, index) => (
@@ -135,7 +134,7 @@ class TitlebarGridList extends Component {
                 <Dialog
                     open={this.state.open}
                 >
-                    <div style={{ padding: '10px', backgroundColor: 'white'}}>
+                    <div style={{ backgroundColor: 'white' }}>
                         <img src={this.state.currentBook.cover_src} alt='Cover' style={{ height: '200px', width: '150px', float: 'right'}} />
                         <h2>{this.state.currentBook.title}</h2>
                         <h4>{this.state.currentBook.author}</h4>

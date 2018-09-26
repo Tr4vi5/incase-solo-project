@@ -237,7 +237,7 @@ class Requests extends Component {
 
         if (this.props.user.userName) {
             content = (
-                <div style={{ minHeight: '92vh' }}>
+                <div style={{ minHeight: '93vh' }}>
                     <Grid container>
                         <Grid item xs={6}>
                             <div style={{ height: '45vh', overflow: 'auto', backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
