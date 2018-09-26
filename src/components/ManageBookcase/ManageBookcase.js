@@ -397,7 +397,7 @@ class Bookcase extends Component {
           <Grid container >
             <Grid item xs={2}>
               <div style={{ height: '93vh', backgroundColor: 'rgba(255, 255, 255, 0.9)', padding: '1em' }}>
-                <h1>{this.props.user.userName}</h1>
+                <h1 style={{marginTop: 0}}>{this.props.user.userName}</h1>
                 <Avatar src={this.props.user.profileImage} alt="User" style={{ height: '150px', width: '150px' }} />
                 <form onSubmit={this.updateImageFormSubmit}>
                   <TextField
