@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
+import Dialog from '@material-ui/core/Dialog';
 
 import Nav from '../Nav/Nav';
 import BookcaseGridList from '../BookcaseGridList/BookcaseGridList';
@@ -18,7 +19,9 @@ class UserPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      bookcases: [] // array of all bookcases from the database 
+      bookcases: [], // array of all bookcases from the database 
+      currentBookcase: {},
+      bookcaseDialogOpen: false
     }
   }
 
@@ -47,6 +50,20 @@ class UserPage extends Component {
     })
   }
 
+  setCurrentBookcase = (bookcase) => {
+    this.setState({
+      currentBookcase: bookcase,
+      bookcaseDialogOpen: true
+    })
+    console.log(bookcase);
+  }
+
+  handleBookcaseClose = () => {
+    this.setState({
+      bookcaseDialogOpen: false
+    })
+  }
+
   render() {
     let content = null;
 
@@ -61,7 +78,7 @@ class UserPage extends Component {
             </Grid>
             <Grid item xs={9} >
               <div style={{ backgroundColor: '#f4f4f4', height: '90vh', width: '100%', position: 'relative', right: 0, bottom: 0}}>
-                <MapContainer/>
+                <MapContainer setCurrentBookcase={this.setCurrentBookcase}/>
               </div>
             </Grid>
           </Grid >
@@ -73,6 +90,12 @@ class UserPage extends Component {
       <div>
         <Nav />
         {content}
+        <Dialog
+          // actions={actions}
+          open={this.state.bookcaseDialogOpen}
+        >
+          <BookcaseGridList bookcase={this.state.currentBookcase} handleBookcaseClose={this.handleBookcaseClose}/>
+        </Dialog>
       </div>
     );
   }

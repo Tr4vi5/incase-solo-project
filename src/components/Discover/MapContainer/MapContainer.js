@@ -8,34 +8,38 @@ const mapStateToProps = state => ({
 });
 
 class MapContainer extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
+            bookcaseDialogOpen: false
         }
     }
-    onMarkerClick = () => {
-        console.log(this.props.bookcases);
+    onMarkerClick = (bookcase) => {
+        this.props.setCurrentBookcase(bookcase)
+    }
+
+    onInfoWindowClose = () => {
+
     }
 
     render() {
         console.log(this.props.bookcases);
         return (
-            <Map 
-                google={this.props.google} 
-                initialCenter={{ lat: 44.9782629, lng: - 93.2633184 }} 
+            <Map
+                google={this.props.google}
+                initialCenter={{ lat: 44.9782629, lng: - 93.2633184 }}
                 zoom={14}
             >
-                {this.props.bookcases.bookcases.map((bookcase, i)=>{
+                {this.props.bookcases.bookcases.map((bookcase, i) => {
                     return (
-                        <Marker 
-                            key={i}
-                            onClick={this.onMarkerClick}
-                            position={{ lng: bookcase.longitude, lat: bookcase.latitude}}
-                            text={bookcase}
-                        />
+                            <Marker
+                                key={i}
+                                onClick={()=> this.onMarkerClick(bookcase)}
+                                position={{ lng: bookcase.longitude, lat: bookcase.latitude }}
+                            />
                     )
                 })}
-                
+
             </Map>
         );
     }
@@ -46,3 +50,9 @@ const MapObj = GoogleApiWrapper({
 })(MapContainer);
 
 export default connect(mapStateToProps)(MapObj);
+
+{/* <InfoWindow position={{ lng: bookcase.longitude, lat: bookcase.latitude }} onClose={this.onInfoWindowClose}>
+                                <div>
+                                    <h1>{bookcase.username}</h1>
+                                </div>
+                            </InfoWindow> */}

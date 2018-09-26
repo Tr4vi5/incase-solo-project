@@ -100,7 +100,7 @@ class TitlebarGridList extends Component {
                 <div className={classes.root}>
                     <GridList cellHeight={250} className={classes.gridList}>
                         <GridListTile key="Subheader" cols={2} style={{ height: 'auto', backgroundColor: '#333', display: 'inline'}}>
-                            <ListSubheader component="div" style={{ color: 'white' }}> <Avatar src={this.props.bookcase.profile_img_src} /> {this.props.bookcase.username}</ListSubheader>
+                            <ListSubheader component="div" style={{ color: 'white' }}> <Avatar src={this.props.bookcase.profile_img_src} /> {this.props.bookcase.username} <button onClick={this.props.handleBookcaseClose}>Close</button></ListSubheader>
                         </GridListTile>
                         {this.state.theseBooks.map((book, index) => (
                             <GridListTile key={index}>
