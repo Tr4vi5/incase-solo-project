@@ -11,6 +11,7 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 const mapStateToProps = state => ({
   user: state.user,
+  bookcases: state.bookcases
 });
 
 class UserPage extends Component {
@@ -40,6 +41,7 @@ class UserPage extends Component {
       this.setState({
         bookcases: response.data
       })
+      this.props.dispatch({type: 'ADD_BOOKCASES', payload: response.data});
     }).catch((error) => {
       console.log(error);
     })
@@ -59,7 +61,7 @@ class UserPage extends Component {
             </Grid>
             <Grid item xs={9} >
               <div style={{ backgroundColor: '#f4f4f4', height: '90vh', width: '100%', position: 'relative', right: 0, bottom: 0}}>
-                <MapContainer />
+                <MapContainer/>
               </div>
             </Grid>
           </Grid >
