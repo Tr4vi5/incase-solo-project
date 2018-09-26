@@ -104,7 +104,12 @@ class TitlebarGridList extends Component {
                 <div className={classes.root}>
                     <GridList cellHeight={300} className={classes.gridList}>
                         <GridListTile key="Subheader" cols={2} style={{ height: 'auto', backgroundColor: 'rgb(5, 0, 32)', display: 'inline' }}>
-                                    <ListSubheader component="div" style={{ color: 'white', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: '5px' }}><Avatar src={this.props.bookcase.profile_img_src} />  {this.props.bookcase.username}<button onClick={this.props.handleBookcaseClose}>Close</button></ListSubheader>
+                                    <ListSubheader 
+                                        component="div" 
+                                        style={{ color: 'white', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: '15px', paddingLeft: '15px' }}
+                                        >
+                                <Avatar src={this.props.bookcase.profile_img_src} />  {this.props.bookcase.username}<Button size="small" variant="outlined" style={{ color: 'white', border: '1px solid #2903A4', marginBottom: '15px'}} onClick={this.props.handleBookcaseClose}>Close</Button>
+                                    </ListSubheader>
                         </GridListTile>
 
                         {this.state.theseBooks.map((book, index) => (
