@@ -103,14 +103,16 @@ class TitlebarGridList extends Component {
             bookListContent = (
                 <div className={classes.root}>
                     <GridList cellHeight={300} className={classes.gridList}>
-                        <GridListTile key="Subheader" cols={2} style={{ height: 'auto', backgroundColor: '#fff', display: 'inline' }}>
+                        <GridListTile key="Subheader" cols={2} style={{ height: 'auto', backgroundColor: '#f1f1f1', display: 'inline', paddingBottom: 0 }}>
                                     <ListSubheader 
                                         component="div" 
-                                        style={{ color: 'black', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: '15px', paddingLeft: '15px' }}
+                                        style={{ color: '#000', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: '5px', paddingLeft: '15px', position: 'relative'}}
                                         >
-                                        <Avatar src={this.props.bookcase.profile_img_src} />  
-                                        <span style={{marginBottom: '15px', fontSize: '18px'}}>{this.props.bookcase.username}</span>
-                                        <Button size="small" variant="contained" color="primary" style={{ color: 'white', border: '2px solid #2903A4', marginTop: '10px', marginBottom: '10px', marginRight:'0px', height: 10}} onClick={this.props.handleBookcaseClose}>
+                                        <div style={{display: 'flex'}}>
+                                            <Avatar src={this.props.bookcase.profile_img_src} />  
+                                            <span style={{ fontSize: '16px', marginLeft: '10px'}}>{this.props.bookcase.username}</span>
+                                        </div>
+                                        <Button size="small" variant="flat"  style={{ color: '#000', height: 10, top: 8, right: 0}} onClick={this.props.handleBookcaseClose}>
                                         Close
                                         </Button>
                                     </ListSubheader>

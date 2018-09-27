@@ -40,24 +40,18 @@ class Bookcase extends Component {
         isbn: '',
         synopsis: '',
       },
-      bookcaseLocation: {
-        latitude: '',
-        defaultLat: '',
-        longitude: '',
-        defaultLong: ''
-      },
+      bookcaseLocation: '',
       userBooks: [],
       addDialog: false,
       bookOpen: false,
       editBook: false,
       currentBook: {},
-
     }
   }
   componentDidMount() {
     this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
     this.getUserBooks();
-    this.getBookcaseLocation();
+    // this.getBookcaseLocation();
   }
 
   componentDidUpdate() {
@@ -91,7 +85,7 @@ class Bookcase extends Component {
   // set this.state.newBookcaseLocation values from inputs on the DOM
   handleLocationChange = (e) => {
     this.setState({
-      bookcaseLocation: { ...this.state.bookcaseLocation, [e.target.name]: e.target.value }
+      bookcaseLocation: e.target.value
     })
   }
 
@@ -239,42 +233,53 @@ class Bookcase extends Component {
     });
   }
 
-  // get currently logged in 
-  getBookcaseLocation = () => {
+  // get currently logged in user's bookcase location
+  // getBookcaseLocation = () => {
+  //   axios({
+  //     method: 'GET',
+  //     url: '/api/bookcases/user/location'
+  //   }).then((response) => {
+  //     this.setState({
+  //       currentBookcaseLocation: {
+  //         latitude: response.data[0].latitude,
+  //         longitude: response.data[0].longitude,
+  //       }
+  //     })
+  //   }).catch((error) => {
+  //     console.log('Error getting bookcase location from server', error);
+  //     alert('Sorry, could not get bookcase location data, please try again later');
+  //   });
+  // }
+
+  // Update location for current user's bookcase
+  callGeocode = (e) => {
+    e.preventDefault();
     axios({
       method: 'GET',
-      url: '/api/bookcases/user/location'
+      url: 'https://maps.googleapis.com/maps/api/geocode/json?',
+      params: { address: this.state.bookcaseLocation, key: 'AIzaSyAWyNBkFPJCWM5mQNMDrIkzmFvdiXKzjRA' }
     }).then((response) => {
-      this.setState({
-        bookcaseLocation: {
-          latitude: response.data[0].latitude,
-          longitude: response.data[0].longitude,
-          defaultLat: response.data[0].latitude,
-          defaultLong: response.data[0].longitude
-        }
-      })
+      console.log(response.data.results[0].geometry.location);
+      this.updateBookcaseLocation(response.data.results[0].geometry.location);
+      alert('Bookcase location updated');
     }).catch((error) => {
-      console.log('Error getting bookcase location from server', error);
-      alert('Sorry, could not get bookcase location data, please try again later');
+      console.log('Error calling geocode', error);
+      alert('Sorry, could not find location, please navigate manually');
     });
   }
 
-  // Update location for current user's bookcase
-  updateBookcaseLocation = (e) => {
-    e.preventDefault();
+  updateBookcaseLocation = (locationFromGeocode) => {
     axios({
       method: 'PUT',
       url: '/api/bookcases/user/location',
-      data: this.state.bookcaseLocation
+      data: locationFromGeocode
     }).then((response) => {
       console.log('Back from PUT', response);
-
     }).catch((error) => {
       console.log('Error updating bookcase location', error);
       alert('Could not update bookcase location, please try again later');
     });
   }
-
   //end http requests
 
 
@@ -414,25 +419,16 @@ class Bookcase extends Component {
                   </Button>
                 </form>
 
-                <form onSubmit={this.updateBookcaseLocation}>
+                <form onSubmit={this.callGeocode}>
                   <TextField
                     id="standard-helperText"
-                    label="Latitude"
-                    helperText={`Current location: ${this.state.bookcaseLocation.defaultLat}`}
+                    label="Bookcase Address"
+                    // helperText={`Current location: ${this.state.bookcaseLocation.defaultLong}`}
                     margin="normal"
-                    name="latitude"
-                    value={this.state.bookcaseLocation.latitude}
+                    name="Address"
+                    value={this.state.bookcaseLocation}
                     onChange={this.handleLocationChange}
-                    required
-                  />
-                  <TextField
-                    id="standard-helperText"
-                    label="Longitude"
-                    helperText={`Current location: ${this.state.bookcaseLocation.defaultLong}`}
-                    margin="normal"
-                    name="longitude"
-                    value={this.state.bookcaseLocation.longitude}
-                    onChange={this.handleLocationChange}
+                    fullWidth
                     required
                   />
                   <Button type="submit" variant="contained" size="small" color="primary" >

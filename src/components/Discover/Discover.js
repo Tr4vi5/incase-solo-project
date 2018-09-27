@@ -26,12 +26,14 @@ class UserPage extends Component {
       bookcaseDialogOpen: false,
       currentLocation: '',
       initialCenter: { lat: 44.9782629, lng: - 93.2633184 },
+      welcome: false,
     }
   }
 
   componentDidMount() {
     this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
     this.getBookcases();
+    this.bookcaseCheck();
   }
 
   componentDidUpdate() {
@@ -60,6 +62,23 @@ class UserPage extends Component {
       currentLocation: e.target.value
     })
   }
+
+  bookcaseCheck = () => {
+    axios({
+      method: 'GET',
+      url: `/api/bookcases/check`
+    }).then((response)=>{
+      console.log(response.data);
+      if (!response.data.length) {
+        this.setState({
+          welcome: true
+        });
+      } 
+    }).catch((error)=>{
+      console.log('Error', error);
+      alert('Unable to get bookcases, please try again later');
+    });
+  } 
 
   getBookcases = () => {
     axios({
@@ -138,6 +157,11 @@ class UserPage extends Component {
           open={this.state.bookcaseDialogOpen}
         >
           <BookcaseGridList bookcase={this.state.currentBookcase} handleBookcaseClose={this.handleBookcaseClose} />
+        </Dialog>
+        <Dialog
+          open={this.state.welcome}
+        >
+          <h1>Hello</h1>
         </Dialog>
       </div>
     );

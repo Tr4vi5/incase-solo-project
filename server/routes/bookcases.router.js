@@ -51,13 +51,28 @@ router.get('/user', (req, res) => {
     }
 });// end get current user bookcase
 
+
+// check if currently logged in user has a bookcase
+router.get('/check', (req,res) => {
+    if (req.isAuthenticated()) {
+        let queryText = 'SELECT * FROM "bookcases" WHERE "users_id" = $1;';
+        pool.query(queryText, [req.user.id]).then((results) => {
+            res.send(results.rows);
+        }).catch((error) => {
+            res.sendStatus(500);
+        })
+    } else {
+        res.sendStatus(403);
+    }
+}) // end check current user's bookcase
+
 // update currently logged in user's bookcase location
 router.put('/user/location', (req, res) => {
     if (req.isAuthenticated()) {
         let queryTextOne = `SELECT "bookcases"."id" FROM "users" JOIN "bookcases" ON "users"."id" = "bookcases"."users_id" WHERE "users"."id" = $1;`;
         let queryTextTwo = `UPDATE "bookcases" SET "latitude" = $1, "longitude" = $2 WHERE "id" = $3;`;
         pool.query(queryTextOne, [req.user.id]).then((results) => {
-            pool.query(queryTextTwo, [req.body.latitude, req.body.longitude, results.rows[0].id])
+            pool.query(queryTextTwo, [req.body.lat, req.body.lng, results.rows[0].id])
                 .then((results)=>{
                     res.send(results.rows)
                 }).catch((error)=>{

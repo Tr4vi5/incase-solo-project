@@ -30,7 +30,7 @@ class MapContainer extends React.Component {
                 google={this.props.google}
                 initialCenter={this.props.initialCenter}
                 center={this.props.initialCenter}
-                zoom={15}
+                zoom={14}
             >
                 {this.props.bookcases.bookcases.map((bookcase, i) => {
                     return (

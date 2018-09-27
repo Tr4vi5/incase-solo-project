@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
-import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import ShareIcon from '@material-ui/icons/Share';
 import CommentIcon from '@material-ui/icons/Comment';
