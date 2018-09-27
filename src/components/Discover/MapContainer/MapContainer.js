@@ -1,5 +1,5 @@
 import React from 'react';
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => ({
@@ -28,7 +28,7 @@ class MapContainer extends React.Component {
             <Map
                 google={this.props.google}
                 initialCenter={{ lat: 44.9782629, lng: - 93.2633184 }}
-                zoom={14}
+                zoom={15}
             >
                 {this.props.bookcases.bookcases.map((bookcase, i) => {
                     return (

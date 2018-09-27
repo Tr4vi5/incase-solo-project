@@ -359,10 +359,10 @@ class Bookcase extends Component {
               multiline
               rows="4"
             />
-            <Button type="submit" variant="contained" color="primary">
+            <Button style={{ margin: '5px', border: '2px solid #2903A4' }} type="submit" variant="contained" color="primary">
               Confirm Changes
             </Button>
-            <Button variant="contained" color="secondary" onClick={this.handleEditClose}>
+            <Button style={{ margin: '5px', border: '2px solid #444' }} variant="contained"  onClick={this.handleEditClose}>
               Cancel
             </Button>
           </form>
@@ -378,15 +378,15 @@ class Bookcase extends Component {
           <p>Genre: {this.state.currentBook.genre}</p>
           <p>{this.state.currentBook.synopsis}</p>
           <p>ISBN-13: {this.state.currentBook.isbn}</p>
-          <Button type="submit" variant="contained" color="primary" onClick={this.handleEditOpen}>
+          <Button style={{ margin: '5px', border: '2px solid #2903A4'}} type="submit" variant="contained" color="primary" onClick={this.handleEditOpen}>
             Edit Book
           </Button>
-          <Button variant="contained" color="secondary" onClick={this.deleteBook}>
+          <Button style={{ margin: '5px', border: '2px solid darkred' }} variant="contained" color="secondary" onClick={this.deleteBook}>
             Delete Book
             </Button>
-          <Button variant="contained" onClick={this.handleBookClose}>
+          <Button style={{ margin: '5px', border: '2px solid #444' }} variant="contained" onClick={this.handleBookClose}>
             Cancel
-            </Button>
+          </Button>
         </div>
       );
     }
@@ -542,10 +542,10 @@ class Bookcase extends Component {
                 multiline
                 rows="4"
               />
-              <Button type="submit" variant="contained" color="primary">
+              <Button type="submit" variant="contained" color="primary" style={{ margin: '5px', border: '2px solid #2903A4'}}>
                 Add Book
               </Button>
-              <Button variant="contained" color="secondary" onClick={this.handleAddClose}>
+              <Button style={{ margin: '5px', border: '2px solid #444' }} variant="contained"  onClick={this.handleAddClose}>
                 Cancel
                </Button>
             </form>

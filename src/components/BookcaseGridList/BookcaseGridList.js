@@ -103,17 +103,21 @@ class TitlebarGridList extends Component {
             bookListContent = (
                 <div className={classes.root}>
                     <GridList cellHeight={300} className={classes.gridList}>
-                        <GridListTile key="Subheader" cols={2} style={{ height: 'auto', backgroundColor: 'rgb(5, 0, 32)', display: 'inline' }}>
+                        <GridListTile key="Subheader" cols={2} style={{ height: 'auto', backgroundColor: '#fff', display: 'inline' }}>
                                     <ListSubheader 
                                         component="div" 
-                                        style={{ color: 'white', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: '15px', paddingLeft: '15px' }}
+                                        style={{ color: 'black', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: '15px', paddingLeft: '15px' }}
                                         >
-                                <Avatar src={this.props.bookcase.profile_img_src} />  {this.props.bookcase.username}<Button size="small" variant="outlined" style={{ color: 'white', border: '1px solid #2903A4', marginBottom: '15px'}} onClick={this.props.handleBookcaseClose}>Close</Button>
+                                        <Avatar src={this.props.bookcase.profile_img_src} />  
+                                        <span style={{marginBottom: '15px', fontSize: '18px'}}>{this.props.bookcase.username}</span>
+                                        <Button size="small" variant="contained" color="primary" style={{ color: 'white', border: '2px solid #2903A4', marginTop: '10px', marginBottom: '10px', marginRight:'0px', height: 10}} onClick={this.props.handleBookcaseClose}>
+                                        Close
+                                        </Button>
                                     </ListSubheader>
                         </GridListTile>
 
                         {this.state.theseBooks.map((book, index) => (
-                            <GridListTile key={index}>
+                            <GridListTile key={index} style={{backgroundColor: 'black'}}>
                                 <img src={book.cover_src} alt={book.title} />
                                 <GridListTileBar
                                     title={book.title}
@@ -139,7 +143,7 @@ class TitlebarGridList extends Component {
                 <Dialog
                     open={this.state.open}
                 >
-                    <div style={{ backgroundColor: 'white' }}>
+                    <div style={{ backgroundColor: 'white', padding: '5px' }}>
                         <img src={this.state.currentBook.cover_src} alt='Cover' style={{ height: '200px', width: '150px', float: 'right'}} />
                         <h2>{this.state.currentBook.title}</h2>
                         <h4>{this.state.currentBook.author}</h4>
@@ -147,10 +151,10 @@ class TitlebarGridList extends Component {
                         <p>Genre: {this.state.currentBook.genre}</p>
                         <p>{this.state.currentBook.synopsis}</p>
                         <p>ISBN-13: {this.state.currentBook.isbn}</p>
-                        <Button type="submit" variant="contained" color="primary" onClick={this.handleMessageRequest}>
+                        <Button type="submit" variant="contained" color="primary" style={{ margin: '5px', border: '2px solid #2903A4'}} onClick={this.handleMessageRequest}>
                             Request Book
                         </Button>
-                        <Button variant="contained" color="secondary" onClick={this.handleClose}>
+                        <Button variant="contained" color="secondary" style={{ margin: '5px', border: '2px solid darkred' }} onClick={this.handleClose}>
                             Cancel
                         </Button>
                     </div>
