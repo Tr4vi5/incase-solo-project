@@ -12,7 +12,7 @@ router.get('/all', (req, res) => {
             res.sendStatus(500);
         })
     } else {
-        res.sendStatus(403);
+        res.sendStatus(401);
     }
 });// end get all bookcases
 
@@ -33,7 +33,7 @@ router.get('/user/location', (req, res) => {
             res.sendStatus(500);
         });
     } else {
-        res.sendStatus(403);
+        res.sendStatus(401);
     }
 });// end get current user bookcase location
 
@@ -47,7 +47,7 @@ router.get('/user', (req, res) => {
             res.sendStatus(500);
         })
     } else {
-        res.sendStatus(403);
+        res.sendStatus(401);
     }
 });// end get current user bookcase
 
@@ -62,7 +62,7 @@ router.get('/check', (req,res) => {
             res.sendStatus(500);
         })
     } else {
-        res.sendStatus(403);
+        res.sendStatus(401);
     }
 }) // end check current user's bookcase
 
@@ -84,15 +84,25 @@ router.put('/user/location', (req, res) => {
             res.sendStatus(500);
         });
     } else {
-        res.sendStatus(403);
+        res.sendStatus(401);
     }
 }); // end update currently logged in user's bookcase location
 
-/**
- * POST route template
- */
+// add user bookcase
 router.post('/', (req, res) => {
-
+    if (req.isAuthenticated()){
+        let queryText = `INSERT INTO "bookcases" ("users_id", "latitude", "longitude") VALUES ($1, $2, $3);`;
+        console.log(req.body, req.user.id);
+        res.sendStatus(200);
+        pool.query(queryText, [req.user.id, req.body.lat, req.body.lng]).then((results)=>{
+            res.send(results.rows);
+        }).catch((error)=>{
+            console.log('Error in post', error);
+            res.sendStatus(500);
+        })
+    } else { 
+        res.sendStatus(401);
+    }
 });
 
 module.exports = router;
