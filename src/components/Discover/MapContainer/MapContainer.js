@@ -14,6 +14,7 @@ class MapContainer extends React.Component {
             bookcaseDialogOpen: false
         }
     }
+
     onMarkerClick = (bookcase) => {
         this.props.setCurrentBookcase(bookcase)
     }
@@ -23,11 +24,12 @@ class MapContainer extends React.Component {
     }
 
     render() {
-        console.log(this.props.bookcases);
+        console.log(this.props.initialCenter);
         return (
             <Map
                 google={this.props.google}
-                initialCenter={{ lat: 44.9782629, lng: - 93.2633184 }}
+                initialCenter={this.props.initialCenter}
+                center={this.props.initialCenter}
                 zoom={15}
             >
                 {this.props.bookcases.bookcases.map((bookcase, i) => {
@@ -50,9 +52,3 @@ const MapObj = GoogleApiWrapper({
 })(MapContainer);
 
 export default connect(mapStateToProps)(MapObj);
-
-{/* <InfoWindow position={{ lng: bookcase.longitude, lat: bookcase.latitude }} onClose={this.onInfoWindowClose}>
-                                <div>
-                                    <h1>{bookcase.username}</h1>
-                                </div>
-                            </InfoWindow> */}

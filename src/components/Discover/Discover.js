@@ -7,6 +7,8 @@ import Dialog from '@material-ui/core/Dialog';
 import Nav from '../Nav/Nav';
 import BookcaseGridList from '../BookcaseGridList/BookcaseGridList';
 import MapContainer from './MapContainer/MapContainer';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
@@ -21,7 +23,9 @@ class UserPage extends Component {
     this.state = {
       bookcases: [], // array of all bookcases from the database 
       currentBookcase: {},
-      bookcaseDialogOpen: false
+      bookcaseDialogOpen: false,
+      currentLocation: '',
+      initialCenter: { lat: 44.9782629, lng: - 93.2633184 },
     }
   }
 
@@ -36,19 +40,6 @@ class UserPage extends Component {
     }
   }
 
-  getBookcases = () => {
-    axios({
-      method: 'GET',
-      url: '/api/bookcases/all'
-    }).then((response) => {
-      this.setState({
-        bookcases: response.data
-      })
-      this.props.dispatch({type: 'ADD_BOOKCASES', payload: response.data});
-    }).catch((error) => {
-      console.log(error);
-    })
-  }
 
   setCurrentBookcase = (bookcase) => {
     this.setState({
@@ -64,6 +55,44 @@ class UserPage extends Component {
     })
   }
 
+  handleLocationChange = (e) => {
+    this.setState({
+      currentLocation: e.target.value
+    })
+  }
+
+  getBookcases = () => {
+    axios({
+      method: 'GET',
+      url: '/api/bookcases/all'
+    }).then((response) => {
+      this.setState({
+        bookcases: response.data
+      })
+      this.props.dispatch({ type: 'ADD_BOOKCASES', payload: response.data });
+    }).catch((error) => {
+      console.log(error);
+    })
+  }
+
+  callGeocode = (e) => {
+    e.preventDefault();
+    axios({
+      method: 'GET',
+      url: 'https://maps.googleapis.com/maps/api/geocode/json?',
+      params: { address: this.state.currentLocation, key: 'AIzaSyAWyNBkFPJCWM5mQNMDrIkzmFvdiXKzjRA' }
+    }).then((response)=>{
+      console.log(response.data.results[0].geometry.location);
+      this.setState({
+        initialCenter: response.data.results[0].geometry.location
+      });
+    }).catch((error)=>{
+      console.log('Error calling geocode', error);
+      alert('Sorry, could not find location, please navigate manually');
+    });
+  }
+
+
   render() {
     let content = null;
 
@@ -72,13 +101,28 @@ class UserPage extends Component {
         <div>
           <Grid container>
             <Grid item xs={2} >
-              <div style={{ height: '93vh', wordWrap: 'break-word', backgroundColor: 'rgba(255, 255, 255, 0.9)'}}>Sidebar
-                
+              <div style={{ height: '93vh', wordWrap: 'break-word', backgroundColor: 'rgba(255, 255, 255, 0.9)', padding: 5, borderRight: '2px solid black' }}>
+                <h1 style={{ margin: 0 }}>Discover a book!</h1>
+                <form onSubmit={this.callGeocode}>
+                  <TextField
+                    id="standard-full-width"
+                    label="Address"
+                    style={{ margin: 5, width: '90%'}}
+                    helperText="Enter an address"
+                    margin="normal"
+                    onChange={this.handleLocationChange}
+                    value={this.state.currentLocation}
+                    required
+                  />
+                  <Button style={{marginRight: 20, float:'right'}} type="submit" variant="contained" size="small" color="primary" >
+                    Search
+                  </Button>
+                </form>
               </div>
             </Grid>
             <Grid item xs={10} >
-              <div style={{ backgroundColor: '#f4f4f4', height: '93vh', width: '100%', position: 'relative', right: 0, bottom: 0}}>
-                <MapContainer setCurrentBookcase={this.setCurrentBookcase}/>
+              <div style={{ backgroundColor: '#f4f4f4', height: '93vh', width: '100%', position: 'relative', right: 0, bottom: 0 }}>
+                <MapContainer setCurrentBookcase={this.setCurrentBookcase} initialCenter={this.state.initialCenter}/>
               </div>
             </Grid>
           </Grid >
@@ -93,7 +137,7 @@ class UserPage extends Component {
         <Dialog
           open={this.state.bookcaseDialogOpen}
         >
-          <BookcaseGridList bookcase={this.state.currentBookcase} handleBookcaseClose={this.handleBookcaseClose}/>
+          <BookcaseGridList bookcase={this.state.currentBookcase} handleBookcaseClose={this.handleBookcaseClose} />
         </Dialog>
       </div>
     );

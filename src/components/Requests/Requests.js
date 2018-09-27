@@ -191,7 +191,7 @@ class Requests extends Component {
                             return (
                                 <ListItem key={i} style={{align: 'right'}}>
                                     <Avatar src={message.profile_img_src} />
-                                    <ListItemText secondary={message.username} primary={`${message.username}: ${message.body}`} secondary={`${moment(message.date).calendar()}`} />
+                                    <ListItemText primary={`${message.username}: ${message.body}`} secondary={`${moment(message.date).calendar()}`} />
                                 </ListItem>
                             )
                         })}
