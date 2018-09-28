@@ -35,6 +35,7 @@ class Requests extends Component {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
         this.getIncomingRequests();
         this.getOutgoingRequests();
+        this.viewRequests();
     }
 
     componentDidUpdate() {
@@ -64,6 +65,18 @@ class Requests extends Component {
         }).catch((error) => {
             console.log('Error getting requests from server', error);
             alert('Could not get requests from server, please try again later');
+        });
+    }
+
+    // mark incoming requests as seen for logged in user
+    viewRequests = () => {
+        axios({
+            method: 'PUT',
+            url: '/api/requests/user/incoming/read'
+        }).then((response)=>{
+            console.log('Success', response.data);
+        }).catch((error)=>{
+            console.log('Error updating requests', error);
         });
     }
 

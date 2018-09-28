@@ -32,6 +32,21 @@ router.get('/user/incoming', (req, res) => {
     }
 });
 
+// update viewed messages to be seen
+router.put('/user/incoming/read', (req, res) => {
+    if (req.isAuthenticated()) {
+        let queryText = `UPDATE "requests" SET "seen" = true WHERE "to_users_id" = $1;`;
+        pool.query(queryText, [req.user.id]).then((results)=>{
+            res.sendStatus(200);
+        }).catch((error)=>{
+            console.log('Error setting requests to seen', error);
+            res.sendStatus(500);
+        });
+    } else {
+        res.sendStatus(401);
+    }
+})
+
 // get all outgoing requests for logged in user
 router.get('/user/outgoing', (req, res) => {
     if (req.isAuthenticated()) {
@@ -158,5 +173,20 @@ router.put('/confirm', (req, res) => {
         res.sendStatus(403);
     }
 });
+
+// Count all active and unseen requests for currently logged in user
+router.get('/user/unread', (req, res) => {
+    if (req.isAuthenticated()) {
+        let queryText = `SELECT COUNT(*) FROM "requests" WHERE "active" = true AND "seen" = false AND "to_users_id" = $1;`;
+        pool.query(queryText, [req.user.id]).then((results) => {
+            res.send(results.rows);
+        }).catch((error) => {
+            console.log('Error getting messages from db', error);
+            res.sendStatus(500);
+        });
+    } else {
+        res.sendStatus(403);
+    }
+})
 
 module.exports = router;
