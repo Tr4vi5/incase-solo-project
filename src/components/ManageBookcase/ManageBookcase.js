@@ -8,6 +8,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Dialog from '@material-ui/core/Dialog';
 
 import Nav from '../Nav/Nav';
+import ManageMap from './ManageMap/ManageMap';
 import BookCard from './BookCard/BookCard';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
@@ -46,18 +47,20 @@ class Bookcase extends Component {
       bookOpen: false,
       editBook: false,
       currentBook: {},
+      currentBookcaseLocation: {}
     }
   }
   componentDidMount() {
     this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
     this.getUserBooks();
-    // this.getBookcaseLocation();
+    this.getBookcaseLocation();
   }
 
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
       this.props.history.push('home');
     }
+    this.getBookcaseLocation();
   }
 
   // begin handleChange functions
@@ -192,12 +195,12 @@ class Bookcase extends Component {
       method: 'PUT',
       url: `/api/books/edit`,
       data: this.state.bookToEdit
-    }).then((response)=>{
+    }).then((response) => {
       console.log('Success in edit book', response.data);
       this.getUserBooks();
       this.handleEditClose();
       this.handleBookClose();
-    }).catch((error)=>{
+    }).catch((error) => {
       console.log('Error in edit book', error);
       alert('Error editing book, please try again later');
     });
@@ -234,22 +237,22 @@ class Bookcase extends Component {
   }
 
   // get currently logged in user's bookcase location
-  // getBookcaseLocation = () => {
-  //   axios({
-  //     method: 'GET',
-  //     url: '/api/bookcases/user/location'
-  //   }).then((response) => {
-  //     this.setState({
-  //       currentBookcaseLocation: {
-  //         latitude: response.data[0].latitude,
-  //         longitude: response.data[0].longitude,
-  //       }
-  //     })
-  //   }).catch((error) => {
-  //     console.log('Error getting bookcase location from server', error);
-  //     alert('Sorry, could not get bookcase location data, please try again later');
-  //   });
-  // }
+  getBookcaseLocation = () => {
+    axios({
+      method: 'GET',
+      url: '/api/bookcases/user/location'
+    }).then((response) => {
+      this.setState({
+        currentBookcaseLocation: {
+          latitude: response.data[0].latitude,
+          longitude: response.data[0].longitude,
+        }
+      })
+    }).catch((error) => {
+      console.log('Error getting bookcase location from server', error);
+      alert('Sorry, could not get bookcase location data, please try again later');
+    });
+  }
 
   // Update location for current user's bookcase
   callGeocode = (e) => {
@@ -261,13 +264,16 @@ class Bookcase extends Component {
     }).then((response) => {
       console.log(response.data.results[0].geometry.location);
       this.updateBookcaseLocation(response.data.results[0].geometry.location);
+      this.setState({
+        bookcaseLocation: ''
+      })
       alert('Bookcase location updated');
     }).catch((error) => {
       console.log('Error calling geocode', error);
       alert('Sorry, could not find location, please navigate manually');
     });
   }
-
+  // update database with geocoded location
   updateBookcaseLocation = (locationFromGeocode) => {
     axios({
       method: 'PUT',
@@ -367,7 +373,7 @@ class Bookcase extends Component {
             <Button style={{ margin: '5px', border: '2px solid #2903A4' }} type="submit" variant="contained" color="primary">
               Confirm Changes
             </Button>
-            <Button style={{ margin: '5px', border: '2px solid #444' }} variant="contained"  onClick={this.handleEditClose}>
+            <Button style={{ margin: '5px', border: '2px solid #444' }} variant="contained" onClick={this.handleEditClose}>
               Cancel
             </Button>
           </form>
@@ -383,7 +389,7 @@ class Bookcase extends Component {
           <p>Genre: {this.state.currentBook.genre}</p>
           <p>{this.state.currentBook.synopsis}</p>
           <p>ISBN-13: {this.state.currentBook.isbn}</p>
-          <Button style={{ margin: '5px', border: '2px solid #2903A4'}} type="submit" variant="contained" color="primary" onClick={this.handleEditOpen}>
+          <Button style={{ margin: '5px', border: '2px solid #2903A4' }} type="submit" variant="contained" color="primary" onClick={this.handleEditOpen}>
             Edit Book
           </Button>
           <Button style={{ margin: '5px', border: '2px solid darkred' }} variant="contained" color="secondary" onClick={this.deleteBook}>
@@ -401,8 +407,8 @@ class Bookcase extends Component {
         <div>
           <Grid container >
             <Grid item xs={2}>
-              <div style={{ height: '93vh', backgroundColor: 'rgba(255, 255, 255, 0.9)', padding: '1em' }}>
-                <h1 style={{marginTop: 0}}>{this.props.user.userName}</h1>
+              <div style={{ height: '53vh', backgroundColor: 'rgba(255, 255, 255, 0.9)', padding: '1em' }}>
+                <h1 style={{ marginTop: 0 }}>{this.props.user.userName}</h1>
                 <Avatar src={this.props.user.profileImage} alt="User" style={{ height: '150px', width: '150px' }} />
                 <form onSubmit={this.updateImageFormSubmit}>
                   <TextField
@@ -422,10 +428,9 @@ class Bookcase extends Component {
                 <form onSubmit={this.callGeocode}>
                   <TextField
                     id="standard-helperText"
-                    label="Bookcase Address"
-                    // helperText={`Current location: ${this.state.bookcaseLocation.defaultLong}`}
+                    label="Address"
                     margin="normal"
-                    name="Address"
+                    name="address"
                     value={this.state.bookcaseLocation}
                     onChange={this.handleLocationChange}
                     fullWidth
@@ -435,7 +440,12 @@ class Bookcase extends Component {
                     Update Location
                   </Button>
                 </form>
+
               </div>
+              <div className="miniMap" style={{ height: '40vh', backgroundColor: 'white', width: '100%' }}>
+                  <ManageMap currentBookcaseLocation={this.state.currentBookcaseLocation} />
+              </div>
+
             </Grid>
 
 
@@ -538,10 +548,10 @@ class Bookcase extends Component {
                 multiline
                 rows="4"
               />
-              <Button type="submit" variant="contained" color="primary" style={{ margin: '5px', border: '2px solid #2903A4'}}>
+              <Button type="submit" variant="contained" color="primary" style={{ margin: '5px', border: '2px solid #2903A4' }}>
                 Add Book
               </Button>
-              <Button style={{ margin: '5px', border: '2px solid #444' }} variant="contained"  onClick={this.handleAddClose}>
+              <Button style={{ margin: '5px', border: '2px solid #444' }} variant="contained" onClick={this.handleAddClose}>
                 Cancel
                </Button>
             </form>
