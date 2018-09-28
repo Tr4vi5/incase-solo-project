@@ -22,6 +22,10 @@ class Nav extends Component {
     this.getUnreadRequests();
   }
 
+  componentDidUpdate(){
+    this.getUnreadRequests();
+  }
+
   logout = () => {
     this.props.dispatch(triggerLogout());
   }
@@ -75,7 +79,7 @@ class Nav extends Component {
           </li>
 
           <li style={{ float: 'right' }}>
-            <span style={{ color: 'white', fontSize: '12px' }}>Welcome, {this.props.user.userName}</span>
+            <span style={{ color: 'white', fontSize: '12px' }}>Welcome, {this.props.user.userName}</span> 
             <Button variant="outlined" color="primary" style={{ color: 'white', margin: '7px', border: '2px solid #2903A4' }} onClick={this.logout}>
               Log Out
             </Button>
