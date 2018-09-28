@@ -4,6 +4,11 @@ import { connect } from 'react-redux';
 import { triggerLogout } from '../../redux/actions/loginActions';
 import Button from '@material-ui/core/Button';
 
+const mapStateToProps = state => ({
+  user: state.user,
+  bookcases: state.bookcases
+});
+
 class Nav extends Component {
 
   logout = () => {
@@ -32,7 +37,9 @@ class Nav extends Component {
               Requests
             </Link>
           </li>
+          
           <li style={{ float: 'right' }}>
+            <span style={{ color: 'white', fontSize: '12px' }}>Welcome, {this.props.user.userName}</span>
             <Button variant="outlined" color="primary" style={{ color: 'white', margin: '7px', border: '2px solid #2903A4'}} onClick={this.logout}>
               Log Out
             </Button>
@@ -43,4 +50,4 @@ class Nav extends Component {
   }
 }
 
-export default connect()(Nav);
+export default connect(mapStateToProps)(Nav);

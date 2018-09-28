@@ -92,8 +92,6 @@ router.put('/user/location', (req, res) => {
 router.post('/', (req, res) => {
     if (req.isAuthenticated()){
         let queryText = `INSERT INTO "bookcases" ("users_id", "latitude", "longitude") VALUES ($1, $2, $3);`;
-        console.log(req.body, req.user.id);
-        res.sendStatus(200);
         pool.query(queryText, [req.user.id, req.body.lat, req.body.lng]).then((results)=>{
             res.send(results.rows);
         }).catch((error)=>{
