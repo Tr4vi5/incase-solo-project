@@ -159,4 +159,19 @@ router.put('/confirm', (req, res) => {
     }
 });
 
+// Count all active and unseen requests for currently logged in user
+router.get('/user/unread', (req, res) => {
+    if (req.isAuthenticated()) {
+        let queryText = `SELECT COUNT(*) FROM "requests" WHERE "active" = true AND "seen" = false AND "to_users_id" = $1;`;
+        pool.query(queryText, [req.user.id]).then((results) => {
+            res.send(results.rows);
+        }).catch((error) => {
+            console.log('Error getting messages from db', error);
+            res.sendStatus(500);
+        });
+    } else {
+        res.sendStatus(403);
+    }
+})
+
 module.exports = router;

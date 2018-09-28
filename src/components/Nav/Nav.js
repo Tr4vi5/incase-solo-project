@@ -18,6 +18,10 @@ class Nav extends Component {
     }
   }
 
+  componentDidMount(){
+    this.getUnreadRequests();
+  }
+
   logout = () => {
     this.props.dispatch(triggerLogout());
   }
@@ -29,11 +33,11 @@ class Nav extends Component {
       url: '/api/requests/user/unread'
     }).then((response) => {
       this.setState({
-        unreadRequests: response.data
-      }).catch((error) => {
+        unreadRequests: response.data[0].count
+      })
+    }).catch((error) => {
         console.log('Error getting requests from server', error);
       });
-    });
   }
 
   render() {
