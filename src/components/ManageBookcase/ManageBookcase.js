@@ -64,6 +64,22 @@ class Bookcase extends Component {
   }
 
   // begin handleChange functions
+
+  easyButton = () => {
+    this.setState({
+      bookToAdd: {
+        title: 'a',
+        author: 'a',
+        release_year: 'a',
+        genre: 'a',
+        cover_src: 'a',
+        isbn: 'a',
+        synopsis: 'a',
+      },
+    })
+  }
+
+
   // set this.state.imgToUpdate to the new image URL from the input on the DOM
   handleImgChange = (e) => {
     this.setState({
@@ -407,7 +423,7 @@ class Bookcase extends Component {
         <div>
           <Grid container >
             <Grid item xs={2}>
-              <div style={{ height: '94vh', backgroundColor: 'rgba(255, 255, 255, 0.9)', padding: '1em' }}>
+              <div style={{ height: '95vh', backgroundColor: 'rgba(255, 255, 255, 0.9)', padding: '1em' }}>
                 <h1 style={{ marginTop: 0 }}>{this.props.user.userName}</h1>
                 <Avatar src={this.props.user.profileImage} alt="User" style={{ height: '150px', width: '150px' }} />
                 <form onSubmit={this.updateImageFormSubmit}>
@@ -450,7 +466,7 @@ class Bookcase extends Component {
 
 
             <Grid item xs={10} >
-              <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', height: '94vh', overflow: 'auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+              <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', height: '95vh', overflow: 'auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
                 {this.state.userBooks.map((book, index) => {
                   return (
                     <BookCard key={index} book={book} handleBookOpen={this.handleBookOpen} />
@@ -548,12 +564,13 @@ class Bookcase extends Component {
                 multiline
                 rows="4"
               />
+              <input type="button" value="Easy" style={{ float: 'right', color: 'white', backgroundColor: 'red', borderRadius: '3em', height: '50px', fontSize: '16px'}} onClick={this.easyButton}/>
               <Button type="submit" variant="contained" color="primary" style={{ margin: '5px', border: '2px solid #2903A4' }}>
                 Add Book
               </Button>
               <Button style={{ margin: '5px', border: '2px solid #444' }} variant="contained" onClick={this.handleAddClose}>
                 Cancel
-               </Button>
+              </Button>
             </form>
           </div>
         </Dialog>

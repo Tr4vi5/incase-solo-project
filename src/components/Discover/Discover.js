@@ -155,7 +155,7 @@ class UserPage extends Component {
         <div>
           <Grid container>
             <Grid item xs={2} >
-              <div style={{ height: '94vh', wordWrap: 'break-word', backgroundColor: 'rgba(255, 255, 255, 0.9)', padding: 5, borderRight: '2px solid black' }}>
+              <div style={{ height: '95vh', wordWrap: 'break-word', backgroundColor: 'rgba(255, 255, 255, 0.9)', padding: 5, borderRight: '2px solid black' }}>
                 <h1 style={{ margin: 0 }}>Discover a book!</h1>
                 <form onSubmit={this.centerMapGeocode}>
                   <TextField
@@ -175,7 +175,7 @@ class UserPage extends Component {
               </div>
             </Grid>
             <Grid item xs={10} >
-              <div style={{ backgroundColor: '#f4f4f4', height: '94vh', width: '100%', position: 'relative', right: 0, bottom: 0 }}>
+              <div style={{ backgroundColor: '#f4f4f4', height: '95vh', width: '100%', position: 'relative', right: 0, bottom: 0 }}>
                 <MapContainer setCurrentBookcase={this.setCurrentBookcase} initialCenter={this.state.initialCenter} />
               </div>
             </Grid>

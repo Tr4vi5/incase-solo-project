@@ -73,6 +73,7 @@ class RegisterPage extends Component {
         {this.renderAlert()}
         <form onSubmit={this.registerUser}>
           <h1 style={{ marginBottom: '0px' }}>Register User</h1>
+          <img src="/images/logo.png" height="150px" />
           <div>
               <TextField
                
@@ -92,10 +93,10 @@ class RegisterPage extends Component {
               />
           </div>
           <div>
-            <Button color="primary" type="submit" name="submit">
+            <Button color="primary" type="submit" name="submit" style={{ margin: 5 }}>
               Register
             </Button>
-            <Button color="primary" onClick={()=> this.props.history.push('home')}>
+            <Button color="primary" style={{ margin: 5 }} onClick={()=> this.props.history.push('home')}>
               Cancel
             </Button>
           </div>

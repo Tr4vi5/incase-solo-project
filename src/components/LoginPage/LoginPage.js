@@ -69,6 +69,7 @@ class LoginPage extends Component {
         { this.renderAlert() }
         <form onSubmit={this.login} className={'login'}>
           <h1 style={{marginBottom: '0px'}}>Welcome to inCase</h1>
+          <img src="/images/logo.png" height="150px"/>
           <div>
               <TextField
                 label="Username"
@@ -87,10 +88,10 @@ class LoginPage extends Component {
               />
           </div>
           <div>
-            <Button color="primary" type="submit" name="submit">
+            <Button color="primary" type="submit" name="submit" style={{margin: 5}}>
               Log In
             </Button>
-            <Button color="primary" onClick={() => this.props.history.push('register')}>
+            <Button color="primary" style={{ margin: 5 }} onClick={() => this.props.history.push('register')}>
               Register
             </Button>
           </div>

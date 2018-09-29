@@ -16,8 +16,9 @@ import { connect } from 'react-redux';
 const styles = theme => ({
     root: {
         display: 'flex',
+        flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'space-around',
+        justifyContent: 'start',
         overflow: 'hidden',
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
     },

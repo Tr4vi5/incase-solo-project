@@ -60,7 +60,10 @@ class Nav extends Component {
       <div>
         <ul className={'navbar'}>
           <li>
-            <h1 style={{ color: 'white', margin: '7px 21px', marginTop: '10px' }}>inCase</h1>
+            <img src="/images/logo.png" height="50px" />
+          </li>
+          <li>
+            <h1 style={{ color: 'white', margin: '7px 21px', marginTop: '10px'}}>inCase</h1>
           </li>
           <li>
             <Link to="/discover">
