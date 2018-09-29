@@ -85,6 +85,7 @@ class TitlebarGridList extends Component {
             method: 'GET',
             url: `/api/books/user/${this.props.bookcase.id}`
         }).then((response) => {
+            console.log('Books:', response.data);
             this.setState({
                 theseBooks: response.data
             })
@@ -96,6 +97,7 @@ class TitlebarGridList extends Component {
 
 
     render() {
+        console.log('bookcase:', this.props.bookcase);
         let bookListContent;
         const { classes } = this.props;
 

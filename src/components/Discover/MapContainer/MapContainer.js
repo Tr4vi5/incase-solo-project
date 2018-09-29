@@ -16,6 +16,8 @@ class MapContainer extends React.Component {
     }
 
     onMarkerClick = (bookcase) => {
+        console.log('this bookcase', bookcase);
+        
         this.props.setCurrentBookcase(bookcase)
     }
 
@@ -24,7 +26,8 @@ class MapContainer extends React.Component {
     }
 
     render() {
-        console.log(this.props.initialCenter);
+        let mapContent = null;
+       
         return (
             <Map
                 google={this.props.google}

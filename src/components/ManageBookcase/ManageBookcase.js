@@ -60,7 +60,7 @@ class Bookcase extends Component {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
       this.props.history.push('home');
     }
-    this.getBookcaseLocation();
+    // this.getBookcaseLocation();
   }
 
   // begin handleChange functions
@@ -407,7 +407,7 @@ class Bookcase extends Component {
         <div>
           <Grid container >
             <Grid item xs={2}>
-              <div style={{ height: '53vh', backgroundColor: 'rgba(255, 255, 255, 0.9)', padding: '1em' }}>
+              <div style={{ height: '93vh', backgroundColor: 'rgba(255, 255, 255, 0.9)', padding: '1em' }}>
                 <h1 style={{ marginTop: 0 }}>{this.props.user.userName}</h1>
                 <Avatar src={this.props.user.profileImage} alt="User" style={{ height: '150px', width: '150px' }} />
                 <form onSubmit={this.updateImageFormSubmit}>
@@ -442,9 +442,9 @@ class Bookcase extends Component {
                 </form>
 
               </div>
-              <div className="miniMap" style={{ height: '40vh', backgroundColor: 'white', width: '100%' }}>
+              {/* <div className="miniMap" style={{ height: '40vh', backgroundColor: 'white', width: '100%' }}>
                   <ManageMap currentBookcaseLocation={this.state.currentBookcaseLocation} />
-              </div>
+              </div> */}
 
             </Grid>
 

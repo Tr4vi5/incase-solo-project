@@ -92,6 +92,7 @@ class UserPage extends Component {
       method: 'GET',
       url: '/api/bookcases/all'
     }).then((response) => {
+      console.log('all bookcases result', response.data)
       this.setState({
         bookcases: response.data
       })
@@ -113,12 +114,12 @@ class UserPage extends Component {
         method: 'POST',
         url: '/api/bookcases/',
         data: response.data.results[0].geometry.location
-      }).then((response)=>{
+      }).then((response) => {
         console.log(response);
         this.setState({
           welcome: false
         });
-      }).catch((error)=>{
+      }).catch((error) => {
         console.log('Error', error);
         alert('Could not add bookcase, please try again later');
       });
@@ -148,8 +149,8 @@ class UserPage extends Component {
 
   render() {
     let content = null;
-
-    if (this.props.user.userName) {
+    
+    if (this.props.user.userName && this.props.bookcases.bookcases) {
       content = (
         <div>
           <Grid container>
@@ -195,21 +196,29 @@ class UserPage extends Component {
         <Dialog
           open={this.state.welcome}
         >
-          <form onSubmit={this.addBookcaseGeocode}>
-            <TextField
-              id="standard-full-width"
-              label="Address"
-              style={{ margin: 5, width: '90%' }}
-              helperText="Enter an address"
-              margin="normal"
-              onChange={this.handleAddressAdd}
-              value={this.state.bookcaseAddress}
-              required
-            />
-            <Button style={{ margin: 5, float: 'right' }} type="submit" variant="contained" size="small" color="primary" >
-              Enter Site
+          <div style={{textAlign: 'center', margin: '10px'}}>
+            <h1>Hello.</h1>
+            <br />
+            <p>Welcome to inCase, the internet's little library.</p>
+            <p>We at inCase believe that stories are meant to be shared.</p>
+            <br />
+            <p>Please enter the location of your bookcase so that you can start sharing.</p>
+            <form onSubmit={this.addBookcaseGeocode}>
+              <TextField
+                id="standard-full-width"
+                label="Address"
+                style={{ margin: 5, width: '90%' }}
+                helperText="Enter an address (or Zipcode)"
+                margin="normal"
+                onChange={this.handleAddressAdd}
+                value={this.state.bookcaseAddress}
+                required
+              />
+              <Button style={{ margin: 5, float: 'right' }} type="submit" variant="contained" size="small" color="primary" >
+                Enter Site
             </Button>
-          </form>
+            </form>
+          </div>
         </Dialog>
       </div>
     );

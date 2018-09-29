@@ -5,6 +5,7 @@ const router = express.Router();
 // get all books for specific bookcase on Discover view
 router.get('/user/:id', (req, res) => {
     if (req.isAuthenticated()) {
+        console.log('bookcase id', req.params.id);
         queryText = 'SELECT * FROM "books" WHERE "bookcases_id" = $1;';
         pool.query(queryText, [req.params.id]).then((results) => {
             res.send(results.rows);

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { triggerLogin, formError, clearError } from '../../redux/actions/loginActions';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 
 const mapStateToProps = state => ({
@@ -66,36 +68,31 @@ class LoginPage extends Component {
       <div className="login">
         { this.renderAlert() }
         <form onSubmit={this.login} className={'login'}>
-          <h1>Welcome to inCase</h1>
+          <h1 style={{marginBottom: '0px'}}>Welcome to inCase</h1>
           <div>
-            <label htmlFor="username">
-              Username:
-              <input
-                type="text"
+              <TextField
+                label="Username"
                 name="username"
                 value={this.state.username}
                 onChange={this.handleInputChangeFor('username')}
               />
-            </label>
           </div>
           <div>
-            <label htmlFor="password">
-              Password:
-              <input
+              <TextField
                 type="password"
+                label="Password"
                 name="password"
                 value={this.state.password}
                 onChange={this.handleInputChangeFor('password')}
               />
-            </label>
           </div>
           <div>
-            <input
-              type="submit"
-              name="submit"
-              value="Log In"
-            />
-            <Link to="/register">Register</Link>
+            <Button color="primary" type="submit" name="submit">
+              Log In
+            </Button>
+            <Button color="primary" onClick={() => this.props.history.push('register')}>
+              Register
+            </Button>
           </div>
         </form>
       </div>
