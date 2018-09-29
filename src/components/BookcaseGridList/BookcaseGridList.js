@@ -105,7 +105,7 @@ class TitlebarGridList extends Component {
             bookListContent = (
                 <div className={classes.root}>
                     <GridList cellHeight={300} className={classes.gridList}>
-                        <GridListTile key="Subheader" cols={2} style={{ height: 'auto', backgroundColor: '#f1f1f1', display: 'inline', paddingBottom: 0 }}>
+                        <GridListTile key="Subheader" cols={2} style={{ height: '55px', backgroundColor: '#f1f1f1', display: 'inline', paddingBottom: 0 }}>
                                     <ListSubheader 
                                         component="div" 
                                         style={{ color: '#000', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: '5px', paddingLeft: '15px', position: 'relative'}}
