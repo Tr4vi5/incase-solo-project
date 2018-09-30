@@ -60,7 +60,6 @@ class Bookcase extends Component {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
       this.props.history.push('home');
     }
-    // this.getBookcaseLocation();
   }
 
   // begin handleChange functions
@@ -297,6 +296,7 @@ class Bookcase extends Component {
       data: locationFromGeocode
     }).then((response) => {
       console.log('Back from PUT', response);
+      this.getBookcaseLocation();
     }).catch((error) => {
       console.log('Error updating bookcase location', error);
       alert('Could not update bookcase location, please try again later');
@@ -423,7 +423,7 @@ class Bookcase extends Component {
         <div>
           <Grid container >
             <Grid item xs={2}>
-              <div style={{ height: '95vh', backgroundColor: 'rgba(255, 255, 255, 0.9)', padding: '1em' }}>
+              <div style={{ height: '50vh', backgroundColor: 'rgba(255, 255, 255, 0.9)', padding: '1em' }}>
                 <h1 style={{ marginTop: 0 }}>{this.props.user.userName}</h1>
                 <Avatar src={this.props.user.profileImage} alt="User" style={{ height: '150px', width: '150px' }} />
                 <form onSubmit={this.updateImageFormSubmit}>
@@ -458,9 +458,9 @@ class Bookcase extends Component {
                 </form>
 
               </div>
-              {/* <div className="miniMap" style={{ height: '40vh', backgroundColor: 'white', width: '100%' }}>
+              <div className="miniMap">
                   <ManageMap currentBookcaseLocation={this.state.currentBookcaseLocation} />
-              </div> */}
+              </div> 
 
             </Grid>
 

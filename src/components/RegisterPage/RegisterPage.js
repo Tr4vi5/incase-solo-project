@@ -85,7 +85,7 @@ class RegisterPage extends Component {
           </div>
           <div>
               <TextField
-                
+                type="password"
                 label="Password"
                 name="password"
                 value={this.state.password}

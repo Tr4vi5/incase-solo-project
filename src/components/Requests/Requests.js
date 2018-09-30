@@ -252,9 +252,9 @@ class Requests extends Component {
             content = (
                 <div style={{ minHeight: '95vh' }}>
                     <Grid container>
-                        <Grid item xs={6}>
+                        <Grid item xs={8}>
                             <div style={{ height: '47vh', overflow: 'auto', backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
-                                <h3 style={{ padding: '1em', backgroundColor: 'rgb(5, 0, 32)', color: 'white' }}>Incoming Requests</h3>
+                                <h3 style={{ padding: '1em', backgroundColor: 'rgb(59, 75, 154)', color: 'white' }}>Incoming Requests</h3>
                                 <List style={{padding: 0}}>
                                     {this.state.incomingRequests.map((request, i) => {
                                         return (
@@ -270,7 +270,7 @@ class Requests extends Component {
                                 </List>
                             </div>
                             <div style={{ height: '48vh', overflow: 'auto', backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
-                                <h3 style={{ padding: '1em', backgroundColor: 'rgb(5, 0, 32)', color: 'white' }}>Outgoing Requests</h3>
+                                <h3 style={{ padding: '1em', backgroundColor: 'rgb(59, 75, 154)', color: 'white' }}>Outgoing Requests</h3>
                                 <List style={{ padding: 0 }}>
                                     {this.state.outgoingRequests.map((request, i) => {
                                         return (
@@ -285,7 +285,7 @@ class Requests extends Component {
                                 </List>
                             </div>
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={4}>
                             <div style={{ borderLeft: '2px solid black', height: '95vh' }}>
                                 {messagesContent}
                             </div>

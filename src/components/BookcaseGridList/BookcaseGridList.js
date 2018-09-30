@@ -18,14 +18,18 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'start',
+        alignItems: 'flex-start',
         overflow: 'hidden',
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        backgroundColor: 'white',
     },
     gridList: {
         width: 500,
         height: 600,
-        position: 'relative'
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignContent: 'flex-start',
     },
     icon: {
         color: 'rgba(255, 255, 255, 0.54)',
@@ -106,7 +110,7 @@ class TitlebarGridList extends Component {
             bookListContent = (
                 <div className={classes.root}>
                     <GridList cellHeight={300} className={classes.gridList}>
-                        <GridListTile key="Subheader" cols={2} style={{ height: '55px', backgroundColor: '#f1f1f1', display: 'inline', paddingBottom: 0 }}>
+                        <GridListTile key="Subheader" cols={2} style={{ height: '55px', backgroundColor: '#f1f1f1', display: 'inline', paddingBottom: 0}}>
                                     <ListSubheader 
                                         component="div" 
                                         style={{ color: '#000', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: '5px', paddingLeft: '15px', position: 'relative'}}
@@ -122,7 +126,7 @@ class TitlebarGridList extends Component {
                         </GridListTile>
 
                         {this.state.theseBooks.map((book, index) => (
-                            <GridListTile key={index} style={{backgroundColor: 'black'}}>
+                            <GridListTile key={index} style={{backgroundColor: 'black', position: ''}}>
                                 <img src={book.cover_src} alt={book.title} />
                                 <GridListTileBar
                                     title={book.title}

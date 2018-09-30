@@ -25,7 +25,7 @@ class UserPage extends Component {
       currentBookcase: {},
       bookcaseDialogOpen: false,
       currentLocation: '',
-      initialCenter: { lat: 44.9782629, lng: - 93.2633184 },
+      initialCenter: { lat: 44.9709966, lng: -93.2528595 },
       welcome: false,
       bookcaseAddress: '',
     }

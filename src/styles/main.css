@@ -29,7 +29,7 @@ body {
 .login {
     height: 100vh;
     width: 100vw;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.6);
     padding-top: 80px;
     text-align: center;
 }
@@ -72,7 +72,6 @@ body {
   background-color: #111;
   width: 100%;
   border-radius: 0px;
-  height: 5vh;
 }
 
 ul {
@@ -98,8 +97,10 @@ ul {
 
 /* Change the link color to #111 (black) on hover */
 li a:hover {
-    text-decoration: underline;
+    text-decoration: none;
     color: #eee;
+    border-bottom: 2px solid #444;
+    background-color: #444;
 }
 
 .alert {
@@ -108,4 +109,17 @@ li a:hover {
 
 h3 {
     margin: 0;
+}
+
+.activeNav {
+    background-color: rgb(59, 75, 154);
+    border-bottom: 2px solid white;
+    
+}
+
+.miniMap {
+     height: 45vh; 
+     background-color: white;
+     width: 100%; 
+     position: relative;
 }
