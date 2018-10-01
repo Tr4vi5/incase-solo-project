@@ -67,13 +67,13 @@ class Bookcase extends Component {
   easyButton = () => {
     this.setState({
       bookToAdd: {
-        title: 'a',
-        author: 'a',
-        release_year: 'a',
-        genre: 'a',
-        cover_src: 'a',
-        isbn: 'a',
-        synopsis: 'a',
+        title: 'Infinite Jest',
+        author: 'David Foster Wallace',
+        release_year: '1996',
+        genre: 'Hysterical Realism',
+        cover_src: 'https://images-na.ssl-images-amazon.com/images/I/41EHZhquMoL._SX321_BO1,204,203,200_.jpg',
+        isbn: '978-0316066525',
+        synopsis: `A gargantuan, mind-altering comedy about the pursuit of happiness in America. Set in an addicts' halfway house and a tennis academy, and featuring the most endearingly screwed - up family to come along in recent fiction, Infinite Jest explores essential questions about what entertainment is and why it has come to so dominate our lives; about how our desire for entertainment affects our need to connect with other people; and about what the pleasures we choose say about who we are.`,
       },
     })
   }
@@ -164,6 +164,9 @@ class Bookcase extends Component {
       data: { imgToUpdate: this.state.imgToUpdate }
     }).then((response) => {
       this.props.dispatch({ type: USER_ACTIONS.FETCH_USER }); // grab the new user information from redux
+      this.setState({
+        imgToUpdate: ''
+      })
     }).catch((error) => {
       console.log('Error updating profile picture', error);
       alert('Could not update profile picture, please try again later.');
@@ -205,50 +208,57 @@ class Bookcase extends Component {
   // edit book information
   editBook = (e) => {
     e.preventDefault();
-    alert(`Are you sure that you want to edit ${this.state.currentBook.title}?`);
-    axios({
-      method: 'PUT',
-      url: `/api/books/edit`,
-      data: this.state.bookToEdit
-    }).then((response) => {
-      console.log('Success in edit book', response.data);
-      this.getUserBooks();
-      this.handleEditClose();
-      this.handleBookClose();
-    }).catch((error) => {
-      console.log('Error in edit book', error);
-      alert('Error editing book, please try again later');
-    });
+    if (window.confirm(`Are you sure that you want to edit ${this.state.currentBook.title}?`)) {
+      axios({
+        method: 'PUT',
+        url: `/api/books/edit`,
+        data: this.state.bookToEdit
+      }).then((response) => {
+        console.log('Success in edit book', response.data);
+        this.getUserBooks();
+        this.handleEditClose();
+        this.handleBookClose();
+      }).catch((error) => {
+        console.log('Error in edit book', error);
+        alert('Error editing book, please try again later');
+      });
+    } else {
+      console.log('Oh bother')
+    }
   }
 
   // Delete book from database
   deleteBook = () => {
-    alert(`Are you sure that you want to delete ${this.state.currentBook.title}?`);
-    axios({
-      method: 'GET',
-      url: `/api/requests/${this.state.currentBook.id}`
-    }).then((response) => {
-      if (response.data.length) {
-        alert('Please resolve all requests before deleting this book');
-      } else {
-        axios({
-          method: 'DELETE',
-          url: `/api/books/delete/${this.state.currentBook.id}`,
-        }).then((response) => {
-          this.getUserBooks();
-          this.setState({
-            currentBook: {},
-          })
-          this.handleBookClose();
-        }).catch((error) => {
-          console.log('Error in delete book', error);
-          alert('Could not delete book, please try again later.');
-        });
-      }
-    }).catch((error) => {
-      console.log('Error getting requests', error);
-      alert('Could not delete book, please try again later.');
-    });
+    if (window.confirm(`Are you sure that you want to delete ${this.state.currentBook.title}?`)) {
+      axios({
+        method: 'GET',
+        url: `/api/requests/${this.state.currentBook.id}`
+      }).then((response) => {
+        if (response.data.length) {
+          alert('Please resolve all requests before deleting this book');
+        } else {
+          axios({
+            method: 'DELETE',
+            url: `/api/books/delete/${this.state.currentBook.id}`,
+          }).then((response) => {
+            this.getUserBooks();
+            this.setState({
+              currentBook: {},
+            })
+            this.handleBookClose();
+          }).catch((error) => {
+            console.log('Error in delete book', error);
+            alert('Could not delete book, please try again later.');
+          });
+        }
+      }).catch((error) => {
+        console.log('Error getting requests', error);
+        alert('Could not delete book, please try again later.');
+      });
+    } else {
+      console.log('Oh bother');
+
+    }
   }
 
   // get currently logged in user's bookcase location
@@ -281,8 +291,7 @@ class Bookcase extends Component {
       this.updateBookcaseLocation(response.data.results[0].geometry.location);
       this.setState({
         bookcaseLocation: ''
-      })
-      alert('Bookcase location updated');
+      });
     }).catch((error) => {
       console.log('Error calling geocode', error);
       alert('Sorry, could not find location, please navigate manually');
@@ -459,8 +468,8 @@ class Bookcase extends Component {
 
               </div>
               <div className="miniMap">
-                  <ManageMap currentBookcaseLocation={this.state.currentBookcaseLocation} />
-              </div> 
+                <ManageMap currentBookcaseLocation={this.state.currentBookcaseLocation} />
+              </div>
 
             </Grid>
 
@@ -564,7 +573,7 @@ class Bookcase extends Component {
                 multiline
                 rows="4"
               />
-              <input type="button" value="Easy" style={{ float: 'right', color: 'white', backgroundColor: 'red', borderRadius: '3em', height: '50px', fontSize: '16px'}} onClick={this.easyButton}/>
+              <input type="button" value="Easy" style={{ float: 'right', color: 'white', backgroundColor: 'red', borderRadius: '3em', height: '50px', fontSize: '16px' }} onClick={this.easyButton} />
               <Button type="submit" variant="contained" color="primary" style={{ margin: '5px', border: '2px solid #2903A4' }}>
                 Add Book
               </Button>

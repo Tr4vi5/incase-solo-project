@@ -278,8 +278,6 @@ class MapContainer extends React.Component {
     }
 
     onMarkerClick = (bookcase) => {
-        console.log('this bookcase', bookcase);
-        
         this.props.setCurrentBookcase(bookcase)
     }
 

@@ -76,7 +76,6 @@ class RegisterPage extends Component {
           <img src="/images/logo.png" height="150px" />
           <div>
               <TextField
-               
                 label="Username"
                 name="username"
                 value={this.state.username}

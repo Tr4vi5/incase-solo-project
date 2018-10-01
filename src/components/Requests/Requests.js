@@ -217,6 +217,7 @@ class Requests extends Component {
                             onChange={this.handleNewMessageChange}
                             margin="normal"
                             style={{width: '80%'}}
+                            rows="4"
                         />
                         <Button variant="contained" type="submit" color="primary" style={{margin: '1em'}}>
                             Send

@@ -8,12 +8,12 @@ class BookCard extends Component {
 
   render() {
     return (
-      <Card style={{ margin: '2em', width: '186px', height: '310px' }}>
+      <Card style={{ margin: '2em', width: '215px', height: '330px' }}>
         <CardActionArea onClick={this.handleCardAction}>
           <CardMedia
             image={this.props.book.cover_src}
             title={this.props.book.title}
-            style={{ height: '310px', width: '186px' }}
+            style={{ height: '330px', width: '215px' }}
           />
         </CardActionArea>
       </Card>

@@ -20,7 +20,7 @@ router.get('/:id', (req, res) => {
 // get all incoming requests for logged in user
 router.get('/user/incoming', (req, res) => {
     if (req.isAuthenticated()) {
-        let queryText = `SELECT "requests".*, "books"."title", "books"."bookcases_id", "users"."username", "users"."profile_img_src" FROM "requests" JOIN "books" ON "requests"."books_id" = "books"."id" JOIN "users" ON "users"."id" = "requests"."from_users_id" WHERE "to_users_id" = $1 AND "active" = TRUE;`;
+        let queryText = `SELECT "requests".*, "books"."title", "books"."bookcases_id", "users"."username", "users"."profile_img_src" FROM "requests" JOIN "books" ON "requests"."books_id" = "books"."id" JOIN "users" ON "users"."id" = "requests"."from_users_id" WHERE "to_users_id" = $1 AND "active" = TRUE ORDER BY "date" DESC;`;
         pool.query(queryText, [req.user.id]).then((results) => {
             res.send(results.rows);
         }).catch((error) => {
@@ -50,7 +50,7 @@ router.put('/user/incoming/read', (req, res) => {
 // get all outgoing requests for logged in user
 router.get('/user/outgoing', (req, res) => {
     if (req.isAuthenticated()) {
-        let queryText = `SELECT "requests".*, "books"."title", "books"."bookcases_id", "users"."username", "users"."profile_img_src" FROM "requests" JOIN "books" ON "requests"."books_id" = "books"."id" JOIN "users" ON "users"."id" = "requests"."from_users_id" WHERE "from_users_id" = $1 AND "active" = TRUE;`;
+        let queryText = `SELECT "requests".*, "books"."title", "books"."bookcases_id", "users"."username", "users"."profile_img_src" FROM "requests" JOIN "books" ON "requests"."books_id" = "books"."id" JOIN "users" ON "users"."id" = "requests"."from_users_id" WHERE "from_users_id" = $1 AND "active" = TRUE ORDER BY "date" DESC;`;
         pool.query(queryText, [req.user.id]).then((results) => {
             res.send(results.rows);
         }).catch((error) => {
@@ -66,7 +66,7 @@ router.get('/user/outgoing', (req, res) => {
 router.get('/messages/:id', (req, res) => {
     if (req.isAuthenticated()) {
         console.log(req.params.id);
-        let queryText = `SELECT "messages".*, "users"."username", "users"."profile_img_src" FROM "messages" JOIN "users" ON "messages"."from_users_id" = "users"."id" WHERE "requests_id" = $1;`;
+        let queryText = `SELECT "messages".*, "users"."username", "users"."profile_img_src" FROM "messages" JOIN "users" ON "messages"."from_users_id" = "users"."id" WHERE "requests_id" = $1 ORDER BY "date";`;
         pool.query(queryText, [req.params.id]).then((results) => {
             res.send(results.rows);
         }).catch((error) => {

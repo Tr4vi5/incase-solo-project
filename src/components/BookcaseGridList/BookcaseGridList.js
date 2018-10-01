@@ -29,7 +29,7 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'row',
         flexWrap: 'wrap',
-        alignContent: 'flex-start',
+        alignContent: 'flex-start'
     },
     icon: {
         color: 'rgba(255, 255, 255, 0.54)',
@@ -51,7 +51,7 @@ class TitlebarGridList extends Component {
     }
 
     componentDidMount() {
-        this.getTheseBooks();
+        this.getTheseBooks(); //get current bookcase's books
     }
 
     handleOpen = (book) => {
@@ -67,30 +67,33 @@ class TitlebarGridList extends Component {
         })
     }
 
+    // request current book from user
     handleMessageRequest = () => {
-        console.log(this.state.currentBook)
-        alert(`Are you sure that you want to request ${this.state.currentBook.title}?`);
-        axios({
-            method: 'POST',
-            url: '/api/requests',
-            data: this.state.currentBook
-        }).then((response) => {
-            console.log('Back from new request POST', response.data);
-            this.setState({
-                open: false
-            })
-        }).catch((error) => {
-            console.log('Unable to post new request', error);
-            alert('Sorry, could not post new request, please try again later');
-        });
+        if (window.confirm(`Are you sure that you want to request ${this.state.currentBook.title}?`)) {
+            axios({
+                method: 'POST',
+                url: '/api/requests',
+                data: this.state.currentBook
+            }).then((response) => {
+                this.setState({
+                    open: false
+                });
+                alert('Make sure to head to the Requests tab to message the user when you are finished browsing!');
+            }).catch((error) => {
+                console.log('Unable to post new request', error);
+                alert('Sorry, could not post new request, please try again later');
+            });
+        } else {
+            console.log('Oh bother');
+        }
     }
 
+    // get books for current bookcase
     getTheseBooks = () => {
         axios({
             method: 'GET',
             url: `/api/books/user/${this.props.bookcase.id}`
         }).then((response) => {
-            console.log('Books:', response.data);
             this.setState({
                 theseBooks: response.data
             })
@@ -102,31 +105,30 @@ class TitlebarGridList extends Component {
 
 
     render() {
-        console.log('bookcase:', this.props.bookcase);
         let bookListContent;
         const { classes } = this.props;
 
         if (this.props.bookcase) {
             bookListContent = (
                 <div className={classes.root}>
-                    <GridList cellHeight={300} className={classes.gridList}>
-                        <GridListTile key="Subheader" cols={2} style={{ height: '55px', backgroundColor: '#f1f1f1', display: 'inline', paddingBottom: 0}}>
-                                    <ListSubheader 
-                                        component="div" 
-                                        style={{ color: '#000', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: '5px', paddingLeft: '15px', position: 'relative'}}
-                                        >
-                                        <div style={{display: 'flex'}}>
-                                            <Avatar src={this.props.bookcase.profile_img_src} />  
-                                            <span style={{ fontSize: '16px', marginLeft: '10px'}}>{this.props.bookcase.username}</span>
-                                        </div>
-                                        <Button size="small" variant="flat"  style={{ color: '#000', height: 10, top: 8, right: 0}} onClick={this.props.handleBookcaseClose}>
-                                        Close
-                                        </Button>
-                                    </ListSubheader>
+                    <GridList cellHeight={355} className={classes.gridList}>
+                        <GridListTile key="Subheader" cols={2} style={{ height: '55px', backgroundColor: '#f1f1f1', display: 'inline', position: 'fixed', zIndex:2, width: 500}}>
+                            <ListSubheader
+                                component="div"
+                                style={{ color: '#000', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: '5px', paddingLeft: '15px', position: 'relative' }}
+                            >
+                                <div style={{ display: 'flex' }}>
+                                    <Avatar src={this.props.bookcase.profile_img_src} />
+                                    <span style={{ fontSize: '16px', marginLeft: '10px' }}>{this.props.bookcase.username}</span>
+                                </div>
+                                <Button size="small" variant="flat" style={{ color: '#000', height: 10, top: 8, right: 0, zIndex:3 }} onClick={this.props.handleBookcaseClose}>
+                                    Close
+                                </Button>
+                            </ListSubheader>
                         </GridListTile>
 
                         {this.state.theseBooks.map((book, index) => (
-                            <GridListTile key={index} style={{backgroundColor: 'black', position: ''}}>
+                            <GridListTile key={index} style={{ backgroundColor: 'black', position: 'relative', top: '55px' }}>
                                 <img src={book.cover_src} alt={book.title} />
                                 <GridListTileBar
                                     title={book.title}
@@ -153,14 +155,14 @@ class TitlebarGridList extends Component {
                     open={this.state.open}
                 >
                     <div style={{ backgroundColor: 'white', padding: '5px' }}>
-                        <img src={this.state.currentBook.cover_src} alt='Cover' style={{ height: '200px', width: '150px', float: 'right'}} />
+                        <img src={this.state.currentBook.cover_src} alt='Cover' style={{ height: '200px', width: '150px', float: 'right' }} />
                         <h2>{this.state.currentBook.title}</h2>
                         <h4>{this.state.currentBook.author}</h4>
                         <p>Published: {this.state.currentBook.release_year}</p>
                         <p>Genre: {this.state.currentBook.genre}</p>
                         <p>{this.state.currentBook.synopsis}</p>
                         <p>ISBN-13: {this.state.currentBook.isbn}</p>
-                        <Button type="submit" variant="contained" color="primary" style={{ margin: '5px', border: '2px solid #2903A4'}} onClick={this.handleMessageRequest}>
+                        <Button type="submit" variant="contained" color="primary" style={{ margin: '5px', border: '2px solid #2903A4' }} onClick={this.handleMessageRequest}>
                             Request Book
                         </Button>
                         <Button variant="contained" color="secondary" style={{ margin: '5px', border: '2px solid darkred' }} onClick={this.handleClose}>

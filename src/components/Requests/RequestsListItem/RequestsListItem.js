@@ -17,18 +17,27 @@ const mapStateToProps = state => ({
 class RequestsListItem extends Component {
 
     handleDenyClick = () => {
-        alert('Are you sure you want to deny this request?');
-        this.props.denyRequest(this.props.request);
+        if (window.confirm(`Are you sure that you want deny this request?`)) {
+            this.props.denyRequest(this.props.request);
+        } else {
+            console.log('Oh bother');
+        }
     }
 
     handleCancelClick = () => {
-        alert('Are you sure you want to cancel this request?');
-        this.props.denyRequest(this.props.request);
+        if (window.confirm(`Are you sure that you want to cancel this request?`)) {
+            this.props.denyRequest(this.props.request);
+        } else {
+            console.log('Oh bother');
+        }
     }
 
     handleConfirmClick = () => {
-        alert('Are you sure you want to confirm this request?');
+        if (window.confirm(`Are you sure that you want to approve this request? (This will clear all active requests for this book.)`)) {
         this.props.confirmRequest(this.props.request);
+        } else {
+            console.log('Oh bother');
+        }
     }
 
     handleMessageClick = () => {
@@ -46,7 +55,7 @@ class RequestsListItem extends Component {
                 secondary={`Requested ${this.props.request.title} ${moment(this.props.request.date).calendar().toLowerCase()}`}
             />;
             listItemInteractions = <div>
-                
+
                 <Button aria-label="Messages" onClick={this.handleMessageClick}>
                     <CommentIcon />
                 </Button>
@@ -61,7 +70,7 @@ class RequestsListItem extends Component {
             />;
             listItemInteractions = <div>
                 <Button>
-                    <ShareIcon aria-label="Transfer" onClick={this.handleConfirmClick}/>
+                    <ShareIcon aria-label="Transfer" onClick={this.handleConfirmClick} />
                 </Button>
                 <Button aria-label="Messages" onClick={this.handleMessageClick}>
                     <CommentIcon />
@@ -75,7 +84,7 @@ class RequestsListItem extends Component {
 
 
         return (
-            <ListItem style={{ width: '100%', backgroundColor: '#f4f4f4'}}>
+            <ListItem style={{ width: '100%', backgroundColor: '#f4f4f4' }}>
                 <ListItemAvatar>
                     <Avatar src={this.props.request.profile_img_src} alt="User" />
                 </ListItemAvatar>
