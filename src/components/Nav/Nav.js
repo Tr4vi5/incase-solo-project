@@ -80,7 +80,7 @@ class Nav extends Component {
       <div>
         <ul className={'navbar'}>
           <li>
-            <img src="/images/logo.png" height="50px" onClick={this.showTech} />
+            <img src="/images/logo.png" height="50px" onClick={this.showTech} alt="logo"/>
           </li>
           <li>
             <h1 style={{ color: 'white', margin: '7px 21px', marginTop: '10px' }}>inCase</h1>

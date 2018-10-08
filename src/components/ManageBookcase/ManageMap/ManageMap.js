@@ -281,7 +281,7 @@ class MapContainer extends React.Component {
                 google={this.props.google}
                 initialCenter={{lat: this.props.currentBookcaseLocation.latitude, lng: this.props.currentBookcaseLocation.longitude}}
                 center={{ lat: this.props.currentBookcaseLocation.latitude, lng: this.props.currentBookcaseLocation.longitude }}
-                zoom={14}
+                zoom={12}
                 styles={styles}
             >
                 <Marker
