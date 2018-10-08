@@ -64,14 +64,14 @@ This is the Requests view where users can see their incoming and outgoing book r
 - [x] Ability to transfer a book from one user's bookcase to another's with the click of a button
 
 ## Next Steps
-- [] Refactor code
-- [] Add cluster waypoints for the map
-- [] Add search or filter functionality to find specific books on the Discover view
-- [] Implement Google Books API to simplify adding books to a collection
-- [] Add book reviews or "notes" that users can attach to books before they pass them along
-- [] Expand the "Requests" functionality and add a way for group chats to be created to discuss certain books
+-[] Refactor code
+-[] Add cluster waypoints for the map
+-[] Add search or filter functionality to find specific books on the Discover view
+-[] Implement Google Books API to simplify adding books to a collection
+-[] Add book reviews or "notes" that users can attach to books before they pass them along
+-[] Expand the "Requests" functionality and add a way for group chats to be created to discuss certain books
 
-## Authors
+## Author
 Travis Dunn
 
 ## Acknowledgments
